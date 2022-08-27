@@ -1,0 +1,70 @@
+import { Bot, BotWithCache, config, Message, User } from "@deps";
+import { JollyEmbed } from "@classes/embed.ts";
+import { COLORS } from "@const/colors.ts";
+import { avatarURL } from "@utils/avatarURL.ts";
+import { send } from "@utils/send.ts";
+import { Base64 } from "https://deno.land/x/bb64@1.1.0/mod.ts";
+
+export interface Payload {
+    id: bigint;
+    channelId: bigint;
+    guildId?: bigint;
+}
+
+export async function ghostPingU(client: BotWithCache<Bot>, message: Message, oldMessage?: Message) {
+    if (!config.plugins.ghostPing) return;
+    if (!oldMessage) return;
+    const oldFiltered = oldMessage.mentionedUserIds.filter(m => m != message.authorId)
+    const newFiltered = message.mentionedUserIds.filter(m => m != message.authorId)
+    if (oldFiltered.length != newFiltered.length) {
+        const foundUserID = new Array<bigint>;
+        newFiltered.forEach(id => {
+            if (oldFiltered.indexOf(id) == -1) {
+                foundUserID.push(id)
+            }
+        })
+        if (foundUserID.length < 1) return;
+        let user = client.users.get(message.authorId)
+        if (!user) {
+            user = await client.helpers.getUser(message.authorId)
+            if (!user) return;
+        }
+        await send(client, message.channelId, await embed(foundUserID.map(m => `<@${m}>`).join(", "), client, user))
+    }
+}
+
+async function buff(data: string) {
+    const buffer = Base64.fromFile(data)
+    const url = `data:image/png;charset=utf-8;base64,${buffer.toString()}`;
+    return await (await fetch(url)).blob()
+}
+
+async function embed(mentions: string, client: BotWithCache<Bot>, user: User) {
+    const b = await buff("./assets/pinged.png")
+    const e = new JollyEmbed()
+        .setTitle("Ghost ping found!")
+        .setColor(COLORS.RED)
+        .setDesc(mentions)
+        .setAuthor(user.username, await avatarURL(client, user))
+        .setThumb(`attachment://pinged.png`)
+        .build()
+    return {
+        embeds: e, file: {
+            name: "pinged.png",
+            blob: b
+        }
+    }
+}
+
+export async function ghostPingD(client: BotWithCache<Bot>, payload: Payload, message?: Message) {
+    if (!config.plugins.ghostPing) return;
+    if (!message) return;
+    const filtered = message.mentionedUserIds.filter(m => m != message.authorId)
+    if (filtered.length < 1) return;
+    let user = client.users.get(message.authorId)
+    if (!user) {
+        user = await client.helpers.getUser(message.authorId)
+        if (!user) return;
+    }
+    await send(client, payload.channelId, await embed(filtered.map(m => `<@${m}>`).join(", "), client, user))
+}

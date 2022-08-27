@@ -1,0 +1,38 @@
+import { Bot, BotWithCache, CreateMessage, Embed, Message } from "@deps";
+import { addCommand, JollyCommand } from "@classes/command.ts";
+import { send } from "@utils/send.ts";
+import { Reddit } from "@classes/reddit.ts";
+
+class RedditCmd extends JollyCommand {
+
+    private reddit: Reddit | undefined;
+
+    constructor() {
+        super("reddit", "reddit", {
+            aliases: ["r"]
+        })
+    }
+
+    // filter explict results
+    private async checkSafety(message: Message, client: BotWithCache<Bot>): Promise<boolean> {
+        if (!this.reddit) throw new Error("what.")
+
+        const data = await this.reddit.toData()
+        const channel = await client.helpers.getChannel(message.channelId)
+        return !(!channel?.nsfw && data.over_18)
+    }
+
+    private async sendVoid(client: Bot, id: bigint, content: string | Embed[] | CreateMessage): Promise<void> {
+        return await send(client, id, content) as unknown as void
+    }
+
+    override async run(message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
+        if (!args[0]) return await this.sendVoid(client, message.channelId, "Please type which subreddit you want to look for")
+        this.reddit = new Reddit(args[0])
+        const safe = await this.checkSafety(message, client)
+        if (!safe) return await this.sendVoid(client, message.channelId, "The post you're looking for marked as NSFW. Try again")
+        await send(client, message.channelId, await this.reddit.toEmbed(false, true))
+    }
+}
+
+addCommand(new RedditCmd())

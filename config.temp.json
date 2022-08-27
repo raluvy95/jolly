@@ -1,0 +1,75 @@
+{
+    "token": "Discord token",
+    "botID": "Bot ID",
+    "owners": [
+        "owner ID",
+        "another owner ID (optional)"
+    ],
+    "guildID": "guild ID (required, otherwise it will break)",
+    "prefixes": [
+        "sudo ",
+        "doas ",
+        "cudo "
+    ],
+    "warnLog": {
+        "channelID": "channel ID"
+    },
+    "autosentence": [
+        {
+            "action": "timeout",
+            "durationInMinutes": 120,
+            "warnCount": 3
+        },
+        {
+            "action": "ban",
+            "durationInMinutes": 2160,
+            "warnCount": 5
+        },
+        {
+            "action": "ban",
+            "durationInMinutes": 0,
+            "warnCount": 7
+        }
+    ],
+    "plugins": {
+        "bump": {
+            "enable": false,
+            "roleID": "bump role's ID to bump"
+        },
+        "selfping": {
+            "enable": false,
+            "customMessage": "custom message"
+        },
+        "ree": true,
+        "sudo": true,
+        "nicknameOnJoin": {
+            "enable": true,
+            "nickname": "catnow{user}"
+        },
+        "autoPublish": {
+            "enable": false,
+            "botOnlyChannelID": [
+                ""
+            ],
+            "channelID": []
+        },
+        "autorole": {
+            "enable": false,
+            "userRoleID": "",
+            "botRoleID": ""
+        },
+        "autopost": {
+            "enable": false,
+            "channelID": "channel ID",
+            "subredditToFollow": [
+                "subreddit name"
+            ],
+            "intervalInMinutes": 15
+        },
+        "autoCreateChannel": {
+            "enable": false,
+            "categoryID": "category ID"
+        },
+        "ghostPing": true
+    }
+}

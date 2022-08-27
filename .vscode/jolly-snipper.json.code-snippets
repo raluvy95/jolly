@@ -1,0 +1,37 @@
+{
+	"Command template": {
+		"scope": "typescript",
+		"prefix": "command",
+		"description": "Create new Jolly command from template",
+		"body": [
+			"import { Bot, BotWithCache, Message } from \"@deps\";",
+			"import { addCommand, JollyCommand } from \"@classes/command.ts\";",
+			"import { send } from \"@utils/send.ts\";",
+			"",
+			"class $1 extends JollyCommand {",
+			"    constructor() {",
+			"        super(\"$2\", \"$3\")",
+			"    }",
+			"",
+			"    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {",
+			"        return await send(client, message.channelId, \"Hello world!\");",
+			"    }",
+			"}",
+			"",
+			"addCommand(new $1())"
+
+		]
+	},
+	"Plugin Template": {
+		"scope": "typescript",
+		"prefix": "plugin",
+		"description": "Create an empty plugin",
+		"body": [
+			"import { Bot, BotWithCache, config, Message } from \"@deps\";",
+			"",
+			"export async function $1(client: BotWithCache<Bot>, $2) {",
+			"    $3",
+			"}"
+		]
+	}
+}
