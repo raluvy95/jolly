@@ -9,7 +9,7 @@
 </p>
 A discord bot designed for one server at once (private bot). Rewritten in
 TypeScript using Deno. The predecessor variant of this can be found in
-[another repository](https://github.com/raluvy95/maffin)
+<a href="https://github.com/raluvy95/maffin">another repository</a>
 
 You can contribute whatever you want to improve the bot with additional features
 and fixed bugs.
