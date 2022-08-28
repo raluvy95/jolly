@@ -17,6 +17,7 @@ import { avatarURL } from "@utils/avatarURL.ts";
 import { send } from "@utils/send.ts";
 import { sentence } from "@plugins/sentence.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
+import { sudo } from "../plugins/sudo.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -58,6 +59,7 @@ export const JollyEvent = {
             return;
         const success = await commandHandler(bot, message);
         if (!success) {
+            await sudo(bot, message)
             await ree(bot, message)
             await selfping(bot, message)
             await autoCreateChannel(bot, message)
