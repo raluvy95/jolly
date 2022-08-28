@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, config, EventHandlers, Interaction, Member, Message, User } from "@deps"
+import { ActivityTypes, Bot, BotWithCache, config, EventHandlers, Interaction, Member, Message, User } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
 import { bumpReminder } from "@plugins/bumpReminder.ts";
@@ -47,6 +47,16 @@ warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, u
 export const JollyEvent = {
     async ready(bot: BotWithCache<Bot>) {
         main.info("I'm ready!");
+        await bot.helpers.editBotStatus({
+            activities: [
+                {
+                    name: !config.playingStatus ? `${config.prefixes[0]}help` : config.playingStatus,
+                    type: ActivityTypes.Watching,
+                    createdAt: Date.now()
+                }
+            ],
+            status: "dnd"
+        })
         await refreshCommand();
         autopost(bot)
     },
