@@ -1,6 +1,6 @@
 import { Bot, BotWithCache, config, Member, User } from "@deps";
 
-export async function autorole(client: BotWithCache<Bot>, member: Member, user: User): Promise<void> {
+export function autorole(client: BotWithCache<Bot>, member: Member, user: User): Promise<void> {
     const autorole = config.plugins.autorole
     if (!autorole.enable) return;
     try {
