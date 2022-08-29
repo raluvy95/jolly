@@ -19,12 +19,7 @@ class Warn extends JollyCommand {
         if (!author) throw new Error("what.")
         if (!args[0]) return send(client, message.channelId, "Missing arguments")
         const mentionUser = message.mentionedUserIds
-        let user: User | undefined
-        if (mentionUser.length >= 1) {
-            user = await findUser(client, mentionUser[0].toString())
-        } else {
-            user = await findUser(client, args[0])
-        }
+        let user = mentionUser.length >= 1 ? await findUser(client, mentionUser[0].toString()) : await findUser(client, args[0])
         if (!user) return send(client, message.channelId, "That user is not found")
         if (user.id == message.authorId) return send(client, message.channelId, "Don't warn yourself, please.")
         const warnData = warning.push(user.id, user.username, args.slice(1).join(" ") || "No reason", message.authorId, author.username)
