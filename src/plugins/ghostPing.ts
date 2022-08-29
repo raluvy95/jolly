@@ -54,14 +54,10 @@ async function embed(mentions: string, client: BotWithCache<Bot>, user: User) {
 }
 
 export async function ghostPingD(client: BotWithCache<Bot>, payload: Payload, message?: Message) {
-    if (!config.plugins.ghostPing) return;
-    if (!message) return;
+    if (!config.plugins.ghostPing || !message) return;
     const filtered = message.mentionedUserIds.filter(m => m != message.authorId)
     if (filtered.length < 1) return;
-    let user = client.users.get(message.authorId)
-    if (!user) {
-        user = await client.helpers.getUser(message.authorId)
-        if (!user) return;
-    }
-    await send(client, payload.channelId, await embed(filtered.map(m => `<@${m}>`).join(", "), client, user))
+    let user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
+    if (!user) return;
+    send(client, payload.channelId, await embed(filtered.map(m => `<@${m}>`).join(", "), client, user))
 }
