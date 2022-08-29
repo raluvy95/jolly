@@ -5,9 +5,9 @@ export async function autorole(client: BotWithCache<Bot>, member: Member, user: 
     if (!autorole.enable) return;
     try {
         if (user.toggles.bot) {
-            return await client.helpers.addRole(BigInt(config.guildID), member.id, BigInt(autorole.botRoleID))
+            return client.helpers.addRole(BigInt(config.guildID), member.id, BigInt(autorole.botRoleID))
         } else if (!member.toggles.pending) {
-            return await client.helpers.addRole(BigInt(config.guildID), member.id, BigInt(autorole.userRoleID))
+            return client.helpers.addRole(BigInt(config.guildID), member.id, BigInt(autorole.userRoleID))
         }
     } catch { return; }
 }
