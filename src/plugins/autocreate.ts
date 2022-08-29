@@ -8,7 +8,7 @@ export async function autoCreateChannel(client: BotWithCache<Bot>, message: Mess
     if (matched) {
         const name = matched[0].replace("#", '')
         if (!name || name.length < 1) return;
-        await client.helpers.createChannel(BigInt(config.guildID), {
+        client.helpers.createChannel(BigInt(config.guildID), {
             name: name,
             type: ChannelTypes.GuildText,
             parentId: BigInt(autocreate.categoryID)
