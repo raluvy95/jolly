@@ -20,16 +20,12 @@ class RedditCmd extends JollyCommand {
         if (!this.reddit) throw new Error("what.")
 
         const data = await this.reddit.toData()
-        const channel = await client.helpers.getChannel(message.channelId)
+        const channel = client.channels.get(message.channelId) ?? await client.helpers.getChannel(message.channelId)
         return !(!channel?.nsfw && data.over_18)
     }
 
-    private async sendVoid(client: Bot, id: bigint, content: string | Embed[] | CreateMessage): Promise<void> {
-        return await send(client, id, content) as unknown as void
-    }
-
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
-        if (!args[0]) return await this.sendVoid(client, message.channelId, "Please type which subreddit do you want to look for")
+    override async run(message: Message, args: string[], client: BotWithCache<Bot>): unknown {
+        if (!args[0]) return await send(client, message.channelId, "Please type which subreddit do you want to look for")
         this.reddit = new Reddit(args[0])
         const safe = await this.checkSafety(message, client)
         if (!safe) return await this.sendVoid(client, message.channelId, "The post you're looking for marked as NSFW. Try again")
