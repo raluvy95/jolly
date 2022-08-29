@@ -8,7 +8,9 @@ import { warnEvent } from "../../classes/events.ts";
 class Warn extends JollyCommand {
     constructor() {
         super("warn", "moderation", {
-            permission: ["KICK_MEMBERS"]
+            permission: ["KICK_MEMBERS"],
+            usage: "<user> [reason]",
+            description: "Warn a user"
         })
     }
 

@@ -6,7 +6,7 @@ import {
 import { OverflowError } from "@const/errors.ts";
 import { EMBED } from "@const/globalLimit.ts";
 import { COLORS } from "@const/colors.ts";
-import { JollyCommand } from "@classes/command.ts";
+import { JollyCommand, prefix } from "@classes/command.ts";
 import { IResultDB } from "./database.ts";
 import { dateToString } from "../utils/dateToString.ts";
 
@@ -133,7 +133,8 @@ export class JollyEmbed implements DiscordEmbed {
         return this
             .setTitle(`Command: ${command.name}`)
             .setDesc(command.description)
-            .addField("Usage", command.usage, true)
+            .addField("Aliases", !command.aliases.length ? "No aliases" : command.aliases.join(", "))
+            .addField("Usage", `${prefix + command.name} ${command.usage}`, true)
             .addField("Cooldown (sec)", String(command.cooldown), true)
             .addField("Is owner?", bool(command.owner), true)
             .addField("Permissions required", command.permission ? command.permission.join(", ") : "No permission required", true)

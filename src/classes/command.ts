@@ -48,7 +48,7 @@ export class JollyCommand implements IJollyCommand {
         this.permission = options?.permission
         this.owner = options?.owner
         this.mod = mod
-        this.usage = options?.usage || "No usage found"
+        this.usage = options?.usage || '';
         this.cooldown = options?.cooldown || 3
         this.requiredArgs = options?.requiredArgs || false
         this.run = options?.run || this.run

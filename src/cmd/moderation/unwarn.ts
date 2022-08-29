@@ -7,7 +7,9 @@ class Unwarn extends JollyCommand {
     constructor() {
         super("unwarn", "moderation", {
             permission: ["KICK_MEMBERS"],
-            aliases: ["delwarn", "remwarn", "removewarn", "deletewarn"]
+            aliases: ["delwarn", "remwarn", "removewarn", "deletewarn"],
+            description: "Remove a warn by case ID.",
+            usage: "<case id>"
         })
     }
 

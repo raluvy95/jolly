@@ -9,7 +9,10 @@ class Help extends JollyCommand {
     private BLACKLIST_COMMAND: string[];
 
     constructor() {
-        super("help", "utils")
+        super("help", "utils", {
+            description: "Show list of avaliable commands",
+            usage: "[command]"
+        })
         this.BLACKLIST_COMMAND = ["help", "eval", "unwarnall"]
     }
 

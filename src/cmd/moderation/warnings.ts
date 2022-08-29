@@ -9,7 +9,11 @@ import { recentWarnings } from "../../utils/recentWarnings.ts";
 
 class Warnings extends JollyCommand {
     constructor() {
-        super("warnings", "moderation")
+        super("warnings", "moderation", {
+            aliases: ["warnlist"],
+            usage: "<member>",
+            description: "Show a list of warnings for specific member"
+        })
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {

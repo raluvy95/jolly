@@ -6,7 +6,9 @@ import { findMember } from "@utils/find.ts";
 class Exclude extends JollyCommand {
     constructor() {
         super("exclude", "moderation", {
-            permission: ["MANAGE_CHANNELS"]
+            permission: ["MANAGE_CHANNELS"],
+            description: "Exclude a member from current channel.",
+            usage: "<member>"
         })
     }
 

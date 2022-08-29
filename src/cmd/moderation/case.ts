@@ -6,7 +6,11 @@ import { JollyEmbed } from "@classes/embed.ts";
 
 class Case extends JollyCommand {
     constructor() {
-        super("case", "moderation")
+        super("case", "moderation", {
+            description: "Show a warn info by case ID",
+            usage: "<case id>",
+            aliases: ["caseid", "showcase", "showwarn", "warnshow", "warninfo"]
+        })
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {

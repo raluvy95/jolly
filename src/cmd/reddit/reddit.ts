@@ -9,7 +9,9 @@ class RedditCmd extends JollyCommand {
 
     constructor() {
         super("reddit", "reddit", {
-            aliases: ["r"]
+            aliases: ["r"],
+            description: "Get random post from specific subreddit",
+            usage: "<subreddit>"
         })
     }
 
@@ -27,7 +29,7 @@ class RedditCmd extends JollyCommand {
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
-        if (!args[0]) return await this.sendVoid(client, message.channelId, "Please type which subreddit you want to look for")
+        if (!args[0]) return await this.sendVoid(client, message.channelId, "Please type which subreddit do you want to look for")
         this.reddit = new Reddit(args[0])
         const safe = await this.checkSafety(message, client)
         if (!safe) return await this.sendVoid(client, message.channelId, "The post you're looking for marked as NSFW. Try again")

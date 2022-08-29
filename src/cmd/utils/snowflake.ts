@@ -8,7 +8,8 @@ import { COLORS } from "@const/colors.ts";
 class Snowflake extends JollyCommand {
     constructor() {
         super("snowflake", "utils", {
-            aliases: ["snow"]
+            aliases: ["snow"],
+            description: "Get a creation data from ID"
         })
     }
 

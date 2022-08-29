@@ -8,7 +8,9 @@ class Meme extends JollyCommand {
     private readonly subredditMeme: string[];
 
     constructor() {
-        super("meme", "reddit")
+        super("meme", "reddit", {
+            description: "Get random memes"
+        })
         this.subredditMeme = ["dankmemes", "meme", "memes"]
     }
 

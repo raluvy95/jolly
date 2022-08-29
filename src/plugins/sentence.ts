@@ -10,7 +10,6 @@ interface Sentence {
 }
 
 export async function sentence(client: BotWithCache<Bot>, member: Member, warnCount: number) {
-    console.log(member.id)
     if (config.autosentence.length < 1) return;
     const foundSentence = config.autosentence.find(m => m.warnCount == warnCount) as Sentence | undefined
     if (!foundSentence) return
