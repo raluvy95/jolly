@@ -19,7 +19,7 @@ class Help extends JollyCommand {
     override async run(message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
         if (args[0]?.length > 0) {
             const cmd = findCommand(args[0])
-            if (!cmd) return await send(client, message.channelId, "Cannot find that command") as unknown as void;
+            if (!cmd) return send(client, message.channelId, "Cannot find that command") as unknown as void;
             const cmdE = new JollyEmbed().command(cmd)
             send(client, message.channelId, cmdE)
             return;
@@ -33,7 +33,7 @@ class Help extends JollyCommand {
             )
         }
         const avatar = await avatarURL(client, client.id)
-        await send(client, message.channelId, em.build())
+        send(client, message.channelId, em.build())
     }
 }
 
