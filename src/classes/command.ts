@@ -5,7 +5,7 @@ export let prefix: string;
 
 prefix = config.prefixes[0]
 
-const cooldowns = new Collection<string, Collection<bigint, bigint>>()
+const cooldowns = new Collection<string, Collection<number, number>>()
 
 interface IJollyCommand {
     name: string;
@@ -77,16 +77,18 @@ async function commandRunner(command: JollyCommand, message: Message, args: stri
 }
 
 async function cooldownHandler(client: Bot, message: Message, command: JollyCommand): Promise<boolean> {
-    cooldowns.set(command.name, new Collection())
-    const now = BigInt(Date.now());
-    const timestamp = cooldowns.get(command.name) as Collection<bigint, bigint>;
+    if (!cooldowns.has(command.name)) {
+        cooldowns.set(command.name, new Collection())
+    }
+    const now = Date.now();
+    const timestamp = cooldowns.get(command.name) as Collection<number, number>;
     const ca = (command.cooldown || 3) * 1000;
-    const user = message.authorId;
-    if (timestamp && timestamp.has(user)) {
-        const et = (timestamp.get(user)) as unknown as bigint + BigInt(ca);
+    const user = Number(message.authorId);
+    if (!!timestamp && timestamp.has(user)) {
+        const et = timestamp.get(user) as number + ca;
         if (now < et) {
-            const te = (et - now) / 1000n;
-            await send(client, message.channelId, `Command is on cooldown! \`${Number(te).toFixed(1)}\` seconds left!`)
+            const te = (et - now) / 1000;
+            await send(client, message.channelId, `Command is on cooldown! \`${te.toFixed(1)}\` seconds left!`)
             return false;
         }
     }
