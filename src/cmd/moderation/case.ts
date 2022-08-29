@@ -13,7 +13,7 @@ class Case extends JollyCommand {
         })
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override run(message: Message, args: string[], client: BotWithCache<Bot>) {
         if (!args[0]) return send(client, message.channelId, "Missing Case ID")
         const warn = warning.getByCaseID(args[0])
         if (!warn) return send(client, message.channelId, "Cannot find that warning!")
