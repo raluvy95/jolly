@@ -13,6 +13,6 @@ export async function sudo(client: BotWithCache<Bot>, message: Message) {
             }, 3000)
         })
     } else if (message.content.startsWith("sudo shutdown")) {
-        return await send(client, message.channelId, "Shutting down...")
+        return send(client, message.channelId, "Shutting down...")
     }
 }
