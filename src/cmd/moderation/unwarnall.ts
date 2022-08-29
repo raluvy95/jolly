@@ -12,12 +12,12 @@ class UnWarnAll extends JollyCommand {
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
-        if (!args[0]) return await send(client, message.channelId, "Who do you want to remove all of their warnings?")
+        if (!args[0]) return send(client, message.channelId, "Who do you want to remove all of their warnings?")
         const mentionUser = message.mentionedUserIds
         const user = await findUser(client, mentionUser[0]?.toString() || args[0])
-        if (!user) return await send(client, message.channelId, "That user is not found")
+        if (!user) return send(client, message.channelId, "That user is not found")
         warning.removeAll(user.id)
-        return await send(client, message.channelId, "Successfully removed all warnings!")
+        return send(client, message.channelId, "Successfully removed all warnings!")
     }
 }
 
