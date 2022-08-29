@@ -24,7 +24,7 @@ export async function ghostPingU(client: BotWithCache<Bot>, message: Message, ol
             }
         })
         if (foundUserID.length < 1) return;
-        let user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
+        const user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
         if (!user) return;
         send(client, message.channelId, await embed(foundUserID.map(m => `<@${m}>`).join(", "), client, user))
     }
