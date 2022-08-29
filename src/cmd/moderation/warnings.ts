@@ -19,12 +19,7 @@ class Warnings extends JollyCommand {
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
         if (!args[0]) return await send(client, message.channelId, "Missing arguments")
         const mentionUser = message.mentionedUserIds
-        let user: User | undefined
-        if (mentionUser.length >= 1) {
-            user = await findUser(client, mentionUser[0].toString())
-        } else {
-            user = await findUser(client, args[0])
-        }
+        const user = await findUser(client, mentionUser[0]?.toString() || args[0])
         if (!user) return await send(client, message.channelId, "That user is not found")
         const warnings = warning.getByUser(user.id)
         if (warnings.length < 1) return await send(client, message.channelId, `**${user.username}#${user.discriminator}** doesn't have any warnings!`)
