@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, CreateMessage, Embed, Message } from "@deps";
+import { Bot, BotWithCache, CreateMessage, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { Reddit } from "@classes/reddit.ts";
