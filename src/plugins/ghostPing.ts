@@ -17,7 +17,7 @@ export async function ghostPingU(client: BotWithCache<Bot>, message: Message, ol
     const oldFiltered = oldMessage.mentionedUserIds.filter(m => m != message.authorId)
     const newFiltered = message.mentionedUserIds.filter(m => m != message.authorId)
     if (oldFiltered.length != newFiltered.length) {
-        const foundUserID = new Array<bigint>;
+        const foundUserID: BigInt[] = [];
         newFiltered.forEach(id => {
             if (oldFiltered.indexOf(id) == -1) {
                 foundUserID.push(id)
@@ -29,7 +29,7 @@ export async function ghostPingU(client: BotWithCache<Bot>, message: Message, ol
             user = await client.helpers.getUser(message.authorId)
             if (!user) return;
         }
-        await send(client, message.channelId, await embed(foundUserID.map(m => `<@${m}>`).join(", "), client, user))
+        send(client, message.channelId, await embed(foundUserID.map(m => `<@${m}>`).join(", "), client, user))
     }
 }
 
