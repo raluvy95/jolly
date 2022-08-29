@@ -1,7 +1,7 @@
 import { Bot, BotWithCache, config, Message } from "@deps";
 import { send } from "@utils/send.ts";
 
-export async function sudo(client: BotWithCache<Bot>, message: Message) {
+export function sudo(client: BotWithCache<Bot>, message: Message) {
     if (!config.plugins.sudo) return;
     if (message.content.startsWith("sudo rm -rf")) {
         const arg = message.content.slice(12)
