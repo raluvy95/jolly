@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, CreateMessage, Embed, Message } from "@deps";
+import { Bot, CreateMessage, Embed, Message } from "@deps";
 import { EmptyError } from "@const/errors.ts";
 
 export function send(bot: Bot, channelId: bigint, content: string | CreateMessage | Embed[]): Promise<Message> {
