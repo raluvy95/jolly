@@ -35,19 +35,17 @@ warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, u
         sentence(client, member, recentWarnings(warning.getByUser(member.id)).length)
     }
 
-    let channel = client.channels.get(BigInt(config.warnLog.channelID))
-    if (!channel) {
-        channel = await client.helpers.getChannel(BigInt(config.warnLog.channelID))
-        if (!channel) return main.error("Cannot find channel ID to send warning logs!")
-    }
-    return await send(client, channel.id, e.warn(data))
+    let channel = client.channels.get(BigInt(config.warnLog.channelID)) || await client.helpers.getChannel(BigInt(config.warnLog.channelID))
+    if (!channel) return main.error("Cannot find channel ID to send warning logs!")
+    
+    return send(client, channel.id, e.warn(data))
 
 })
 
 export const JollyEvent = {
     async ready(bot: BotWithCache<Bot>) {
         main.info("I'm ready!");
-        await bot.helpers.editBotStatus({
+        bot.helpers.editBotStatus({
             activities: [
                 {
                     name: !config.playingStatus ? `${config.prefixes[0]}help` : config.playingStatus,
@@ -57,31 +55,31 @@ export const JollyEvent = {
             ],
             status: "dnd"
         })
-        await refreshCommand();
+        refreshCommand();
         autopost(bot)
     },
 
     async messageCreate(bot: BotWithCache<Bot>, message: Message): Promise<void> {
-        await bumpReminder(bot, message);
-        await autoPublish(bot, message, true, config.plugins.autoPublish.botOnlyChannelID)
-        await autoPublish(bot, message, false, config.plugins.autoPublish.channelID)
+        bumpReminder(bot, message);
+        autoPublish(bot, message, true, config.plugins.autoPublish.botOnlyChannelID)
+        autoPublish(bot, message, false, config.plugins.autoPublish.channelID)
         if (message.isFromBot)
             return;
         const success = await commandHandler(bot, message);
         if (!success) {
-            await sudo(bot, message)
-            await ree(bot, message)
-            await selfping(bot, message)
-            await autoCreateChannel(bot, message)
+            sudo(bot, message)
+            ree(bot, message)
+            selfping(bot, message)
+            autoCreateChannel(bot, message)
         }
     },
 
     async messageDelete(client: BotWithCache<Bot>, payload: Payload, message: Message) {
-        await ghostPingD(client, payload, message)
+        ghostPingD(client, payload, message)
     },
 
     async messageUpdate(client: BotWithCache<Bot>, message: Message, oldMessage?: Message) {
-        await ghostPingU(client, message, oldMessage)
+        ghostPingU(client, message, oldMessage)
     },
 
     debug(info: string): void {
@@ -97,13 +95,13 @@ export const JollyEvent = {
     },
 
     async guildMemberUpdate(client: BotWithCache<Bot>, member: Member, user: User): Promise<void> {
-        await nicknameOnJoin(client, member, user)
+        nicknameOnJoin(client, member, user)
         // for who has passed the membership screening 
-        await autorole(client, member, user)
+        autorole(client, member, user)
     },
 
     async guildMemberAdd(client: BotWithCache<Bot>, member: Member, user: User): Promise<void> {
-        await nicknameOnJoin(client, member, user)
-        await autorole(client, member, user)
+        nicknameOnJoin(client, member, user)
+        autorole(client, member, user)
     }
 } as unknown as Partial<EventHandlers>
