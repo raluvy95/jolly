@@ -36,22 +36,22 @@ class Eval extends JollyCommand {
     override async run(message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
         try {
             const code = args.join(" ");
-            this.evaled = await eval(code);
+            this.evaled = eval(code);
             if (typeof this.evaled !== "string") {
                 this.evaled = Deno.inspect(this.evaled);
             }
             const output = this.clean(this.evaled as string)
             if (output.length > 1990) {
-                await send(client, message.channelId, "The output is too long! Check logs!")
+                send(client, message.channelId, "The output is too long! Check logs!")
                 return
             } else {
-                await send(client, message.channelId, {
+                send(client, message.channelId, {
                     content: this.code(String(output)),
                     components: this.buttonBullshit
                 })
             }
         } catch (err) {
-            await send(client, message.channelId, {
+            send(client, message.channelId, {
                 content: this.code(String(!err.stack ? err : err.stack.replace(/\((.*)\)/g, ''))),
                 components: this.buttonBullshit
             })
