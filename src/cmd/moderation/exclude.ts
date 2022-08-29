@@ -31,7 +31,7 @@ class Exclude extends JollyCommand {
                 id: member.id
             }]
         })
-        return await send(client, message.channelId, "**Excluded!**")
+        return send(client, message.channelId, "**Excluded!**")
     }
 }
 
