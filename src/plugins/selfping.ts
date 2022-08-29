@@ -2,7 +2,7 @@ import { Bot, BotWithCache, config, Message, MessageTypes } from "@deps";
 import { prefix } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 
-export async function selfping(client: BotWithCache<Bot>, message: Message) {
+export function selfping(client: BotWithCache<Bot>, message: Message) {
     const selfping = config.plugins.selfping
     if (!selfping.enable) return;
     if (message.mentionedUserIds.includes(client.id) && message.type == MessageTypes.Default) {
