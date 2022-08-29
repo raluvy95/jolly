@@ -69,9 +69,9 @@ async function commandRunner(command: JollyCommand, message: Message, args: stri
         command.run(message, args, client)
     } catch (error) {
         if (error instanceof Error && error.stack) {
-            await send(client, message.channelId, String(error.stack))
+            send(client, message.channelId, String(error.stack))
         } else
-            await send(client, message.channelId, String(error))
+            send(client, message.channelId, String(error))
 
     }
 }
@@ -88,7 +88,7 @@ async function cooldownHandler(client: Bot, message: Message, command: JollyComm
         const et = timestamp.get(user) as number + ca;
         if (now < et) {
             const te = (et - now) / 1000;
-            await send(client, message.channelId, `Command is on cooldown! \`${te.toFixed(1)}\` seconds left!`)
+            send(client, message.channelId, `Command is on cooldown! \`${te.toFixed(1)}\` seconds left!`)
             return false;
         }
     }
@@ -122,11 +122,11 @@ export async function commandHandler(client: BotWithCache<Bot>, message: Message
     const cmdName = (args.shift() as string).toLowerCase()
     const command = findCommand(cmdName)
     if (!command) return false;
-    if (command.requiredArgs && args.length < 1) { await send(client, message.channelId, "You don't have enough permission for this!"); return false }
+    if (command.requiredArgs && args.length < 1) { send(client, message.channelId, "You don't have enough permission for this!"); return false }
     const perm = permissionChecker(command, client, message.authorId, message.member)
-    if (!perm) { await send(client, message.channelId, "You don't have enough permission for this!"); return false }
+    if (!perm) { send(client, message.channelId, "You don't have enough permission for this!"); return false }
     const cooldown = await cooldownHandler(client, message, command)
     if (!cooldown) return false;
-    await commandRunner(command, message, args, client)
+    commandRunner(command, message, args, client)
     return true;
 }
