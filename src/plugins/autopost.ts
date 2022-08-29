@@ -8,8 +8,7 @@ export function autopost(client: BotWithCache<Bot>) {
         const subredditPick = Math.floor(Math.random() * autopost.subredditToFollow.length)
         const sub = autopost.subredditToFollow[subredditPick]
         const r = new Reddit(sub)
-        // deno-lint-ignore no-explicit-any
-        let channel = client.channels.get(BigInt(autopost.channelID)) || await client.helpers.getChannel(BigInt(autopost.channelID))
+        const channel = client.channels.get(BigInt(autopost.channelID)) || await client.helpers.getChannel(BigInt(autopost.channelID))
         if (!channel) return;
         const em = await r.toEmbed(true, true)
 
