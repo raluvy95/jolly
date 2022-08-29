@@ -4,9 +4,9 @@ export async function autoPublish(client: BotWithCache<Bot>, message: Message, r
     if (requireBot && !message.isFromBot) return;
     const autopublish = config.plugins.autoPublish
     if (!autopublish.enable) return;
-    if (!channel.includes(String(message.channelId))) return;
+    if (!channel.includes(message.channelId.toString())) return;
     try {
-        await client.helpers.publishMessage(message.channelId, message.id)
+        client.helpers.publishMessage(message.channelId, message.id)
     } catch { return; }
     return
 }
