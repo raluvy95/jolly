@@ -20,15 +20,15 @@ export async function sentence(client: BotWithCache<Bot>, member: Member, warnCo
     const datee = new Date()
     switch (foundSentence.action) {
         case "timeout":
-            await client.helpers.editMember(BigInt(config.guildID), member.id, {
+            client.helpers.editMember(BigInt(config.guildID), member.id, {
                 communicationDisabledUntil: datee.setMinutes(datee.getMinutes() + foundSentence.durationInMinutes)
             })
             break
         case "kick":
-            await client.helpers.kickMember(BigInt(config.guildID), member.id, `Reached ${warnCount} warnings`)
+            client.helpers.kickMember(BigInt(config.guildID), member.id, `Reached ${warnCount} warnings`)
             break
         case "ban":
-            await client.helpers.banMember(BigInt(config.guildID), member.id, {
+            client.helpers.banMember(BigInt(config.guildID), member.id, {
                 reason: `Reached ${warnCount} warnings`,
                 deleteMessageDays: 1
             })
