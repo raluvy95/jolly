@@ -14,12 +14,12 @@ class Case extends JollyCommand {
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
-        if (!args[0]) return await send(client, message.channelId, "Missing Case ID")
+        if (!args[0]) return send(client, message.channelId, "Missing Case ID")
         const warn = warning.getByCaseID(args[0])
-        if (!warn) return await send(client, message.channelId, "Cannot find that warning!")
+        if (!warn) return send(client, message.channelId, "Cannot find that warning!")
         const em = new JollyEmbed()
             .warn(warn)
-        return await send(client, message.channelId, em)
+        return send(client, message.channelId, em)
     }
 }
 
