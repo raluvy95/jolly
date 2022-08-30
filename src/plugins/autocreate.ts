@@ -1,6 +1,6 @@
 import { Bot, BotWithCache, ChannelTypes, config, Message } from "@deps";
 
-export async function autoCreateChannel(client: BotWithCache<Bot>, message: Message) {
+export function autoCreateChannel(client: BotWithCache<Bot>, message: Message) {
     const autocreate = config.plugins.autoCreateChannel
     if (!autocreate.enable) return;
     const content = message.content
