@@ -12,7 +12,7 @@ class Reason extends JollyCommand {
         })
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override run(message: Message, args: string[], client: BotWithCache<Bot>) {
         if (!args[0]) return send(client, message.channelId, "Give me a reason")
         const success = warning.editReason(args[0], args.slice(1).join(" "))
         if (!success) return send(client, message.channelId, "That case ID is not found.")
