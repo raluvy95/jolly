@@ -2,7 +2,7 @@
     "tasks": {
         "run": "DEV=0 deno run -A --import-map ./importMap.json  src/index.ts",
         "prod": "deno run -A --import-map ./importMap.json  src/index.ts",
-        "watch": "deno run --watch -A--import-map ./importMap.json src/index.ts"
+        "watch": "deno run --watch -A --import-map ./importMap.json src/index.ts"
     },
     "compilerOptions": {
         "noImplicitAny": true

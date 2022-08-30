@@ -9,8 +9,7 @@ globalThis.addEventListener("unhandledrejection", (e) => {
 
 main.info("Starting Bot, this might take a while...");
 
-const bbot = createBot(new Jolly());
-const bot = enableCachePlugin(bbot);
+const bot = enableCachePlugin(createBot(new Jolly()));
 
 enablePermissionsPlugin(bot);
 enableCacheSweepers(bot);

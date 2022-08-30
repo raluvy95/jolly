@@ -64,19 +64,19 @@ export function addCommand(cmd: JollyCommand): void {
     globalCommand.set(cmd.name, cmd)
 }
 
-async function commandRunner(command: JollyCommand, message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
+function commandRunner(command: JollyCommand, message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
     try {
         command.run(message, args, client)
     } catch (error) {
         if (error instanceof Error && error.stack) {
-            await send(client, message.channelId, String(error.stack))
+            send(client, message.channelId, String(error.stack))
         } else
-            await send(client, message.channelId, String(error))
+            send(client, message.channelId, String(error))
 
     }
 }
 
-async function cooldownHandler(client: Bot, message: Message, command: JollyCommand): Promise<boolean> {
+function cooldownHandler(client: Bot, message: Message, command: JollyCommand): Promise<boolean> {
     if (!cooldowns.has(command.name)) {
         cooldowns.set(command.name, new Collection())
     }
@@ -84,11 +84,11 @@ async function cooldownHandler(client: Bot, message: Message, command: JollyComm
     const timestamp = cooldowns.get(command.name) as Collection<number, number>;
     const ca = (command.cooldown || 3) * 1000;
     const user = Number(message.authorId);
-    if (!!timestamp && timestamp.has(user)) {
+    if (timestamp && timestamp.has(user)) {
         const et = timestamp.get(user) as number + ca;
         if (now < et) {
             const te = (et - now) / 1000;
-            await send(client, message.channelId, `Command is on cooldown! \`${te.toFixed(1)}\` seconds left!`)
+            send(client, message.channelId, `Command is on cooldown! \`${te.toFixed(1)}\` seconds left!`)
             return false;
         }
     }
@@ -122,11 +122,11 @@ export async function commandHandler(client: BotWithCache<Bot>, message: Message
     const cmdName = (args.shift() as string).toLowerCase()
     const command = findCommand(cmdName)
     if (!command) return false;
-    if (command.requiredArgs && args.length < 1) { await send(client, message.channelId, "You don't have enough permission for this!"); return false }
+    if (command.requiredArgs && args.length < 1) { send(client, message.channelId, "You don't have enough permission for this!"); return false }
     const perm = permissionChecker(command, client, message.authorId, message.member)
-    if (!perm) { await send(client, message.channelId, "You don't have enough permission for this!"); return false }
+    if (!perm) { send(client, message.channelId, "You don't have enough permission for this!"); return false }
     const cooldown = await cooldownHandler(client, message, command)
     if (!cooldown) return false;
-    await commandRunner(command, message, args, client)
+    commandRunner(command, message, args, client)
     return true;
 }

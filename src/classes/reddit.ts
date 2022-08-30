@@ -65,14 +65,11 @@ export class Reddit {
             .setColor(data.author_flair_text_color || COLORS.RANDOM)
             .setURL("https://reddit.com" + data.permalink)
             .setFooter(`u/${data.author} - r/${this.subreddit}`)
-        if (media_only) {
+        if (media_only || Reddit.isMedia(data.url)) {
             e.setImg(data.url)
             return e.build()
         } else if (data.selftext) {
             e.setDesc(data.selftext.slice(0, EMBED.DESCRIPTION - 5) + "...")
-        }
-        if (Reddit.isMedia(data.url)) {
-            e.setImg(data.url)
         }
         if (data.is_video) {
             e.setDesc(`[Video](${data.url})`)

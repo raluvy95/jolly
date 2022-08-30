@@ -17,19 +17,16 @@ export async function ghostPingU(client: BotWithCache<Bot>, message: Message, ol
     const oldFiltered = oldMessage.mentionedUserIds.filter(m => m != message.authorId)
     const newFiltered = message.mentionedUserIds.filter(m => m != message.authorId)
     if (oldFiltered.length != newFiltered.length) {
-        const foundUserID = new Array<bigint>;
+        const foundUserID: BigInt[] = [];
         newFiltered.forEach(id => {
             if (oldFiltered.indexOf(id) == -1) {
                 foundUserID.push(id)
             }
         })
         if (foundUserID.length < 1) return;
-        let user = client.users.get(message.authorId)
-        if (!user) {
-            user = await client.helpers.getUser(message.authorId)
-            if (!user) return;
-        }
-        await send(client, message.channelId, await embed(foundUserID.map(m => `<@${m}>`).join(", "), client, user))
+        const user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
+        if (!user) return;
+        send(client, message.channelId, await embed(foundUserID.map(m => `<@${m}>`).join(", "), client, user))
     }
 }
 
@@ -57,14 +54,10 @@ async function embed(mentions: string, client: BotWithCache<Bot>, user: User) {
 }
 
 export async function ghostPingD(client: BotWithCache<Bot>, payload: Payload, message?: Message) {
-    if (!config.plugins.ghostPing) return;
-    if (!message) return;
+    if (!config.plugins.ghostPing || !message) return;
     const filtered = message.mentionedUserIds.filter(m => m != message.authorId)
     if (filtered.length < 1) return;
-    let user = client.users.get(message.authorId)
-    if (!user) {
-        user = await client.helpers.getUser(message.authorId)
-        if (!user) return;
-    }
-    await send(client, payload.channelId, await embed(filtered.map(m => `<@${m}>`).join(", "), client, user))
+    const user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
+    if (!user) return;
+    send(client, payload.channelId, await embed(filtered.map(m => `<@${m}>`).join(", "), client, user))
 }

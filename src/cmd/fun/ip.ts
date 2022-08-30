@@ -17,7 +17,7 @@ class IP extends JollyCommand {
         const e = new JollyEmbed()
             .setTitle(`IP: ${info.ip}`)
             .setDesc(`City: ${info.city}\nRegion: ${info.region}\nCountry: ${info.country}\nLocation: ${info.loc}\nTimezone: ${info.timezone}\nPostal: ${info.postal}`)
-        await send(client, message.channelId, e.build())
+        send(client, message.channelId, e.build())
     }
 }
 

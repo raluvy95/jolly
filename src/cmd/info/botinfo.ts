@@ -14,7 +14,7 @@ class BotInfo extends JollyCommand {
     override async run(message: Message, _args: string[], client: BotWithCache<Bot>): Promise<void> {
         const discordeno_version = client.constants.DISCORDENO_VERSION
         const deno_version = Deno.version
-        const user = await client.helpers.getUser(client.id)
+        const user = client.users.get(client.id) ?? await client.helpers.getUser(client.id)
         if (!user) throw new Error("what.")
         const em = new JollyEmbed()
             .setTitle("Information about the bot")

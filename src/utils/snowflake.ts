@@ -1,9 +1,9 @@
 import { SnowflakeError } from "@const/errors.ts"
 import { dateToString } from "./dateToString.ts"
 
-export function snowflake(DiscordID: string): Date {
-    if (!DiscordID.match(/^(?<id>\d{17,19})$/)) throw new SnowflakeError("Invalid ID")
-    let binary = Number(DiscordID).toString(2)
+export function snowflake(DiscordID: string | bigint): Date {
+    if (!DiscordID.toString().match(/^(?<id>\d{17,19})$/)) throw new SnowflakeError("Invalid ID")
+    let binary = Number(DiscordID.toString()).toString(2)
     while (binary.length < 64) {
         binary = "0" + binary
     }
@@ -13,7 +13,6 @@ export function snowflake(DiscordID: string): Date {
 }
 
 export function createdAt(DiscordID: bigint): string {
-    const str = DiscordID.toString()
-    const data = snowflake(str)
+    const data = snowflake(DiscordID)
     return dateToString(data)
 }
