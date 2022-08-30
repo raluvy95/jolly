@@ -43,7 +43,7 @@ warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, u
 })
 
 export const JollyEvent = {
-    async ready(bot: BotWithCache<Bot>) {
+    ready(bot: BotWithCache<Bot>) {
         main.info("I'm ready!");
         bot.helpers.editBotStatus({
             activities: [
@@ -74,11 +74,11 @@ export const JollyEvent = {
         }
     },
 
-    async messageDelete(client: BotWithCache<Bot>, payload: Payload, message: Message) {
+    messageDelete(client: BotWithCache<Bot>, payload: Payload, message: Message) {
         ghostPingD(client, payload, message)
     },
 
-    async messageUpdate(client: BotWithCache<Bot>, message: Message, oldMessage?: Message) {
+    messageUpdate(client: BotWithCache<Bot>, message: Message, oldMessage?: Message) {
         ghostPingU(client, message, oldMessage)
     },
 
@@ -94,13 +94,13 @@ export const JollyEvent = {
         }
     },
 
-    async guildMemberUpdate(client: BotWithCache<Bot>, member: Member, user: User): Promise<void> {
+    guildMemberUpdate(client: BotWithCache<Bot>, member: Member, user: User): Promise<void> {
         nicknameOnJoin(client, member, user)
         // for who has passed the membership screening 
         autorole(client, member, user)
     },
 
-    async guildMemberAdd(client: BotWithCache<Bot>, member: Member, user: User): Promise<void> {
+    guildMemberAdd(client: BotWithCache<Bot>, member: Member, user: User): Promise<void> {
         nicknameOnJoin(client, member, user)
         autorole(client, member, user)
     }
