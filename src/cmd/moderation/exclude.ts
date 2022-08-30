@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, config, Member, Message } from "@deps";
+import { Bot, BotWithCache, config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { findMember } from "@utils/find.ts";
