@@ -5,7 +5,7 @@ export const bumpReminder = (client: BotWithCache<Bot>, message: Message): Promi
     if (config.plugins.bump.enable && message.interaction?.name == "bump"
         && message.authorId === 302050872383242240n) {
         send(client, message.channelId, `I will remind you to bump again in two hours!`)
-        setTimeout(async () => {
+        setTimeout(() => {
             return send(client, message.channelId, {
                 content: "Hey <@&$ID>, reminder to `/bump` again!".replace("$ID", config.plugins.bump.roleID),
                 allowedMentions: {
