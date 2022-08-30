@@ -24,6 +24,7 @@ class Help extends JollyCommand {
             send(client, message.channelId, cmdE)
             return;
         }
+        const avatar = await avatarURL(client, client.id)
         const em = new JollyEmbed().setTitle("Help command").setThumb(avatar)
         const categories = new Set(globalCommand.filter(e => !this.BLACKLIST_COMMAND.includes(e.name)).map(e => e.mod))
         for (const name of categories) {
@@ -32,7 +33,6 @@ class Help extends JollyCommand {
                     .map((_, m) => `\`${m}\``).join(", ")
             )
         }
-        const avatar = await avatarURL(client, client.id)
         send(client, message.channelId, em.build())
     }
 }
