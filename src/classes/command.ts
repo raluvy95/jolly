@@ -64,7 +64,7 @@ export function addCommand(cmd: JollyCommand): void {
     globalCommand.set(cmd.name, cmd)
 }
 
-async function commandRunner(command: JollyCommand, message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
+function commandRunner(command: JollyCommand, message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
     try {
         command.run(message, args, client)
     } catch (error) {
@@ -84,7 +84,7 @@ async function cooldownHandler(client: Bot, message: Message, command: JollyComm
     const timestamp = cooldowns.get(command.name) as Collection<number, number>;
     const ca = (command.cooldown || 3) * 1000;
     const user = Number(message.authorId);
-    if (!!timestamp && timestamp.has(user)) {
+    if (timestamp && timestamp.has(user)) {
         const et = timestamp.get(user) as number + ca;
         if (now < et) {
             const te = (et - now) / 1000;
