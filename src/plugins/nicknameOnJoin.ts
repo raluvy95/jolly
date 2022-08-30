@@ -1,7 +1,7 @@
 import { Bot, BotWithCache, config, Member, User } from "@deps";
 
 
-export const nicknameOnJoin = (client: BotWithCache<Bot>, member: Member, user: User): Promise<void> => {
+export const nicknameOnJoin = (client: BotWithCache<Bot>, member: Member, user: User) => {
     const nick = config.plugins.nicknameOnJoin.nickname
     const name = member.nick || user.username
     if (BigInt(config.guildID) !== member.guildId) return;

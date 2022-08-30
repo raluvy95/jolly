@@ -37,7 +37,7 @@ warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, u
 
     const channel = client.channels.get(BigInt(config.warnLog.channelID)) || await client.helpers.getChannel(BigInt(config.warnLog.channelID))
     if (!channel) return main.error("Cannot find channel ID to send warning logs!")
-    
+
     return send(client, channel.id, e.warn(data))
 
 })
@@ -94,13 +94,13 @@ export const JollyEvent = {
         }
     },
 
-    guildMemberUpdate(client: BotWithCache<Bot>, member: Member, user: User): Promise<void> {
+    guildMemberUpdate(client: BotWithCache<Bot>, member: Member, user: User) {
         nicknameOnJoin(client, member, user)
         // for who has passed the membership screening 
         autorole(client, member, user)
     },
 
-    guildMemberAdd(client: BotWithCache<Bot>, member: Member, user: User): Promise<void> {
+    guildMemberAdd(client: BotWithCache<Bot>, member: Member, user: User) {
         nicknameOnJoin(client, member, user)
         autorole(client, member, user)
     }

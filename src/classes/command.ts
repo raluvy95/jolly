@@ -64,7 +64,7 @@ export function addCommand(cmd: JollyCommand): void {
     globalCommand.set(cmd.name, cmd)
 }
 
-function commandRunner(command: JollyCommand, message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
+function commandRunner(command: JollyCommand, message: Message, args: string[], client: BotWithCache<Bot>): void {
     try {
         command.run(message, args, client)
     } catch (error) {
@@ -76,7 +76,7 @@ function commandRunner(command: JollyCommand, message: Message, args: string[], 
     }
 }
 
-function cooldownHandler(client: Bot, message: Message, command: JollyCommand): Promise<boolean> {
+function cooldownHandler(client: Bot, message: Message, command: JollyCommand): boolean {
     if (!cooldowns.has(command.name)) {
         cooldowns.set(command.name, new Collection())
     }

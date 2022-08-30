@@ -1,7 +1,7 @@
 import { Bot, BotWithCache, config, Message } from "@deps";
 import { send } from "@utils/send.ts";
 
-export const bumpReminder = (client: BotWithCache<Bot>, message: Message): Promise<void> => {
+export const bumpReminder = (client: BotWithCache<Bot>, message: Message) => {
     if (config.plugins.bump.enable && message.interaction?.name == "bump"
         && message.authorId === 302050872383242240n) {
         send(client, message.channelId, `I will remind you to bump again in two hours!`)
