@@ -57,7 +57,7 @@ export async function ghostPingD(client: BotWithCache<Bot>, payload: Payload, me
     if (!config.plugins.ghostPing || !message) return;
     const filtered = message.mentionedUserIds.filter(m => m != message.authorId)
     if (filtered.length < 1) return;
-    let user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
+    const user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
     if (!user) return;
     send(client, payload.channelId, await embed(filtered.map(m => `<@${m}>`).join(", "), client, user))
 }
