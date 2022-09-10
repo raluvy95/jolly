@@ -1,8 +1,8 @@
 import { Bot, BotWithCache, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
-import { warning } from "../../classes/database.ts";
-import { findUser } from "../../utils/find.ts";
+import { warning } from "@classes/database.ts";
+import { findUser } from "@utils/find.ts";
 
 class UnWarnAll extends JollyCommand {
     constructor() {

@@ -5,7 +5,7 @@ import { warning } from "@classes/database.ts";
 import { findUser } from "@utils/find.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
-import { recentWarnings } from "../../utils/recentWarnings.ts";
+import { recentWarnings } from "@utils/recentWarnings.ts";
 
 class Warnings extends JollyCommand {
     constructor() {

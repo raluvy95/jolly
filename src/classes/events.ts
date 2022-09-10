@@ -17,11 +17,13 @@ import { avatarURL } from "@utils/avatarURL.ts";
 import { send } from "@utils/send.ts";
 import { sentence } from "@plugins/sentence.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
-import { sudo } from "../plugins/sudo.ts";
+import { sudo } from "@plugins/sudo.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
 }>()
+
+export let BotUptime: number;
 
 warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, user?: User) => {
     const e = new JollyEmbed()
@@ -44,6 +46,7 @@ warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, u
 
 export const JollyEvent = {
     ready(bot: BotWithCache<Bot>) {
+        BotUptime = Date.now()
         main.info("I'm ready!");
         bot.helpers.editBotStatus({
             activities: [

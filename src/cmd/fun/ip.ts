@@ -1,7 +1,7 @@
 import { Bot, BotWithCache, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
-import { JollyEmbed } from "../../classes/embed.ts";
+import { JollyEmbed } from "@classes/embed.ts";
 import { isIP } from "https://deno.land/x/isIP@1.0.0/mod.ts";
 
 class IP extends JollyCommand {

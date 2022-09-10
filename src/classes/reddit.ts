@@ -1,9 +1,9 @@
 import { RootObject, Data2 } from "../interfaces/reddit.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { Embed } from "@deps";
-import { EmptyError } from "../constants/errors.ts";
-import { EMBED } from "../constants/globalLimit.ts";
-import { COLORS } from "../constants/colors.ts";
+import { EmptyError } from "@const/errors.ts";
+import { EMBED } from "@const/globalLimit.ts";
+import { COLORS } from "@const/colors.ts";
 
 export class Reddit {
     private readonly url: string;
