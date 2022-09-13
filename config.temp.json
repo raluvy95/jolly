@@ -71,6 +71,15 @@
             "enable": false,
             "categoryID": "category ID"
         },
-        "ghostPing": true
+        "ghostPing": true,
+        "autoRenameChannel": {
+            "enable": false,
+            "channelID": "channel ID",
+            "variables": [
+                "variables to use for replacement"
+            ],
+            "nameToBeReplaced": "channel name (use $ as variable format)",
+            "durationInMinutes": 120
+        }
     }
 }
