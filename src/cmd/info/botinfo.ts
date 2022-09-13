@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Bot, BotWithCache, config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { JollyEmbed } from "@classes/embed.ts";
@@ -31,7 +31,7 @@ class BotInfo extends JollyCommand {
 
         const em = new JollyEmbed()
             .setTitle("Information about the bot")
-            .setDesc("CatNowBot - codename **Jolly**\nA Discord bot with necessary functions to maintain this server.")
+            .setDesc(config.description)
             .addField("Runtime", `Deno v${deno_version.deno}`, true)
             .addField("Language", `TypeScript v${deno_version.typescript}`, true)
             .addField("Library", `Discordeno v${discordeno_version}`, true)

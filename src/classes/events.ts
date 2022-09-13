@@ -1,13 +1,13 @@
 import { ActivityTypes, Bot, BotWithCache, config, EventHandlers, Interaction, Member, Message, User } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
+import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel } from "@plugins/mod.ts";
 import { EventEmitter } from "https://deno.land/x/eventemitter@1.2.4/mod.ts";
 import { IResultDB, warning } from "@classes/database.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { send } from "@utils/send.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
-import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo } from "@plugins/mod.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -50,6 +50,7 @@ export const JollyEvent = {
         })
         refreshCommand();
         autopost(bot)
+        autoRenameChannel(bot)
     },
 
     async messageCreate(bot: BotWithCache<Bot>, message: Message): Promise<void> {

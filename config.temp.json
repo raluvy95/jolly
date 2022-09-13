@@ -1,6 +1,7 @@
 {
     "token": "Discord token",
     "botID": "Bot ID",
+    "description": "A cool discord bot (Discord markdown is supported)",
     "owners": [
         "owner ID",
         "another owner ID (optional)"
@@ -78,7 +79,7 @@
             "variables": [
                 "variables to use for replacement"
             ],
-            "nameToBeReplaced": "channel name (use $ as variable format)",
+            "nameToBeReplaced": "channel name (use $ as variable)",
             "durationInMinutes": 120
         }
     }

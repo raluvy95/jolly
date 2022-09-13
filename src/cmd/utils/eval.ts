@@ -33,7 +33,7 @@ class Eval extends JollyCommand {
         return "```ts\n" + text + "\n```"
     }
 
-    override run(message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
+    override run(message: Message, args: string[], client: BotWithCache<Bot>) {
         try {
             const code = args.join(" ");
             this.evaled = eval(code);
