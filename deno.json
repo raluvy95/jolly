@@ -1,11 +1,12 @@
 {
     "tasks": {
-        "run": "DEV=0 deno run -A --import-map ./importMap.json  src/index.ts",
-        "prod": "deno run -A --import-map ./importMap.json  src/index.ts",
-        "watch": "deno run --watch -A --import-map ./importMap.json src/index.ts",
-        "check": "deno cache --check --import-map ./importMap.json src/index.ts"
+        "run": "DEV=0 deno run -A src/index.ts",
+        "prod": "deno run -A src/index.ts",
+        "watch": "deno run --watch -A src/index.ts",
+        "check": "deno cache --check src/index.ts"
     },
     "compilerOptions": {
         "noImplicitAny": true
-    }
+    },
+    "importMap": "importMap.json"
 }
