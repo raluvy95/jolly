@@ -10,7 +10,7 @@ export const nicknameOnJoin = (client: BotWithCache<Bot>, member: Member, user: 
         const shortNick = name.slice(0, 36 - nickNoTemp.length);
         const newUser = nick.replace("{user}", shortNick)
         try {
-            client.helpers.editMember(BigInt(config.guildID), member.id, {
+            client.helpers.editMember(config.guildID, member.id, {
                 nick: newUser
             })
         } catch { return; }

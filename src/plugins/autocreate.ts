@@ -8,10 +8,10 @@ export function autoCreateChannel(client: BotWithCache<Bot>, message: Message) {
     if (matched) {
         const name = matched[0].replace("#", '')
         if (!name || name.length < 1) return;
-        client.helpers.createChannel(BigInt(config.guildID), {
+        client.helpers.createChannel(config.guildID, {
             name: name,
             type: ChannelTypes.GuildText,
-            parentId: BigInt(autocreate.categoryID)
+            parentId: autocreate.categoryID
         })
         return
     }

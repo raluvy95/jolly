@@ -10,7 +10,7 @@ export async function findUser(client: BotWithCache<Bot>, name: string): Promise
     } catch {
         user = client.users.find(m => m.username == name || m.username.startsWith(name))
         if (!user) {
-            const member = await client.helpers.searchMembers(BigInt(config.guildID), name)
+            const member = await client.helpers.searchMembers(config.guildID, name)
             if (member.size < 1) return undefined
             const memberId = member.first()!.id
             user = client.users.get(memberId) || await client.helpers.getUser(memberId)
@@ -20,7 +20,7 @@ export async function findUser(client: BotWithCache<Bot>, name: string): Promise
 }
 
 export async function findMember(client: BotWithCache<Bot>, name: string): Promise<Member | undefined> {
-    const member = await client.helpers.searchMembers(BigInt(config.guildID), name)
+    const member = await client.helpers.searchMembers(config.guildID, name)
     if (member.size < 1) return undefined
     return member.first()
 }

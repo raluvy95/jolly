@@ -1,4 +1,4 @@
-import { createBot, enableCachePlugin, enableCacheSweepers, startBot, enablePermissionsPlugin } from "@deps";
+import { createBot, enableCachePlugin, enableCacheSweepers, startBot, enablePermissionsPlugin, Bot } from "@deps";
 import { Jolly } from "@classes/client.ts";
 import { main } from "@utils/log.ts";
 
@@ -14,4 +14,4 @@ const bot = enableCachePlugin(createBot(new Jolly()));
 enablePermissionsPlugin(bot);
 enableCacheSweepers(bot);
 
-await startBot(bot);
+await startBot(bot as Bot);

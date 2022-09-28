@@ -76,7 +76,7 @@ function commandRunner(command: JollyCommand, message: Message, args: string[], 
     }
 }
 
-function cooldownHandler(client: Bot, message: Message, command: JollyCommand): boolean {
+function cooldownHandler(client: BotWithCache<Bot>, message: Message, command: JollyCommand): boolean {
     if (!cooldowns.has(command.name)) {
         cooldowns.set(command.name, new Collection())
     }

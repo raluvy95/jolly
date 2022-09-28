@@ -20,14 +20,14 @@ warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, u
     if (user) {
         e.setAuthor(`${user.username}#${user.discriminator}`, await avatarURL(client, user))
     }
-    const member = client.members.get(data.userid) || await client.helpers.getMember(BigInt(config.guildID), data.userid)
+    const member = client.members.get(data.userid) || await client.helpers.getMember(config.guildID, data.userid)
     // deno-lint-ignore no-empty
     if (!member) { }
     else {
         sentence(client, member, recentWarnings(warning.getByUser(member.id)).length)
     }
 
-    const channel = client.channels.get(BigInt(config.warnLog.channelID)) || await client.helpers.getChannel(BigInt(config.warnLog.channelID))
+    const channel = client.channels.get(BigInt(config.warnLog.channelID)) || await client.helpers.getChannel(config.warnLog.channelID)
     if (!channel) return main.error("Cannot find channel ID to send warning logs!")
 
     return send(client, channel.id, e.warn(data))

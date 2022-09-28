@@ -20,21 +20,21 @@ export function sentence(client: BotWithCache<Bot>, member: Member, warnCount: n
     const datee = new Date()
     switch (foundSentence.action) {
         case "timeout":
-            client.helpers.editMember(BigInt(config.guildID), member.id, {
+            client.helpers.editMember(config.guildID, member.id, {
                 communicationDisabledUntil: datee.setMinutes(datee.getMinutes() + foundSentence.durationInMinutes)
             })
             break
         case "kick":
-            client.helpers.kickMember(BigInt(config.guildID), member.id, `Reached ${warnCount} warnings`)
+            client.helpers.kickMember(config.guildID, member.id, `Reached ${warnCount} warnings`)
             break
         case "ban":
-            client.helpers.banMember(BigInt(config.guildID), member.id, {
+            client.helpers.banMember(config.guildID, member.id, {
                 reason: `Reached ${warnCount} warnings`,
-                deleteMessageDays: 1
+                deleteMessageSeconds: 86400
             })
             if (foundSentence.durationInMinutes > 0) {
                 setTimeout(() => {
-                    client.helpers.unbanMember(BigInt(config.guildID), member.id)
+                    client.helpers.unbanMember(config.guildID, member.id)
                 }, minuteToMS(foundSentence.durationInMinutes))
             }
             break
