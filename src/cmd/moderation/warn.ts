@@ -2,7 +2,7 @@ import { Bot, BotWithCache, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { findUser } from "@utils/find.ts";
-import { warning } from "@classes/database.ts";
+import { warning } from "@classes/warning.ts";
 import { warnEvent } from "@classes/events.ts";
 
 class Warn extends JollyCommand {

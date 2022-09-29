@@ -1,4 +1,4 @@
-import { IResultDB } from "../classes/database.ts";
+import { IResultDB } from "@classes/warning.ts";
 
 export function recentWarnings(warnings: IResultDB[]): IResultDB[] {
     const sixMonthsAgo = new Date();

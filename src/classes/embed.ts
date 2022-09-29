@@ -7,7 +7,7 @@ import { OverflowError } from "@const/errors.ts";
 import { EMBED } from "@const/globalLimit.ts";
 import { COLORS } from "@const/colors.ts";
 import { JollyCommand, prefix } from "@classes/command.ts";
-import { IResultDB } from "@classes/database.ts";
+import { IResultDB } from "@classes/warning.ts";
 import { dateToString } from "@utils/dateToString.ts";
 
 const hexToDecimal = (hex: string) => parseInt(hex, 16)
