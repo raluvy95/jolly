@@ -53,13 +53,13 @@ export const JollyEvent = {
         autoRenameChannel(bot)
     },
 
-    async messageCreate(bot: BotWithCache<Bot>, message: Message): Promise<void> {
+    messageCreate(bot: BotWithCache<Bot>, message: Message): void {
         bumpReminder(bot, message);
         autoPublish(bot, message, true, config.plugins.autoPublish.botOnlyChannelID)
         autoPublish(bot, message, false, config.plugins.autoPublish.channelID)
         if (message.isFromBot)
             return;
-        const success = await commandHandler(bot, message);
+        const success = commandHandler(bot, message);
         if (!success) {
             sudo(bot, message)
             ree(bot, message)

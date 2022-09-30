@@ -115,7 +115,7 @@ export function findCommand(cmdName: string): JollyCommand | undefined {
     return globalCommand.get(cmdName) || globalCommand.find(m => m.aliases && m.aliases.includes(cmdName))
 }
 
-export async function commandHandler(client: BotWithCache<Bot>, message: Message): Promise<boolean> {
+export function commandHandler(client: BotWithCache<Bot>, message: Message): boolean {
     if (!config.prefixes.some((m: string) => message.content.toLowerCase().startsWith(m), message.content.toLowerCase())) return false;
     prefix = (config.prefixes.find(m => message.content.toLowerCase().startsWith(m), message.content.toLowerCase()) as string)
     const args = message.content.slice(prefix.length).trim().split(/ +/)
@@ -125,7 +125,7 @@ export async function commandHandler(client: BotWithCache<Bot>, message: Message
     if (command.requiredArgs && args.length < 1) { send(client, message.channelId, "You don't have enough permission for this!"); return false }
     const perm = permissionChecker(command, client, message.authorId, message.member)
     if (!perm) { send(client, message.channelId, "You don't have enough permission for this!"); return false }
-    const cooldown = await cooldownHandler(client, message, command)
+    const cooldown = cooldownHandler(client, message, command)
     if (!cooldown) return false;
     commandRunner(command, message, args, client)
     return true;
