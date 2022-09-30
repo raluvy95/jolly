@@ -112,7 +112,7 @@ export class JollyEmbed implements DiscordEmbed {
             description: this.description,
             image: this.image,
             thumbnail: this.thumbnail,
-            timestamp: Date.parse(this.timestamp),
+            timestamp: Date.parse(this.timestamp) || undefined,
             type: "rich",
             author: {
                 name: this.author?.name as string,

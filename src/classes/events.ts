@@ -1,4 +1,4 @@
-import { ActivityTypes, Bot, BotWithCache, config, EventHandlers, Interaction, Member, Message, User } from "@deps"
+import { ActivityTypes, BigString, Bot, BotWithCache, config, EventHandlers, Interaction, Member, Message, User } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
 import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel } from "@plugins/mod.ts";
@@ -8,10 +8,15 @@ import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { send } from "@utils/send.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
+import { handleXP } from "@classes/level.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
 }>()
+
+export const levelEvent = new EventEmitter<{
+    levelUP(bot: BotWithCache<Bot>, level: number, channel: BigString, userID: string): void
+}>
 
 export let BotUptime: number;
 
@@ -32,6 +37,20 @@ warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, u
 
     return send(client, channel.id, e.warn(data))
 
+})
+
+levelEvent.on("levelUP", (bot, level, channel, userID) => {
+    const conf = config.plugins.levelXP
+    const ping = `<@${userID}>`
+    const customMsg = conf.levelUP.customMessage.replace("{user}", ping).replace("{level}", level.toString())
+    if (conf.levelUP.channelID == "0") {
+        send(bot, channel, customMsg)
+    } else {
+        send(bot, conf.levelUP.channelID, customMsg).catch(() => main.error("Invalid channel ID"))
+    }
+    const matchedLvlRole = conf.rolesRewards.find(m => m.level == level)
+    if (!matchedLvlRole) return;
+    bot.helpers.addRole(config.guildID, userID, matchedLvlRole.ID, "Level UP!")
 })
 
 export const JollyEvent = {
@@ -65,6 +84,7 @@ export const JollyEvent = {
             ree(bot, message)
             selfping(bot, message)
             autoCreateChannel(bot, message)
+            handleXP(bot, message)
         }
     },
 

@@ -81,6 +81,19 @@
             ],
             "nameToBeReplaced": "channel name (use $ as variable)",
             "durationInMinutes": 120
+        },
+        "levelXP": {
+            "enable": true,
+            "rolesRewards": [
+                {
+                    "ID": "role ID to reward",
+                    "level": 3
+                }
+            ],
+            "levelUP": {
+                "channelID": "channel ID to send lvl up message",
+                "customMessage": "Congrats {user}, you just reached level {level}!"
+            }
         }
     }
 }
