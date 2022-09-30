@@ -1,5 +1,5 @@
 import { bold, Bot, BotWithCache, config, Member } from "@deps";
-import { main } from "../utils/log.ts";
+import { main } from "@utils/log.ts";
 
 type Action = "ban" | "kick" | "timeout"
 

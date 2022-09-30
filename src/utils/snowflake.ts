@@ -1,5 +1,5 @@
 import { SnowflakeError } from "@const/errors.ts"
-import { dateToString } from "./dateToString.ts"
+import { dateToString } from "@utils/dateToString.ts"
 
 export function snowflake(DiscordID: string | bigint): Date {
     if (!DiscordID.toString().match(/^(?<id>\d{17,19})$/)) throw new SnowflakeError("Invalid ID")

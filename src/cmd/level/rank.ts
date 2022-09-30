@@ -5,7 +5,7 @@ import { level } from "@classes/level.ts";
 import { findUser } from "@utils/find.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
-import { progressBar, XPrequiredToLvlUP } from "../../utils/levelutils.ts";
+import { progressBar, XPrequiredToLvlUP } from "@utils/levelutils.ts";
 
 class Rank extends JollyCommand {
     constructor() {
