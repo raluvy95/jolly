@@ -83,7 +83,7 @@
             "durationInMinutes": 120
         },
         "levelXP": {
-            "enable": true,
+            "enable": false,
             "rolesRewards": [
                 {
                     "ID": "role ID to reward",
