@@ -85,6 +85,18 @@ class LevelDB extends JollyDB {
     getAll() {
         return this.getter("SELECT * FROM level")
     }
+
+    setLevel(user: BigString, value: number) {
+        const exists = this.get(user)
+        if (typeof user == "bigint") {
+            user = String(user)
+        }
+        if (!exists) {
+            this.query("INSERT INTO level (userid, xp, level, totalxp) VALUES (?, ?, ?, ?)", [user, 0, value, XPrequiredToLvlUP(value + 1)])
+        } else {
+            this.query("UPDATE level SET level = ? WHERE userid = ?", [value, user])
+        }
+    }
 }
 
 type LevelResultDB = [[string, number, number, number]]
@@ -110,7 +122,7 @@ export function handleXP(client: BotWithCache<Bot>, message: Message) {
     setTimeout(() => {
         levelCooldown.delete(user);
     }, ca);
-    const addXP = Math.floor(Math.random() * 10) + 1
+    const addXP = Math.floor(Math.random() * 10) + 3
     level.setXP(message.channelId, client, message.authorId, addXP, XP_METHOD.ADD)
 }
 
