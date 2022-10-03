@@ -34,7 +34,7 @@ class Leaderboard extends JollyCommand {
         }
         for (const l of list) {
             position++
-            result += `${award(position)} - <@${l.userid}>\n**Level** ${l.level} | **Total XP** ${l.totalxp.toLocaleString()} | **XP** ${l.xp.toLocaleString()}`
+            result += `${award(position)} - <@${l.userid}>\n**Level** ${l.level} | **Total XP** ${l.totalxp.toLocaleString()} | **XP** ${l.xp.toLocaleString()}\n`
         }
         e.setDesc(result)
         send(client, message.channelId, e.build())
