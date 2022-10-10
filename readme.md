@@ -16,17 +16,37 @@ bug fixes.
 <br>
 <br>
 
+# Features
+
+Some of these features can be configured with `config.json`
+
+- Auto create channel when someone mentions non-existent channel (including
+  private channel)
+- Autopost from subreddit (great if you want to setup automeme in funny meme
+  channel)
+- Autopublish in announcements channel so you don't have to press publish button
+  ever again
+- Autoroles with membership screening support
+- Bump reminder
+- Ghost ping - The bot will notice when someone removed mentions of user.
+- Level system (way better than MEE6's paywall role rewards)
+- Multiple prefixes
+- Music support (ft. lavalink), sadly it's not working yet :(
+- Warning system + autosentence
+- and much more!
+
 # Build the bot and self-host
 
 All you need is to have latest version of [git](https://git-scm.com/) and
 [deno](https://deno.land/) installed on your system<br> **Step 1**: Clone this
 repository `git clone https://github.com/raluvy95/jolly.git`<br> **Step 2**:
-Rename `config-temp.json` to `config.json`<br> **Step 3**:
-Open a terminal<br> **Step 4**: Run the bot with `deno task run`
+Rename `config-temp.json` to `config.json`<br> **Step 3**: Open a terminal<br>
+**Step 4**: Run the bot with `deno task run`
 
 # Advantages of Jolly over Maffin
 
-- Jolly is rewritten in TypeScript which takes fixing runtime errors more seriously. So no more unexpected crash and no more random TypeErrors
+- Jolly is rewritten in TypeScript which takes fixing runtime errors more
+  seriously. So no more unexpected crash and no more random TypeErrors
 - No more insane breaking changes from Discord API library
 - Has its own command handler, embed, utils and more
 - With Deno, there's no node_modules folder either.
