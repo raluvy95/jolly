@@ -1,5 +1,9 @@
 import { Bot, BotWithCache, config, Member, User } from "@deps";
 
+function tag(user: string, tag: string) {
+    return user + "#" + tag
+}
+
 export async function findUser(client: BotWithCache<Bot>, name: string): Promise<User | undefined> {
     let user: User | undefined
     try {
@@ -8,7 +12,7 @@ export async function findUser(client: BotWithCache<Bot>, name: string): Promise
             user = client.users.get(nameBigInt) || await client.helpers.getUser(nameBigInt)
         }
     } catch {
-        user = client.users.find(m => m.username == name || m.username.startsWith(name))
+        user = client.users.find(m => tag(m.username, m.discriminator) == name || tag(m.username, m.discriminator).startsWith(name))
         if (!user) {
             const member = await client.helpers.searchMembers(config.guildID, name)
             if (member.size < 1) return undefined
