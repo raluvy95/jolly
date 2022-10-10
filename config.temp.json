@@ -33,6 +33,14 @@
             "warnCount": 7
         }
     ],
+    "music": {
+        "enable": false,
+        "lavalink_config": {
+            "host": "hostname.lol",
+            "port": 1337,
+            "password": "password"
+        }
+    },
     "plugins": {
         "bump": {
             "enable": false,
