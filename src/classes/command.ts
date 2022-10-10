@@ -122,9 +122,9 @@ export function commandHandler(client: BotWithCache<Bot>, message: Message): boo
     const cmdName = (args.shift() as string).toLowerCase()
     const command = findCommand(cmdName)
     if (!command) return false;
-    if (command.requiredArgs && args.length < 1) { send(client, message.channelId, "You don't have enough permission for this!"); return false }
+    if (command.requiredArgs && args.length < 1) { send(client, message.channelId, "You don't have permission to do that!"); return false }
     const perm = permissionChecker(command, client, message.authorId, message.member)
-    if (!perm) { send(client, message.channelId, "You don't have enough permission for this!"); return false }
+    if (!perm) { send(client, message.channelId, "You don't have permission to do that!"); return false }
     const cooldown = cooldownHandler(client, message, command)
     if (!cooldown) return false;
     commandRunner(command, message, args, client)
