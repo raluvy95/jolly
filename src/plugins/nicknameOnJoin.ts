@@ -2,6 +2,8 @@ import { Bot, BotWithCache, config, Member, User } from "@deps";
 
 
 export const nicknameOnJoin = (client: BotWithCache<Bot>, member: Member, user: User) => {
+    if (!config.plugins.nicknameOnJoin.enable) return;
+
     const nick = config.plugins.nicknameOnJoin.nickname
     const name = member.nick || user.username
     if (BigInt(config.guildID) !== member.guildId) return;
