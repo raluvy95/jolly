@@ -53,7 +53,7 @@
         "ree": true,
         "sudo": true,
         "nicknameOnJoin": {
-            "enable": true,
+            "enable": false,
             "nickname": "catnow{user}"
         },
         "autoPublish": {
