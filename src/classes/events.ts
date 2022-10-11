@@ -9,8 +9,9 @@ import { avatarURL } from "@utils/avatarURL.ts";
 import { send } from "@utils/send.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
 import { handleXP } from "@classes/level.ts";
-import { node } from "./lavalink.ts";
+import { node } from "@classes/lavalink.ts";
 import { DiscordVoiceServer } from "https://deno.land/x/lavadeno@3.2.3/mod.ts";
+import { funfact } from "@plugins/funfact.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -72,6 +73,7 @@ export const JollyEvent = {
         refreshCommand();
         autopost(bot)
         autoRenameChannel(bot)
+        funfact(bot)
     },
 
     messageCreate(bot: BotWithCache<Bot>, message: Message): void {

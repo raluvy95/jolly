@@ -102,6 +102,12 @@
                 "channelID": "channel ID to send lvl up message",
                 "customMessage": "Congrats {user}, you just reached level {level}!"
             }
+        },
+        "funfact": {
+            "enable": false,
+            "source": "URL for funfact. Documentation can be found in https://github.com/raluvy95/jolly/wiki/Source-for-Fun-fact",
+            "intervalInMin": 120,
+            "channelID": "channel ID"
         }
     }
 }
