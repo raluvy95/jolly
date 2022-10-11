@@ -33,6 +33,7 @@ class Rank extends JollyCommand {
             const left = nextUp.level - rank.level
             nextUpStr = `**${left} level${left == 1 ? '' : 's'}** left to reach <@&${nextUp.ID}>!`
         }
+        const percent = Math.floor(rank.xp / reqXP * 100)
         const e = new JollyEmbed()
             .setTitle("RANKS")
             .setThumb(await avatarURL(client, userID))
@@ -40,7 +41,7 @@ class Rank extends JollyCommand {
             .addField("XP", String(rank.xp), true)
             .addField("Total XP", String(rank.totalxp), true)
             .addField("Level", String(rank.level), true)
-            .addField("Progress Bar", `[${rank.xp}/${reqXP}] ${progressBar(rank.xp, reqXP)}`)
+            .addField("Progress Bar", `[${rank.xp}/${reqXP}] (${percent}) ${progressBar(rank.xp, reqXP)}`)
             .setTime(0)
         return send(client, message.channelId, e.build())
     }
