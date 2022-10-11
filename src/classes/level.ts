@@ -26,7 +26,7 @@ class LevelDB extends JollyDB {
                 totalxp: re[3]
             })
         }
-        return r.sort((a, b) => b.level - a.level)
+        return r.sort((a, b) => b.totalxp - a.totalxp)
     }
 
     removeAll() {
