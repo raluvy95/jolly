@@ -40,7 +40,7 @@ class Rank extends JollyCommand {
             .addField("XP", String(rank.xp), true)
             .addField("Total XP", String(rank.totalxp), true)
             .addField("Level", String(rank.level), true)
-            .addField("Progress Bar", progressBar(rank.xp, reqXP))
+            .addField("Progress Bar", `[${rank.xp}/${reqXP}] ${progressBar(rank.xp, reqXP)}`)
             .setTime(0)
         return send(client, message.channelId, e.build())
     }
