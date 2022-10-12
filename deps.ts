@@ -6,4 +6,4 @@ export { default as config } from "./config.json" assert { type: "json" };
 export * from "https://deno.land/x/sqlite@v3.4.0/mod.ts";
 export type { Track } from "https://deno.land/x/lavalink_types@2.0.6/mod.ts";
 
-export { Node } from "https://deno.land/x/lavadeno@3.2.3/mod.ts";
+export { Cluster } from "https://deno.land/x/lavadeno@3.2.3/mod.ts";

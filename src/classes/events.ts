@@ -1,4 +1,4 @@
-import { ActivityTypes, BigString, Bot, BotWithCache, config, DiscordVoiceState, EventHandlers, Interaction, Member, Message, User } from "@deps"
+import { ActivityTypes, BigString, Bot, BotWithCache, config, DiscordGatewayPayload, GatewayOpcodes, EventHandlers, Interaction, Member, Message, User } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
 import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel } from "@plugins/mod.ts";
@@ -9,9 +9,9 @@ import { avatarURL } from "@utils/avatarURL.ts";
 import { send } from "@utils/send.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
 import { handleXP } from "@classes/level.ts";
-import { node } from "@classes/lavalink.ts";
-import { DiscordVoiceServer } from "https://deno.land/x/lavadeno@3.2.3/mod.ts";
+import { cluster } from "@classes/lavalink.ts";
 import { funfact } from "@plugins/funfact.ts";
+import { DiscordVoiceServer } from "https://deno.land/x/lavadeno@3.2.3/mod.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -123,20 +123,25 @@ export const JollyEvent = {
         autorole(client, member, user)
     },
 
-    // I get confused with Discordeno documentation
-    // (lack of documentation or can't find the type of this)
-    // so the data is unknown
-    raw(data: DataRaw) {
+    raw(data: DiscordGatewayPayload) {
+        if (data.op != GatewayOpcodes.Dispatch) return;
+
         switch (data.t) {
             case "VOICE_SERVER_UPDATE":
             case "VOICE_STATE_UPDATE":
-                node.handleVoiceUpdate(data.d as unknown as DiscordVoiceServer);
+                cluster.handleVoiceUpdate(data.d as DiscordVoiceServer);
                 break;
         }
+    },
+
+    dispatchRequirements(bot: BotWithCache<Bot>, data: DiscordGatewayPayload, id: number) {
+        const shard = bot.gateway.manager.shards.get(id)
+        if (shard == null) return;
+        switch (data.op) {
+            case GatewayOpcodes.HeartbeatACK:
+                shard.heart.lastBeat = Date.now();
+                break
+        }
+
     }
 } as unknown as Partial<EventHandlers>
-
-interface DataRaw {
-    t: "VOICE_SERVER_UPDATE" | "VOICE_STATE_UPDATE"
-    d: DiscordVoiceState
-}

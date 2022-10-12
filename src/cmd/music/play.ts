@@ -1,7 +1,7 @@
 import { Bot, BotWithCache, config, Message, Track } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
-import { node } from "@classes/lavalink.ts";
+import { cluster } from "@classes/lavalink.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 
 class Play extends JollyCommand {
@@ -16,13 +16,13 @@ class Play extends JollyCommand {
         const vc = client.guilds.get(BigInt(config.guildID))?.voiceStates.find((vc) => vc.userId === message.authorId)?.channelId;
         const botVc = client.guilds.get(BigInt(config.guildID))?.voiceStates.find((vc) => vc.userId === client.id)?.channelId;
 
-        let player = node.players.get(BigInt(config.guildID))
+        let player = cluster.players.get(BigInt(config.guildID))
         /* check if the user in the player's vc. */
         if (player && player.channelId != vc) {
             return send(client, message.channelId, `Join <#${player.channelId}> please`);
         }
 
-        const results = await node.rest.loadTracks(/^https?:\/\//.test(args.join(" "))
+        const results = await cluster.rest.loadTracks(/^https?:\/\//.test(args.join(" "))
             ? args.join(" ")
             : `ytsearch: ${args.join(" ")}`);
 
@@ -54,7 +54,7 @@ class Play extends JollyCommand {
         }
 
         if (!player?.connected) {
-            player ??= node.createPlayer(BigInt(config.guildID));
+            player ??= cluster.createPlayer(BigInt(config.guildID));
             player.connect(vc, { deafen: true });
         }
 
