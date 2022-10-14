@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, config, Message, User } from "@deps";
+import { Bot, BotWithCache, config, Message, MessageTypes, User } from "@deps";
 import { JollyEmbed } from "@classes/embed.ts";
 import { COLORS } from "@const/colors.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
@@ -55,6 +55,8 @@ async function embed(mentions: string, client: BotWithCache<Bot>, user: User) {
 
 export async function ghostPingD(client: BotWithCache<Bot>, payload: Payload, message?: Message) {
     if (!config.plugins.ghostPing || !message) return;
+    // for some reasons, reply with pinged triggers this
+    if (message.type == MessageTypes.Reply) return;
     const filtered = message.mentionedUserIds.filter(m => m != message.authorId)
     if (filtered.length < 1) return;
     const user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
