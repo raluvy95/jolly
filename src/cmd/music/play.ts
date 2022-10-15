@@ -26,7 +26,6 @@ class Play extends JollyCommand {
         const player = client.helpers.getPlayer(BigInt(config.guildID))
         const audio = await player.pushQuery(args.join(" "))
         send(client, message.channelId, `**Queued:** ${audio[0].title}`)
-        console.log(audio)
     }
 }
 
