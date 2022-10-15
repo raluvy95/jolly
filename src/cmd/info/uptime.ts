@@ -5,7 +5,9 @@ import { uptime } from "@utils/uptime.ts";
 
 class Uptime extends JollyCommand {
     constructor() {
-        super("uptime", "info")
+        super("uptime", "info", {
+            description: "Show how long has the bot been running for"
+        })
     }
 
     override run(message: Message, _: string[], client: BotWithCache<Bot>) {

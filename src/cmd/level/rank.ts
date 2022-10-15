@@ -10,7 +10,9 @@ import { progressBar, XPrequiredToLvlUP } from "@utils/levelutils.ts";
 class Rank extends JollyCommand {
     constructor() {
         super("rank", "level", {
-            aliases: ["xp", "level", "lvl"]
+            aliases: ["xp", "level", "lvl"],
+            description: "Get your current level or someone else's level",
+            usage: "[member]"
         })
     }
 

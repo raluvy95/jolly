@@ -7,7 +7,8 @@ import { JollyEmbed } from "@classes/embed.ts";
 class Leaderboard extends JollyCommand {
     constructor() {
         super("leaderboard", "level", {
-            aliases: ["lb", "ranks", "levels"]
+            aliases: ["lb", "ranks", "levels"],
+            description: "Show list of most active members"
         })
     }
 

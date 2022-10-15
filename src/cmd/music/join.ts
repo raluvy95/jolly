@@ -4,7 +4,9 @@ import { send } from "@utils/send.ts";
 
 class Join extends JollyCommand {
     constructor() {
-        super("join", "music")
+        super("join", "music", {
+            description: "Join in a voice. Only useful if the bot failed to join in vc"
+        })
     }
 
     override async run(message: Message, _args: string[], client: AudioBot<BotWithCache<Bot>>) {

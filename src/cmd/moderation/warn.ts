@@ -10,7 +10,7 @@ class Warn extends JollyCommand {
         super("warn", "moderation", {
             permission: ["KICK_MEMBERS"],
             usage: "<user> [reason]",
-            description: "Warn a user"
+            description: "Warn an user"
         })
     }
 

@@ -6,14 +6,15 @@ import { JollyEmbed } from "../../classes/embed.ts";
 class Queues extends JollyCommand {
     constructor() {
         super("queues", "music", {
-            aliases: ["nowplaying", "np", "q"]
+            aliases: ["nowplaying", "np", "q"],
+            description: "Show list of queues"
         })
     }
 
     override run(message: Message, _args: string[], client: AudioBot<BotWithCache<Bot>>) {
         const player = client.helpers.getPlayer(BigInt(config.guildID))
         const currentSong = player.current()
-        const upcomingSongs = player.upcoming()
+        const upcomingSongs = player.upcoming().slice(0, 25)
         if (!currentSong) {
             return send(client, message.channelId, "There are no songs :(")
         }

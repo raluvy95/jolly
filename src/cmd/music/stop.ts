@@ -5,7 +5,8 @@ import { send } from "@utils/send.ts";
 class Stop extends JollyCommand {
     constructor() {
         super("stop", "music", {
-            aliases: ["fuckoff", "shutup", "end"]
+            aliases: ["fuckoff", "shutup", "end"],
+            description: "Shutdown the song"
         })
     }
 

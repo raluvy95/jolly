@@ -8,7 +8,8 @@ import { uptime } from "@utils/uptime.ts";
 class BotInfo extends JollyCommand {
     constructor() {
         super("botinfo", "info", {
-            aliases: ["clientinfo", "bot"]
+            aliases: ["clientinfo", "bot"],
+            description: "Information about this bot with some stats"
         })
     }
 

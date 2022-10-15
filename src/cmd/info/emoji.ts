@@ -5,7 +5,8 @@ import { send } from "@utils/send.ts";
 class Emoji extends JollyCommand {
     constructor() {
         super("emoji", "info", {
-            aliases: ["e", "emote"]
+            aliases: ["e", "emote"],
+            description: "Display emoji as image"
         })
     }
 

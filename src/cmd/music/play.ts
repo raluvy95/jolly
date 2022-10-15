@@ -6,7 +6,9 @@ import { send } from "@utils/send.ts";
 class Play extends JollyCommand {
     constructor() {
         super("play", "music", {
-            aliases: ["p", "song", "music"]
+            aliases: ["p", "song", "music"],
+            description: "Play songs from YouTube",
+            usage: "<query>"
         })
     }
 
