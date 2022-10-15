@@ -31,7 +31,7 @@ Some of these features can be configured with `config.json`
 - Ghost ping - The bot will notice when someone removed mentions of user.
 - Level system (way better than MEE6's paywall role rewards)
 - Multiple prefixes
-- Music support
+- Music support (disabled by default due to stability issues)
 - Warning system + autosentence
 - and much more!
 
