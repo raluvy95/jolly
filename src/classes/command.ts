@@ -61,7 +61,8 @@ export class JollyCommand implements IJollyCommand {
 }
 
 export function addCommand(cmd: JollyCommand): void {
-    globalCommand.set(cmd.name, cmd)
+    if (cmd.mod == "music" && !config.music.enable) return;
+    globalCommand.set(cmd.name, cmd);
 }
 
 function commandRunner(command: JollyCommand, message: Message, args: string[], client: BotWithCache<Bot>): void {

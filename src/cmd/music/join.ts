@@ -1,16 +1,13 @@
 import { AudioBot, Bot, BotWithCache, config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
-//import { JollyEmbed } from "@classes/embed.ts";
 
-class Play extends JollyCommand {
+class Join extends JollyCommand {
     constructor() {
-        super("play", "music", {
-            aliases: ["p", "song", "music"]
-        })
+        super("join", "music")
     }
 
-    override async run(message: Message, args: string[], client: AudioBot<BotWithCache<Bot>>) {
+    override async run(message: Message, _args: string[], client: AudioBot<BotWithCache<Bot>>) {
         const vc = client.guilds.get(BigInt(config.guildID))?.voiceStates.find((vc) => vc.userId === message.authorId)?.channelId;
         const botVc = client.guilds.get(BigInt(config.guildID))?.voiceStates.find((vc) => vc.userId === client.id)?.channelId;
 
@@ -19,13 +16,12 @@ class Play extends JollyCommand {
         }
         if (!botVc) {
             await client.helpers.connectToVoiceChannel(config.guildID, vc, { selfDeaf: true })
+            send(client, message.channelId, `I joined in <#${vc}>!`)
+            return
+        } else {
+            return send(client, message.channelId, "I'm already on vc!")
         }
-
-        const player = client.helpers.getPlayer(BigInt(config.guildID))
-        const audio = await player.pushQuery(args.join(" "))
-        send(client, message.channelId, `**Queued:** ${audio[0].title}`)
-        console.log(audio)
     }
 }
 
-addCommand(new Play())
+addCommand(new Join())
