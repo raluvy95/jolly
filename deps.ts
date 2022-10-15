@@ -4,6 +4,10 @@ export { hasGuildPermissions, enablePermissionsPlugin } from "https://deno.land/
 export * from "https://deno.land/std@0.152.0/fmt/colors.ts";
 export { default as config } from "./config.json" assert { type: "json" };
 export * from "https://deno.land/x/sqlite@v3.4.0/mod.ts";
-export type { Track } from "https://deno.land/x/lavalink_types@2.0.6/mod.ts";
+// fork of discordeno-audio-plugin to work with discordeno v17.0.0
+export { enableAudioPlugin } from "https://raw.githubusercontent.com/raluvy95/discordeno-audio-plugin/main/mod.ts";
+export type { AudioBot } from "https://raw.githubusercontent.com/raluvy95/discordeno-audio-plugin/main/mod.ts";
 
-export { Cluster } from "https://deno.land/x/lavadeno@3.2.3/mod.ts";
+// local lib
+// export { enableAudioPlugin } from "../discordeno-audio-plugin/mod.ts";
+// export type { AudioBot } from "../discordeno-audio-plugin/mod.ts";

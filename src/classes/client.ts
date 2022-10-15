@@ -1,4 +1,4 @@
-import { config, createBot, CreateBotOptions, enableCachePlugin, enableCacheSweepers, enablePermissionsPlugin, EventHandlers, GatewayIntents, Intents } from "@deps";
+import { config, createBot, CreateBotOptions, enableAudioPlugin, enableCachePlugin, enableCacheSweepers, enablePermissionsPlugin, EventHandlers, GatewayIntents, Intents } from "@deps";
 import { JollyEvent } from "@classes/events.ts";
 import { main } from "@utils/log.ts";
 
@@ -27,7 +27,7 @@ globalThis.addEventListener("unhandledrejection", (e) => {
 
 main.info("Starting Bot, this might take a while...");
 
-export const bot = enableCachePlugin(createBot(new Jolly()));
+export const bot = enableAudioPlugin(enableCachePlugin(createBot(new Jolly())));
 
 enablePermissionsPlugin(bot);
 enableCacheSweepers(bot);
