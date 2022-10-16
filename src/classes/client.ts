@@ -20,11 +20,6 @@ export class Jolly implements CreateBotOptions {
 
 }
 
-globalThis.addEventListener("unhandledrejection", (e) => {
-    main.error("Unhandled rejection at:", e.promise,);
-    e.preventDefault();
-});
-
 main.info("Starting Bot, this might take a while...");
 
 export const bot = enableAudioPlugin(enableCachePlugin(createBot(new Jolly())));
