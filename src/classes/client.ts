@@ -2,6 +2,8 @@ import { config, createBot, CreateBotOptions, enableAudioPlugin, enableCachePlug
 import { JollyEvent } from "@classes/events.ts";
 import { main } from "@utils/log.ts";
 
+export const JollyVersion = "0.1.0"
+
 export class Jolly implements CreateBotOptions {
 
     public token: string;

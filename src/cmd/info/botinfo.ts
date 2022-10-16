@@ -4,6 +4,7 @@ import { send } from "@utils/send.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { uptime } from "@utils/uptime.ts";
+import { JollyVersion } from "../../classes/client.ts";
 
 class BotInfo extends JollyCommand {
     constructor() {
@@ -30,14 +31,28 @@ class BotInfo extends JollyCommand {
 
         const up = uptime()
 
+        const shell = Deno.run({
+            cmd: ["git", "log", "--pretty=format:\"%h\"", "-1"],
+            stdout: 'piped'
+        })
+
+        let lastGitOutput = ''
+
+        // silly users could remove .git folder lol
+        // so I added if it's avaliable
+        if ((await shell.status()).code == 0) {
+            lastGitOutput = `(${new TextDecoder().decode(await shell.output())})`
+        }
+
         const em = new JollyEmbed()
             .setTitle("Information about the bot")
             .setDesc(config.description)
             .addField("Runtime", `Deno v${deno_version.deno}`, true)
             .addField("Language", `TypeScript v${deno_version.typescript}`, true)
             .addField("Library", `Discordeno v${discordeno_version}`, true)
-            .addField("Memory", sMemory, true)
+            .addField("Jolly Version", `${JollyVersion} ${lastGitOutput}`, true)
             .addField("Uptime", up, true)
+            .addField("Memory", sMemory, true)
             .setThumb(await avatarURL(client, user))
             .build()
         send(client, message.channelId, em)
