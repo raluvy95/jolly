@@ -3,6 +3,7 @@ import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { level } from "@classes/level.ts";
 import { JollyEmbed } from "@classes/embed.ts";
+import { iconURL } from "../../utils/avatarURL.ts";
 
 class Leaderboard extends JollyCommand {
     constructor() {
@@ -15,11 +16,12 @@ class Leaderboard extends JollyCommand {
     override async run(message: Message, _: string[], client: BotWithCache<Bot>) {
         const tops = level.getAll()
         const list = tops.slice(0, 10)
-        const guildHash = (await client.helpers.getGuild(config.guildID)).icon
-        const icon_url = `https://cdn.discordapp.com/icons/${message.guildId}/${guildHash}.png`
+        const icon_url = await iconURL(client)
         const e = new JollyEmbed()
             .setTitle("Leaderboard")
-            .setThumb(icon_url)
+        if (icon_url) {
+            e.setThumb(icon_url)
+        }
         let result = '';
         let position = 0;
         function award(position: number) {
