@@ -28,7 +28,7 @@ class Help extends JollyCommand {
         const em = new JollyEmbed().setTitle("Help command").setThumb(avatar)
         const categories = new Set(globalCommand.filter(e => !this.BLACKLIST_COMMAND.includes(e.name)).map(e => e.mod))
         for (const name of categories) {
-            em.addField(`🞇 ${name.toUpperCase()}`,
+            em.addField(`★ ${name.toUpperCase()}`,
                 globalCommand.filter(m => m.mod == name && !this.BLACKLIST_COMMAND.includes(m.name))
                     .map((_, m) => `\`${m}\``).join(", ")
             )
