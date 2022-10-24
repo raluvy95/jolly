@@ -15,6 +15,9 @@ class Leaderboard extends JollyCommand {
 
     override async run(message: Message, _: string[], client: BotWithCache<Bot>) {
         const tops = level.getAll()
+        if (tops.length < 1) {
+            return send(client, message.channelId, "The leaderboard is empty")
+        }
         const list = tops.slice(0, 10)
         const icon_url = await iconURL(client)
         const e = new JollyEmbed()
@@ -40,9 +43,15 @@ class Leaderboard extends JollyCommand {
             position++
             result += `${award(position)} - <@${l.userid}>\n**Level** ${l.level} | **Total XP** ${l.totalxp.toLocaleString()} | **XP** ${l.xp.toLocaleString()}\n`
         }
+        let mesg: string;
         const currentRank = tops.findIndex(t => t.userid == message.authorId.toString())
-        const currentRankDetails = tops[currentRank]
-        e.addField("Your rank", `Rank: ${award(currentRank + 1)} | **Level** ${currentRankDetails.level}`)
+        if (currentRank == -1) {
+            mesg = "You just ran this command"
+        } else {
+            const currentRankDetails = tops[currentRank]
+            mesg = `Rank: ${award(currentRank + 1)} | **Level** ${currentRankDetails.level}`
+        }
+        e.addField("Your rank", mesg)
         e.setDesc(result)
         send(client, message.channelId, e.build())
     }

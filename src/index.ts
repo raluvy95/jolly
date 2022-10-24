@@ -7,4 +7,9 @@ globalThis.addEventListener("unhandledrejection", (e) => {
     e.preventDefault();
 });
 
+globalThis.addEventListener('uncaughtException', (e) => {
+    main.error("Unhandled exception at:", e)
+    e.preventDefault()
+})
+
 await startBot(bot as Bot);
