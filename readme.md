@@ -1,6 +1,7 @@
-<img align="right" width="100" height="100" src="./icon.png"><br>
+<img src="./pets.png"><br>
 
-# CatNowBot - codename "Jolly"
+<figcaption align="center"><q>Good bot</q> - CatNowBlue</figcaption>
+<h1 align="center"> CatNowBot - codename "Jolly" </h1>
 
 <p align="center">
   <a href="https://github.com/raluvy95/jolly/blob/main/LICENSE" alt="License"><img src="https://img.shields.io/github/license/raluvy95/jolly"></img></a>
