@@ -2,7 +2,7 @@
     "tasks": {
         "run": "DEV=0 deno run -A --unstable src/index.ts",
         "prod": "deno run -A --unstable src/index.ts",
-        "watch": "deno run --watch -A --unstablesrc/index.ts",
+        "watch": "deno run --watch -A --unstable src/index.ts",
         "check": "deno cache --check --unstable src/index.ts"
     },
     "compilerOptions": {
