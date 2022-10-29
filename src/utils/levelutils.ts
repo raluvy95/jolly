@@ -9,5 +9,9 @@ export function progressBar(currentXP: number, requiredXP: number): string {
     const empty = "⬛"
     const fillN = Math.floor(currentXP / requiredXP * 10)
     const emptyN = 10 - fillN
-    return fill.repeat(fillN) + empty.repeat(emptyN)
+    try {
+        return fill.repeat(fillN) + empty.repeat(emptyN)
+    } catch {
+        return '???'
+    }
 }
