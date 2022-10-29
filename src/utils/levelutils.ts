@@ -1,5 +1,7 @@
+// more accurate than formula used in video game :skull:
+
 export function XPrequiredToLvlUP(level: number) {
-    return 60 * (Math.pow(2, level - 1))
+    return 25 * (level ^ 2) + (50 * level) + 100
 }
 
 export function progressBar(currentXP: number, requiredXP: number): string {
