@@ -21,8 +21,8 @@ export class JollyEmbed implements DiscordEmbed {
     public thumbnail?: DiscordEmbedThumbnail | undefined;
     public url?: string | undefined;
     public footer?: DiscordEmbedFooter | undefined;
-    public color: number;
-    public timestamp: string;
+    public color?: number | undefined;
+    public timestamp?: string | undefined;
 
     constructor() {
         this.timestamp = new Date().toISOString()
@@ -35,9 +35,9 @@ export class JollyEmbed implements DiscordEmbed {
         return [this.toJSON()]
     }
 
-    setTitle(name: string): this {
-        if (name.length > EMBED.TITLE) throw new OverflowError("Title", EMBED.TITLE)
-        this.title = name
+    setTitle(name: string | null): this {
+        if (name != null && name.length > EMBED.TITLE) throw new OverflowError("Title", EMBED.TITLE)
+        this.title = name == null ? undefined : name
         return this;
     }
 
@@ -46,19 +46,23 @@ export class JollyEmbed implements DiscordEmbed {
         return this;
     }
 
-    setDesc(desc: string): this {
-        if (desc.length > EMBED.DESCRIPTION) throw new OverflowError("Description", EMBED.DESCRIPTION)
-        this.description = desc
+    setDesc(desc: string | null): this {
+        if (desc != null && desc.length > EMBED.DESCRIPTION) throw new OverflowError("Description", EMBED.DESCRIPTION)
+        this.description = desc == null ? undefined : desc
         return this;
     }
 
-    setImg(url: string): this {
+    setImg(url: string | null): this {
+        if (url == null) {
+            this.image = undefined
+            return this
+        }
         this.image = { url: url }
         return this;
     }
 
-    setURL(url: string): this {
-        this.url = url
+    setURL(url: string | null): this {
+        this.url = url == null ? undefined : url
         return this;
     }
 
@@ -67,12 +71,16 @@ export class JollyEmbed implements DiscordEmbed {
         return this
     }
 
-    setColor(color: COLORS | string): this {
+    setColor(color: COLORS | string | null): this {
         if (color == COLORS.RANDOM) {
             color = Math.floor(Math.random() * 16777215)
         }
         if (typeof color == "string") {
             color = hexToDecimal(color.replace("#", ''))
+        }
+        if (color == null) {
+            this.color = undefined
+            return this
         }
         this.color = color
         return this
@@ -85,7 +93,11 @@ export class JollyEmbed implements DiscordEmbed {
         return this;
     }
 
-    addFields(fields: DiscordEmbedField[]): this {
+    addFields(fields: DiscordEmbedField[] | null): this {
+        if (fields == null) {
+            this.fields = []
+            return this
+        }
         if (fields.length > EMBED.FIELDS) throw new OverflowError("Fields", EMBED.FIELDS)
         for (const field of fields) {
             this.addField(field.name, field.value, field.inline)
@@ -99,7 +111,11 @@ export class JollyEmbed implements DiscordEmbed {
         return this
     }
 
-    setTime(date: number | Date): this {
+    setTime(date: number | Date | null): this {
+        if (date == null) {
+            this.timestamp = undefined
+            return this
+        }
         if (typeof date == "number") {
             date = new Date(date)
         }
@@ -113,7 +129,7 @@ export class JollyEmbed implements DiscordEmbed {
             description: this.description,
             image: this.image,
             thumbnail: this.thumbnail,
-            timestamp: Date.parse(this.timestamp) || undefined,
+            timestamp: this.timestamp == null ? undefined : Date.parse(this.timestamp),
             type: "rich",
             author: {
                 name: this.author?.name as string,
