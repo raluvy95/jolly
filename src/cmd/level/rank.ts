@@ -35,6 +35,8 @@ class Rank extends JollyCommand {
             const left = nextUp.level - rank.level
             nextUpStr = `**${left} level${left == 1 ? '' : 's'}** left to reach <@&${nextUp.ID}>!`
         }
+        const XPleft = reqXP - rank.xp
+        nextUpStr += `\n**${XPleft} XP** left to reach level ${rank.level + 1}!`
         const percent = Math.floor(rank.xp / reqXP * 100)
         const e = new JollyEmbed()
             .setTitle("RANKS")
