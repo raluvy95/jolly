@@ -93,7 +93,8 @@ export class JollyEmbed implements DiscordEmbed {
         return this
     }
 
-    setThumb(url: string): this {
+    setThumb(url: string | null): this {
+        url = url == null ? '' : url
         this.thumbnail = { url: url }
         return this
     }

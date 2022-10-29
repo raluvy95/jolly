@@ -3,12 +3,12 @@ import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { level } from "@classes/level.ts";
 import { JollyEmbed } from "@classes/embed.ts";
-import { iconURL } from "../../utils/avatarURL.ts";
+import { iconURL } from "@utils/avatarURL.ts";
 
 class Leaderboard extends JollyCommand {
     constructor() {
         super("leaderboard", "level", {
-            aliases: ["lb", "ranks", "levels"],
+            aliases: ["lb", "levels"],
             description: "Show list of most active members"
         })
     }
