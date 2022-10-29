@@ -33,6 +33,7 @@ Some of these features can be configured with `config.json`
 - Level system (way better than MEE6's paywall role rewards)
 - Multiple prefixes
 - Music support (disabled by default due to stability issues)
+  - Requires to add --unstable in `deno.jsonc`
 - Warning system + autosentence
 - and much more!
 
