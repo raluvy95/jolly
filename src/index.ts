@@ -12,4 +12,9 @@ globalThis.addEventListener('uncaughtException', (e) => {
     e.preventDefault()
 })
 
+globalThis.addEventListener("error", e => {
+    main.error("Caught unhandled event:", e.message);
+    e.preventDefault();
+});
+
 await startBot(bot as Bot);

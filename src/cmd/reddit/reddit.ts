@@ -27,10 +27,12 @@ class RedditCmd extends JollyCommand {
     override async run(message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
         if (!args[0]) return send(client, message.channelId, "Please type which subreddit do you want to look for") as unknown as void
         this.reddit = new Reddit(args[0])
+        let safe;
         try {
-            const safe = await this.checkSafety(message, client)
+            safe = await this.checkSafety(message, client)
         } catch (e) {
             send(client, message.channelId, `There's something went wrong with Reddit API: ${e}`)
+            return;
         }
         if (!safe) return send(client, message.channelId, "The post you're looking for marked as NSFW. Try again") as unknown as void
         send(client, message.channelId, await this.reddit.toEmbed(false, true))
