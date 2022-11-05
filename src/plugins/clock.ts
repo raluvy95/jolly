@@ -1,32 +1,31 @@
 import { Bot, BotWithCache, ChannelTypes, config, OverwriteTypes } from "@deps";
 import { dateToString } from "@utils/dateToString.ts";
 
-function clockEmoji(date: Date) {
-    const hour = date.toLocaleTimeString('en-US',
-        { hour12: true, hour: 'numeric' }
-    ).replace(/\s(AM|PM)$/, '');
-    const numToEmoji = {
-        '12': '🕛',
-        '0': '🕛',
-        '1': '🕐',
-        '2': '🕑',
-        '3': '🕒',
-        '4': '🕓',
-        '5': '🕔',
-        '6': '🕕',
-        '7': '🕖',
-        '8': '🕗',
-        '9': '🕘',
-        '10': '🕙',
-        '11': '🕚'
-    }
-    // deno-lint-ignore no-explicit-any
-    return (numToEmoji as any)[hour] as string
-}
-
 export async function clock(client: BotWithCache<Bot>) {
     const d = new Date()
     const conf = config.plugins.clockChannel
+    function clockEmoji(date: Date) {
+        const hour = date.toLocaleTimeString('en-US',
+            { hour12: true, hour: 'numeric', timeZone: conf.timezone }
+        ).replace(/\s(AM|PM)$/, '');
+        const numToEmoji = {
+            '12': '🕛',
+            '0': '🕛',
+            '1': '🕐',
+            '2': '🕑',
+            '3': '🕒',
+            '4': '🕓',
+            '5': '🕔',
+            '6': '🕕',
+            '7': '🕖',
+            '8': '🕗',
+            '9': '🕘',
+            '10': '🕙',
+            '11': '🕚'
+        }
+        // deno-lint-ignore no-explicit-any
+        return (numToEmoji as any)[hour] as string
+    }
     if (!conf.enable) return;
     const c = dateToString(d, {
         clockOnly: true,
