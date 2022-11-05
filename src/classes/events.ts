@@ -10,6 +10,7 @@ import { send } from "@utils/send.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
 import { handleXP } from "@classes/level.ts";
 import { funfact } from "@plugins/funfact.ts";
+import { clock } from "../plugins/clock.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -72,6 +73,7 @@ export const JollyEvent = {
         autopost(bot)
         autoRenameChannel(bot)
         funfact(bot)
+        clock(bot)
     },
 
     messageCreate(bot: BotWithCache<Bot>, message: Message): void {

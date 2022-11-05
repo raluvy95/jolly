@@ -104,6 +104,14 @@
             "source": "URL for funfact. Documentation can be found in https://github.com/raluvy95/jolly/wiki/Source-for-Fun-fact",
             "intervalInMin": 120,
             "channelID": "channel ID"
+        },
+        "clockChannel": {
+            "enable": true,
+            "categoryID": "category ID to create a channel inside of it. Set '0' to leave empty",
+            "channelID": "channel ID to set an existing channel. Set '0' to create automatically",
+            "timezone": "Europe/Bucharest",
+            "intervalInMinutes": 5,
+            "channelName": "$EMOJI $TIME"
         }
     }
 }
