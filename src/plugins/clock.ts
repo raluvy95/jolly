@@ -1,5 +1,6 @@
 import { Bot, BotWithCache, ChannelTypes, config, OverwriteTypes } from "@deps";
 import { dateToString } from "@utils/dateToString.ts";
+import { editChannel } from "@utils/editChannel.ts";
 
 export async function clock(client: BotWithCache<Bot>) {
     const d = new Date()
@@ -49,11 +50,11 @@ export async function clock(client: BotWithCache<Bot>) {
         const data = encoder.encode(JSON.stringify(config, null, 4));
         Deno.writeFileSync("config.json", data)
     }
-    client.helpers.editChannel(BigInt(conf.channelID), {
+    editChannel(client, BigInt(conf.channelID), {
         name: chName
     })
     setInterval(() => {
-        client.helpers.editChannel(BigInt(conf.channelID), {
+        editChannel(client, BigInt(conf.channelID), {
             name: chName
         })
     }, 1000 * 60 * conf.intervalInMinutes)
