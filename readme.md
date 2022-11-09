@@ -29,7 +29,7 @@ Some of these features can be configured with `config.json`
   ever again
 - Autoroles with membership screening support
 - Bump reminder
-  - Gets 25 XP reward if someone bumps the server
+  - Gets 100 XP reward if someone bumps the server
 - Ghost ping - The bot will notice when someone removed mentions of user.
 - Level system (way better than MEE6's paywall role rewards)
 - Multiple prefixes
