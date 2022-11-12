@@ -7,8 +7,8 @@ export const bumpReminder = (client: BotWithCache<Bot>, message: Message) => {
         && message.authorId === 302050872383242240n) {
         let msg = "I will remind you to bump again in two hours!"
         if (config.plugins.levelXP.enable && config.plugins.levelXP.rewardWhenBump) {
-            level.setXP(message.channelId, client, message.interaction?.user.id, 25, XP_METHOD.ADD)
-            msg = "Thank you for bumping this server! **You earn 25 XP**!\n" + msg
+            level.setXP(message.channelId, client, message.interaction?.user.id, 100, XP_METHOD.ADD)
+            msg = "Thank you for bumping this server! **You earn 100 XP**!\n" + msg
         }
         send(client, message.channelId, msg)
         setTimeout(() => {
