@@ -36,6 +36,9 @@
     "music": {
         "enable": false
     },
+    "allowBotResponsingCommandChannelID": [
+        "channel ID"
+    ],
     "plugins": {
         "bump": {
             "enable": false,

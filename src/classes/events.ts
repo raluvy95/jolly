@@ -80,10 +80,17 @@ export const JollyEvent = {
         bumpReminder(bot, message);
         autoPublish(bot, message, true, config.plugins.autoPublish.botOnlyChannelID)
         autoPublish(bot, message, false, config.plugins.autoPublish.channelID)
-        if (message.isFromBot)
-            return;
-        const success = commandHandler(bot, message);
+        const allowBotChannel = config.allowBotResponsingCommandChannelID
+        let success;
+
+        // allow bots aka webhooks to use command
+        if (allowBotChannel.includes(String(message.channelId)) && String(message.authorId) != config.botID) {
+            success = commandHandler(bot, message);
+        } else if (!message.isFromBot) {
+            success = commandHandler(bot, message);
+        }
         if (!success) {
+            if (message.isFromBot) return;
             sudo(bot, message)
             ree(bot, message)
             selfping(bot, message)
