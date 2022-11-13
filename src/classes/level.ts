@@ -1,5 +1,3 @@
-// NEW FEATURE COMING SOON
-
 import { JollyDB } from "@classes/database.ts";
 import { BigString, Bot, BotWithCache, Collection, config, Message, QueryParameterSet } from "@deps";
 import { XPrequiredToLvlUP } from "@utils/levelutils.ts";
