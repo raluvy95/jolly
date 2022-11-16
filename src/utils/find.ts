@@ -1,11 +1,14 @@
-import { Bot, BotWithCache, config, Member, User } from "@deps";
+import { Bot, BotWithCache, config, Member, Message, User } from "@deps";
 
 function tag(user: string, tag: string) {
     return user + "#" + tag
 }
 
-export async function findUser(client: BotWithCache<Bot>, name: string): Promise<User | undefined> {
+export async function findUser(client: BotWithCache<Bot>, name: string, message?: Message): Promise<User | undefined> {
     let user: User | undefined
+    if (message && message.mentionedUserIds.length > 0) {
+        return findUser(client, String(message.mentionedUserIds[0]))
+    }
     try {
         const nameBigInt = BigInt(name)
         if (!isNaN(Number(nameBigInt))) {

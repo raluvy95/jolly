@@ -6,7 +6,7 @@ import { findUser } from "@utils/find.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { progressBar, XPrequiredToLvlUP } from "@utils/levelutils.ts";
- 
+
 
 class Rank extends JollyCommand {
     constructor() {
@@ -20,8 +20,7 @@ class Rank extends JollyCommand {
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
         let userID: bigint = message.authorId
         if (args.length > 0) {
-            const mentionUser = message.mentionedUserIds
-            const user = await findUser(client, mentionUser[0]?.toString() || args[0])
+            const user = await findUser(client, args.join(" "), message)
             if (!user) return send(client, message.channelId, "That user is not found")
             userID = user.id
         }

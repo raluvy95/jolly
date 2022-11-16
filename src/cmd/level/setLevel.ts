@@ -7,14 +7,15 @@ import { level } from "@classes/level.ts";
 class SetLevel extends JollyCommand {
     constructor() {
         super("setlevel", "level", {
-            permission: ["ADMINISTRATOR"]
+            permission: ["ADMINISTRATOR"],
+            usage: "<user> <value>",
+            description: "Set an user's level."
         })
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
         if (args.length < 1) return;
-        const mentionUser = message.mentionedUserIds
-        const user = await findUser(client, mentionUser[0]?.toString() || args[0])
+        const user = await findUser(client, args[0], message)
         if (!user) return send(client, message.channelId, "That user is not found")
         const userID = user.id
         const value = args[1]
