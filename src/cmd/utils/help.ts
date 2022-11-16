@@ -13,7 +13,7 @@ class Help extends JollyCommand {
             description: "Show list of avaliable commands",
             usage: "[command]"
         })
-        this.BLACKLIST_COMMAND = ["help", "eval", "unwarnall", "setlevel"]
+        this.BLACKLIST_COMMAND = ["help", "eval", "unwarnall", "setlevel", "setxp"]
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
