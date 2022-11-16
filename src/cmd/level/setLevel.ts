@@ -7,7 +7,7 @@ import { level } from "@classes/level.ts";
 class SetLevel extends JollyCommand {
     constructor() {
         super("setlevel", "level", {
-            owner: true
+            permission: ["ADMINISTRATOR"]
         })
     }
 

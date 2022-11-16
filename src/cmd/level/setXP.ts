@@ -4,7 +4,9 @@ import { send } from "@utils/send.ts";
 import { level, XP_METHOD } from "@classes/level.ts"
 class setXP extends JollyCommand {
     constructor() {
-        super("setxp", "level")
+        super("setxp", "level", {
+            permission: ["ADMINISTRATOR"]
+        })
     }
 
     override run(message: Message, args: string[], client: BotWithCache<Bot>) {
