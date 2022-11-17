@@ -1,4 +1,4 @@
-import { ActivityTypes, BigString, Bot, BotWithCache, config, EventHandlers, Interaction, Member, Message, User } from "@deps"
+import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, config, cyan, EventHandlers, green, Interaction, Member, Message, User } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
 import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel } from "@plugins/mod.ts";
@@ -54,6 +54,23 @@ levelEvent.on("levelUP", (bot, level, channel, userID) => {
     if (!matchedLvlRole) return;
     bot.helpers.addRole(config.guildID, userID, matchedLvlRole.ID, "Level UP!")
 })
+
+function printPluginsStatus() {
+    const plug = config.plugins
+    let result = ''
+    for (const [k, v] of Object.entries(plug)) {
+        result += `${cyan("Plugin")} [${k}]:`
+        if ((typeof v == "object" && 'enable' in v && v.enable) ||
+            typeof v == "boolean" && v) {
+            result += ` ${brightGreen("Enabled")}\n`
+        } else {
+            result += ` ${brightRed("Disabled")}\n`
+        }
+    }
+    console.log(result)
+}
+
+printPluginsStatus()
 
 export const JollyEvent = {
     ready(bot: BotWithCache<Bot>) {
