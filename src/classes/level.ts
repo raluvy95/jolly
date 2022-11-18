@@ -1,5 +1,5 @@
 import { JollyDB } from "@classes/database.ts";
-import { BigString, Bot, BotWithCache, Collection, config, Message, QueryParameterSet } from "@deps";
+import { BigString, Bot, BotWithCache, ChannelTypes, Collection, config, Message, QueryParameterSet } from "@deps";
 import { XPrequiredToLvlUP } from "@utils/levelutils.ts";
 import { levelEvent } from "@classes/events.ts";
 
@@ -105,21 +105,25 @@ export enum XP_METHOD {
     RESET
 }
 
-export function handleXP(client: BotWithCache<Bot>, message: Message) {
+export async function handleXP(client: BotWithCache<Bot>, message: Message) {
     if (!config.plugins.levelXP.enable) return;
-    if (message.isFromBot) return;
-    if (!levelCooldown.has(message.authorId)) {
-        levelCooldown.set(message.authorId, 0)
+    if (message.isFromBot && client.channels.get(message.channelId)?.type == ChannelTypes.DM) return;
+
+    const member = client.members.get(message.authorId) || await client.helpers.getMember(config.guildID, message.authorId)
+    if (!member?.roles?.some(id => config.plugins.levelXP.ignoreCooldownRoles.includes(String(id)))) {
+        if (!levelCooldown.has(message.authorId)) {
+            levelCooldown.set(message.authorId, 0)
+        }
+        const now = Date.now();
+        const ca = 60 * 1000;
+        const user = message.authorId;
+        const et = levelCooldown.get(user) as number + ca;
+        if (now < et) return;
+        levelCooldown.set(user, now);
+        setTimeout(() => {
+            levelCooldown.delete(user);
+        }, ca);
     }
-    const now = Date.now();
-    const ca = 60 * 1000;
-    const user = message.authorId;
-    const et = levelCooldown.get(user) as number + ca;
-    if (now < et) return;
-    levelCooldown.set(user, now);
-    setTimeout(() => {
-        levelCooldown.delete(user);
-    }, ca);
     const addXP = Math.floor(Math.random() * (25 - 15 + 1)) + 15;
     level.setXP(message.channelId, client, message.authorId, addXP, XP_METHOD.ADD)
 }

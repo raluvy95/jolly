@@ -13,7 +13,7 @@ globalThis.addEventListener('uncaughtException', (e) => {
 })
 
 globalThis.addEventListener("error", e => {
-    main.error("Caught unhandled event:", e.message);
+    main.error("Caught unhandled event:", e.message, ` (${e.filename})`);
     e.preventDefault();
 });
 

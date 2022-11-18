@@ -105,7 +105,10 @@
                 "channelID": "channel ID to send lvl up message",
                 "customMessage": "Congrats {user}, you just reached level {level}!"
             },
-            "rewardWhenBump": true
+            "rewardWhenBump": true,
+            "ignoreCooldownRoles": [
+                "role ID"
+            ]
         },
         "funfact": {
             "enable": false,
