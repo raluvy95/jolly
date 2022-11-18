@@ -11,3 +11,5 @@ export type { AudioBot } from "https://raw.githubusercontent.com/raluvy95/discor
 // local lib
 // export { enableAudioPlugin } from "../discordeno-audio-plugin/mod.ts";
 // export type { AudioBot } from "../discordeno-audio-plugin/mod.ts";
+
+export { parseFeed } from "https://deno.land/x/rss@0.5.6/mod.ts";
