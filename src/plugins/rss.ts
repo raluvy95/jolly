@@ -25,7 +25,6 @@ async function getCache() {
 async function itExist(url: string) {
     const c = await getCache()
     const exist = c.findIndex(r => r.url == url) != -1
-    console.log(c)
     return { bool: exist, value: exist ? c.find(r => r.url == url) : null }
 }
 
