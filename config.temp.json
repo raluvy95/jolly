@@ -68,11 +68,16 @@
         },
         "autopost": {
             "enable": false,
-            "channelID": "channel ID",
-            "subredditToFollow": [
-                "subreddit name"
-            ],
-            "intervalInMinutes": 15
+            "posts": [
+                {
+                    "name": "Funny memes",
+                    "channelID": "channel ID",
+                    "subredditToFollow": [
+                        "memes"
+                    ],
+                    "intervalInMinutes": 15
+                }
+            ]
         },
         "autoCreateChannel": {
             "enable": false,
@@ -115,6 +120,14 @@
             "timezone": "Europe/Bucharest",
             "intervalInMinutes": 5,
             "channelName": "$EMOJI $TIME"
+        },
+        "rss": {
+            "enable": false,
+            "feedsURL": [
+                "URL to feed"
+            ],
+            "channelID": "channel ID",
+            "customMessage": "📰 | **$title**\n\n$url"
         }
     }
 }
