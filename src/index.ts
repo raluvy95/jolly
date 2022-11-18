@@ -17,4 +17,8 @@ globalThis.addEventListener("error", e => {
     e.preventDefault();
 });
 
+Deno.run({
+    cmd: ["./checkForUpdate.sh"]
+})
+
 await startBot(bot as Bot);

@@ -106,11 +106,13 @@ export enum XP_METHOD {
 }
 
 export async function handleXP(client: BotWithCache<Bot>, message: Message) {
-    if (!config.plugins.levelXP.enable) return;
+    const xpconf = config.plugins.levelXP
+    if (!xpconf.enable) return;
     if (message.isFromBot && client.channels.get(message.channelId)?.type == ChannelTypes.DM) return;
-    if (config.plugins.levelXP.ignoreXPChannels.includes(String(message.channelId))) return;
+    console.log(xpconf.ignoreXPChannels, message.channelId)
+    if (xpconf.ignoreXPChannels.includes(String(message.channelId))) return;
     const member = client.members.get(message.authorId) || await client.helpers.getMember(config.guildID, message.authorId)
-    if (!member?.roles?.some(id => config.plugins.levelXP.ignoreCooldownRoles.includes(String(id)))) {
+    if (!member?.roles?.some(id => xpconf.ignoreCooldownRoles.includes(String(id)))) {
         if (!levelCooldown.has(message.authorId)) {
             levelCooldown.set(message.authorId, 0)
         }
