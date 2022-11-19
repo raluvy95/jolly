@@ -7,6 +7,7 @@
   <a href="https://github.com/raluvy95/jolly/blob/main/LICENSE" alt="License"><img src="https://img.shields.io/github/license/raluvy95/jolly"></img></a>
   <a href="https://discord.gg/3CVqX5bphG" alt="Discord"><img src="https://img.shields.io/discord/829309363213565982?label=Discord&style=flat&logo=discord&logoColor=white"></img></a>
   <a href="https://github.com/raluvy95/jolly/issues" alt="Issues"><img src="https://img.shields.io/github/issues/raluvy95/jolly"></img></a>
+  <a href="https://github.com/raluvy95/jolly/actions/workflows/deno.yml" alt="Lint status"><img src="https://github.com/raluvy95/jolly/actions/workflows/deno.yml/badge.svg"></a>
 </p>
 A discord bot designed for my server (private bot). Rewritten in
 TypeScript using Deno. Its predecessor can be found in
@@ -43,8 +44,8 @@ Some of these features can be configured with `config.json`
 All you need is to have latest version of [git](https://git-scm.com/) and
 [deno](https://deno.land/) installed on your system<br> **Step 1**: Clone this
 repository `git clone https://github.com/raluvy95/jolly.git`<br> **Step 2**:
-Rename `config-temp.json` to `config.json`<br> **Step 3**: Open a terminal<br>
-**Step 4**: Run the bot with `deno task run`
+Rename `config-temp.json` to `config.json` and complete there<br> **Step 3**:
+Open a terminal<br> **Step 4**: Run the bot with `deno task run`
 
 # Advantages of Jolly over Maffin
 
