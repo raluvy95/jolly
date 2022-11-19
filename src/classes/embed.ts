@@ -138,7 +138,10 @@ export class JollyEmbed implements DiscordEmbed {
             },
             color: this.color == COLORS.RANDOM ? Math.floor(Math.random() * 16777215) : this.color,
             url: this.url,
-            footer: this.footer,
+            footer: {
+                iconUrl: this.footer?.icon_url,
+                text: this.footer?.text as string
+            },
             fields: this.fields
         }
     }

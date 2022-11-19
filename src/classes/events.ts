@@ -10,6 +10,7 @@ import { send } from "@utils/send.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
 import { handleXP } from "@classes/level.ts";
 import { funfact } from "@plugins/funfact.ts";
+import { messageLink } from "../plugins/messageLink.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -113,6 +114,7 @@ export const JollyEvent = {
             selfping(bot, message)
             autoCreateChannel(bot, message)
             handleXP(bot, message)
+            messageLink(bot, message)
         }
     },
 
