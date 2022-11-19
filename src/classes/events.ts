@@ -1,4 +1,4 @@
-import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, config, cyan, EventHandlers, Interaction, Member, Message, User } from "@deps"
+import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, User } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
 import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel, clock, RSS } from "@plugins/mod.ts";
@@ -132,9 +132,17 @@ export const JollyEvent = {
         }
     },
 
-    interactionCreate(client: BotWithCache<Bot>, i: Interaction): void {
-        if (i.type == 3 && i.data?.customId == "delete") {
+    async interactionCreate(client: BotWithCache<Bot>, i: Interaction) {
+        if (i.type == InteractionTypes.MessageComponent && i.data?.customId == "delete") {
             client.helpers.deleteMessage(i.channelId as bigint, i.message?.id as bigint)
+        }
+        if (i.type == InteractionTypes.ApplicationCommand && i.data?.name == "jolly") {
+            await client.helpers.sendInteractionResponse(i.id, i.token, {
+                type: InteractionResponseTypes.ChannelMessageWithSource,
+                data: {
+                    content: "Jolly does not currently support Slash command. That's all about it!"
+                }
+            })
         }
     },
 
