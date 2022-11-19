@@ -58,7 +58,7 @@ levelEvent.on("levelUP", (bot, level, channel, userID) => {
 function printPluginsStatus() {
     const plug = config.plugins
     let result = ''
-    for (const [k, v] of Object.entries(plug)) {
+    for (const [k, v] of Object.entries(plug).sort()) {
         result += `${cyan("Plugin")} [${k}]:`
         if ((typeof v == "object" && 'enable' in v && v.enable) ||
             typeof v == "boolean" && v) {
