@@ -62,14 +62,16 @@ export function RSS(client: BotWithCache<Bot>) {
             const lastPost = entries[0]
             const exist = await itExist(feed)
             if (exist.bool) {
-                return;
-            } else {
-                const title = lastPost.title?.value || lastPost["dc:title"] || lastPost["media:title"]?.value || "unknown title"
-                const url = lastPost.links[0].href || "unknown URL"
-                const con = customMsg.replace("$title", title).replace("$url", url)
-                await summonWebhook(client, rss.channelID, con, "RSS Feed")
-                await updateId(feed, lastPost.id)
+                const currentPost = exist.value
+                if (!currentPost) throw new Error("what.")
+                if (currentPost.id == lastPost.id) return;
             }
+            const title = lastPost.title?.value || lastPost["dc:title"] || lastPost["media:title"]?.value || "unknown title"
+            const url = lastPost.links[0].href || "unknown URL"
+            const con = customMsg.replace("$title", title).replace("$url", url)
+            await summonWebhook(client, rss.channelID, con, "RSS Feed")
+            await updateId(feed, lastPost.id)
+
         }, 1000 * 60 * 25)
     }
 }
