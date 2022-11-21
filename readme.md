@@ -47,6 +47,24 @@ repository `git clone https://github.com/raluvy95/jolly.git`<br> **Step 2**:
 Rename `config-temp.json` to `config.json` and complete there<br> **Step 3**:
 Open a terminal<br> **Step 4**: Run the bot with `deno task run`
 
+# How to keep your bot online 24/7 (for who has vps with access to ssh)
+
+You can use any tools for virtual sessions. I recommend `screen` because it is
+included in major Linux distros.
+
+If you have `screen` in your server. Great!
+
+Use this following command to start a new session called `jolly`
+
+```bash
+screen -S jolly -m deno task run
+```
+
+_you can return back to main session with [Ctrl+A] + D_
+
+To list of sessions, type `screen -ls`<br> To reconnect to virtual session, type
+`screen -r <session>`.<br> Exanple `screen -r jolly`
+
 # Advantages of Jolly over Maffin
 
 - Jolly is rewritten in TypeScript which takes fixing runtime errors more
