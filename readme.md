@@ -63,7 +63,8 @@ screen -S jolly -m deno task run
 _you can return back to main session with [Ctrl+A] + D_
 
 To list of sessions, type `screen -ls`<br> To reconnect to virtual session, type
-`screen -r <session>`.<br> Exanple `screen -r jolly`
+`screen -r <session>`.<br> To kill an unresponsive session, press _[Ctrl+A] +
+K_<br> Example `screen -r jolly`
 
 # Advantages of Jolly over Maffin
 
