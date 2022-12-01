@@ -40,6 +40,21 @@
         "channel ID"
     ],
     "plugins": {
+        "reactionRole": {
+            "enable": false,
+            "reactions": [
+                {
+                    "channelID": "channel ID",
+                    "messageID": "message ID",
+                    "roleEmojis": [
+                        {
+                            "roleID": "role ID",
+                            "emoji": "🥰"
+                        }
+                    ]
+                }
+            ]
+        },
         "showContentOnMessageLink": true,
         "bump": {
             "enable": false,
