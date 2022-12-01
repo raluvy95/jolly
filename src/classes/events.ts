@@ -10,7 +10,9 @@ import { send } from "@utils/send.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
 import { handleXP } from "@classes/level.ts";
 import { funfact } from "@plugins/funfact.ts";
-import { messageLink } from "../plugins/messageLink.ts";
+import { messageLink } from "@plugins/messageLink.ts";
+import { ReactionAddPayload, ReactionRmPayload } from "../interfaces/reactionpayload.ts";
+import { reaction, reactionInit } from "@plugins/reactionRole.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -92,6 +94,7 @@ export const JollyEvent = {
         funfact(bot)
         clock(bot)
         RSS(bot)
+        reactionInit(bot)
     },
 
     messageCreate(bot: BotWithCache<Bot>, message: Message): void {
@@ -154,6 +157,14 @@ export const JollyEvent = {
 
     guildMemberAdd(client: BotWithCache<Bot>, member: Member, user: User) {
         nicknameOnJoin(client, member, user)
-    }
+    },
+
+    reactionAdd(client: BotWithCache<Bot>, payload: ReactionAddPayload) {
+        reaction(client, payload, "add")
+    },
+
+    reactionRemove(client: BotWithCache<Bot>, payload: ReactionRmPayload) {
+        reaction(client, payload, "rm")
+    },
 
 } as unknown as Partial<EventHandlers>

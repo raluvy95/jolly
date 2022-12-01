@@ -16,7 +16,7 @@ export class Jolly implements CreateBotOptions {
         this.botID = BigInt(config.botID);
         this.intents = Intents.GuildMembers | Intents.MessageContent
             | Intents.GuildMessages | Intents.DirectMessages
-            | Intents.GuildVoiceStates;
+            | Intents.GuildVoiceStates | Intents.GuildMessageReactions;
         this.events = JollyEvent;
     }
 
