@@ -46,6 +46,7 @@
                 {
                     "channelID": "channel ID",
                     "messageID": "message ID",
+                    "removeReactionAfterTrigger": false,
                     "type": "type 'one' for single choice or 'multiple' to allow members to choose multiple reactions",
                     "roleEmojis": [
                         {
