@@ -9,14 +9,6 @@ function getEmojiName(emoji: string) {
     return emoji
 }
 
-function convertEmojiToAppropriateDiscordAPI(emoji: string) {
-    if (emoji.startsWith("<")) {
-        const [_, name, id] = emoji.split(":")
-        return name + ":" + id.replace(">", '')
-    }
-    return encodeURIComponent(emoji)
-}
-
 export async function reaction(client: BotWithCache<Bot>, payload: ReactionRmPayload, type: "add" | "rm") {
     if (payload.userId == client.id) return;
     const reactionRoleConf = config.plugins.reactionRole
@@ -39,7 +31,7 @@ export async function reaction(client: BotWithCache<Bot>, payload: ReactionRmPay
             }
             await client.helpers.addRole(config.guildID, payload.userId, currentRole.roleID, "Reaction Role")
             if (currentReaction.removeReactionAfterTrigger) {
-                await client.helpers.deleteUserReaction(payload.channelId, payload.messageId, payload.userId, convertEmojiToAppropriateDiscordAPI(currentRole.emoji))
+                await client.helpers.deleteUserReaction(payload.channelId, payload.messageId, payload.userId, currentRole.emoji)
             }
             break
         }
