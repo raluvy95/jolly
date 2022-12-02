@@ -6,3 +6,4 @@ export class OverflowError extends Error {
     }
 }
 export class SnowflakeError extends Error { }
+export class InvalidConfig extends Error { }

@@ -50,7 +50,7 @@ export function RSS(client: BotWithCache<Bot>) {
     if (!rss?.enable) return;
 
     const customMsg = "📰 | **$title**\n\n$url" || rss.customMessage
-    for (const feed of rss.feedsURL) {
+    for (const feed of rss.feedsURL!) {
         setInterval(async () => {
             const checkStatus = await fetch(feed)
             if (checkStatus.status != 200) {
@@ -69,7 +69,7 @@ export function RSS(client: BotWithCache<Bot>) {
             const title = lastPost.title?.value || lastPost["dc:title"] || lastPost["media:title"]?.value || "unknown title"
             const url = lastPost.links[0].href || "unknown URL"
             const con = customMsg.replace("$title", title).replace("$url", url)
-            await summonWebhook(client, rss.channelID, con, "RSS Feed")
+            await summonWebhook(client, rss.channelID!, con, "RSS Feed")
             await updateId(feed, lastPost.id)
 
         }, 1000 * 60 * 25)

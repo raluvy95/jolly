@@ -5,9 +5,9 @@ export function autorole(client: BotWithCache<Bot>, member: Member, user: User) 
     if (!autorole.enable) return;
     try {
         if (user.toggles.bot) {
-            return client.helpers.addRole(config.guildID, member.id, autorole.botRoleID)
+            return client.helpers.addRole(config.guildID, member.id, autorole.botRoleID!)
         } else if (!member.toggles.pending) {
-            return client.helpers.addRole(config.guildID, member.id, autorole.userRoleID)
+            return client.helpers.addRole(config.guildID, member.id, autorole.userRoleID!)
         }
     } catch { return; }
 }

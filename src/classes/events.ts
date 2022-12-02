@@ -36,23 +36,22 @@ warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, u
         sentence(client, member, recentWarnings(warning.getByUser(member.id)).length)
     }
 
-    const channel = client.channels.get(BigInt(config.warnLog.channelID)) || await client.helpers.getChannel(config.warnLog.channelID)
-    if (!channel) return main.error("Cannot find channel ID to send warning logs!")
-
-    return send(client, channel.id, e.warn(data))
-
+    if (config.plugins.logging.enable) {
+        const channel = client.channels.get(BigInt(config.plugins.logging.warnLogChannelID!)) || await client.helpers.getChannel(config.plugins.logging.warnLogChannelID!)
+        return send(client, channel.id, e.warn(data))
+    }
 })
 
 levelEvent.on("levelUP", (bot, level, channel, userID) => {
     const conf = config.plugins.levelXP
     const ping = `<@${userID}>`
-    const customMsg = conf.levelUP.customMessage.replace("{user}", ping).replace("{level}", level.toString())
-    if (conf.levelUP.channelID == "0") {
+    const customMsg = conf.levelUP!.customMessage.replace("{user}", ping).replace("{level}", level.toString())
+    if (conf.levelUP!.channelID == "0") {
         send(bot, channel, customMsg)
     } else {
-        send(bot, conf.levelUP.channelID, customMsg).catch(() => main.error("Invalid channel ID"))
+        send(bot, conf.levelUP!.channelID, customMsg).catch(() => main.error("Invalid channel ID"))
     }
-    const matchedLvlRole = conf.rolesRewards.find(m => m.level == level)
+    const matchedLvlRole = conf.rolesRewards!.find(m => m.level == level)
     if (!matchedLvlRole) return;
     bot.helpers.addRole(config.guildID, userID, matchedLvlRole.ID, "Level UP!")
 })
@@ -99,8 +98,10 @@ export const JollyEvent = {
 
     messageCreate(bot: BotWithCache<Bot>, message: Message): void {
         bumpReminder(bot, message);
-        autoPublish(bot, message, true, config.plugins.autoPublish.botOnlyChannelID)
-        autoPublish(bot, message, false, config.plugins.autoPublish.channelID)
+        if (config.plugins.autoPublish.enable) {
+            autoPublish(bot, message, true, config.plugins.autoPublish.botOnlyChannelID!)
+            autoPublish(bot, message, false, config.plugins.autoPublish.channelID!)
+        }
         const allowBotChannel = config.allowBotResponsingCommandChannelID
         let success;
 

@@ -13,8 +13,8 @@ export async function reaction(client: BotWithCache<Bot>, payload: ReactionRmPay
     if (payload.userId == client.id) return;
     const reactionRoleConf = config.plugins.reactionRole
     if (!reactionRoleConf.enable) return;
-    if (reactionRoleConf.reactions.length < 1) return;
-    const currentReaction = reactionRoleConf.reactions.find(m => BigInt(m.channelID) == payload.channelId && BigInt(m.messageID) == payload.messageId)
+    if (reactionRoleConf.reactions!.length < 1) return;
+    const currentReaction = reactionRoleConf.reactions!.find(m => BigInt(m.channelID) == payload.channelId && BigInt(m.messageID) == payload.messageId)
     if (!currentReaction) return;
     const currentRole = currentReaction.roleEmojis.find(m => getEmojiName(m.emoji) == payload.emoji.name)
     if (!currentRole) return;
@@ -50,8 +50,8 @@ Initialize reaction (such as automatic adding reaction if there's no reaction)
 export async function reactionInit(client: BotWithCache<Bot>) {
     const reactionRoleConf = config.plugins.reactionRole
     if (!reactionRoleConf.enable) return;
-    if (reactionRoleConf.reactions.length < 1) return;
-    for (const instances of reactionRoleConf.reactions) {
+    if (reactionRoleConf.reactions!.length < 1) return;
+    for (const instances of reactionRoleConf.reactions!) {
         const emojis = []
         for (const { emoji } of instances.roleEmojis) {
             emojis.push(emoji)

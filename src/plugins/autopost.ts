@@ -5,6 +5,7 @@ import { summonWebhook } from "@utils/webhook.ts";
 export function autopost(client: BotWithCache<Bot>) {
     const autopost = config.plugins.autopost
     if (!autopost.enable) return;
+    if (!autopost.posts) return
     const posts = autopost.posts
     for (const p of posts) {
         setInterval(async () => {

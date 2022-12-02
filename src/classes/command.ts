@@ -63,7 +63,7 @@ export class JollyCommand implements IJollyCommand {
 export function addCommand(cmd: JollyCommand): void {
     switch (cmd.mod) {
         case "music":
-            if (!config.music.enable) return;
+            if (!config.plugins.music.enable) return;
             break;
         case "level":
             if (!config.plugins.levelXP.enable) return;
