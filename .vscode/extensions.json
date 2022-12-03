@@ -1,0 +1,9 @@
+{
+    /*
+        Recommended extensions to get started!
+    */
+    "recommendations": [
+        "denoland.vscode-deno",
+        "qwtel.sqlite-viewer"
+    ],
+}
