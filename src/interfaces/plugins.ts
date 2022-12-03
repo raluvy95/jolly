@@ -99,6 +99,9 @@ interface LevelXP extends PluginBase {
     rewardWhenBump?: boolean,
     ignoreCooldownRoles?: string[],
     ignoreXPChannels?: string[],
+    multiplyXP?: number,
+    minXP?: number,
+    maxXP?: number
 }
 
 interface FunFact extends PluginBase {

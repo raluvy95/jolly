@@ -125,8 +125,8 @@ export async function handleXP(client: BotWithCache<Bot>, message: Message) {
             levelCooldown.delete(user);
         }, ca);
     }
-    const addXP = Math.floor(Math.random() * (25 - 15 + 1)) + 15;
-    level.setXP(message.channelId, client, message.authorId, addXP, XP_METHOD.ADD)
+    const addXP = Math.floor(Math.random() * (xpconf.maxXP! - xpconf.minXP! + 1)) + xpconf.minXP!;
+    level.setXP(message.channelId, client, message.authorId, addXP * xpconf.multiplyXP!, XP_METHOD.ADD)
 }
 
 export const level = new LevelDB()

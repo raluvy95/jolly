@@ -150,7 +150,10 @@ const plugins = {
         // (optional as [])
         ignoreXPChannels: [
             "channel ID"
-        ]
+        ],
+        multiplyXP: 1,
+        minXP: 15,
+        maxXP: 25
     },
     funfact: {
         enable: false,
