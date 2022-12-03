@@ -1,5 +1,5 @@
-import { IJollyConfig } from "../src/interfaces/config.ts";
-import { Plugins } from "../src/interfaces/plugins.ts";
+import { IJollyConfig } from "./src/interfaces/config.ts";
+import { Plugins } from "./src/interfaces/plugins.ts";
 
 /*
     TypeScript-based configuration

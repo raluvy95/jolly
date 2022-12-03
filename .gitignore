@@ -2,5 +2,5 @@
 config.json
 database.sqlite*
 lastrsscache.json
-config/*
-!config/config.temp.ts
+custom/*
+config.ts

@@ -20,7 +20,7 @@ bug fixes.
 
 # Features
 
-Some of these features can be configured with `config.json`
+Some of these features can be configured with `config.ts`
 
 - Auto create channel when someone mentions non-existent channel (including
   private channel)
@@ -44,8 +44,8 @@ Some of these features can be configured with `config.json`
 All you need is to have latest version of [git](https://git-scm.com/) and
 [deno](https://deno.land/) installed on your system<br> **Step 1**: Clone this
 repository `git clone https://github.com/raluvy95/jolly.git`<br> **Step 2**:
-Rename `config-temp.json` to `config.json` and complete there<br> **Step 3**:
-Open a terminal<br> **Step 4**: Run the bot with `deno task run`
+Rename `config.temp.ts` to `config.ts` and complete there<br> **Step 3**: Open a
+terminal<br> **Step 4**: Run the bot with `deno task run`
 
 # How to keep your bot online 24/7 (for who has vps with access to ssh)
 
@@ -66,12 +66,21 @@ To list of sessions, type `screen -ls`<br> To reconnect to virtual session, type
 `screen -r <session>`.<br> To kill an unresponsive session, press _[Ctrl+A] +
 K_<br> Example `screen -r jolly`
 
+# Custom folder
+
+You may notice that there's custom folder. But what it is used for?<br> This is
+used for additional tasks coming for config.ts such as making custom variables
+to be used. I am not sure if it's for injecting new feature into Jolly, but that
+would be cool. **Anyway, this is optional.**
+
 # Advantages of Jolly over Maffin
 
 - Jolly is rewritten in TypeScript which takes fixing runtime errors more
   seriously. So no more unexpected crash and no more random TypeErrors
 - No more insane breaking changes from Discord API library
 - Has its own command handler, embed, utils and more
+- No more config.json. Use config.ts for more features such as variables, loop
+  and typing.
 - With Deno, there's no node_modules folder either.
 
 # License
