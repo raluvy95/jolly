@@ -1,4 +1,5 @@
 import { IJollyConfig } from "../src/interfaces/config.ts";
+import { Plugins } from "../src/interfaces/plugins.ts";
 
 /*
     TypeScript-based configuration
@@ -20,55 +21,172 @@ import { IJollyConfig } from "../src/interfaces/config.ts";
 */
 const plugins = {
     reactionRole: {
-        enable: false
+        enable: false,
+        reactions: [
+            {
+                channelID: "channelID",
+                messageID: "messageID",
+                /*
+                "one" => Single choice
+                "multiple" => multiple choices
+                */
+                type: "multiple",
+                // Useful to hide reaction count (known as anonymous)
+                removeReactionAfterTrigger: false,
+                roleEmojis: [
+                    {
+                        roleID: "roleID",
+                        /*
+                            Also support custom Discord emoji with this format
+                            Basic: <:name:id>
+                            Animated: <a:name:id>
+                        */
+                        emoji: "emoji"
+                    }
+                ]
+            }
+        ]
     },
     showContentOnMessageLink: false,
     bump: {
-        enable: false
+        enable: false,
+        // Role ID for mention bump role.
+        roleID: "roleID"
     },
     ree: false,
     sudo: false,
     selfping: {
-        enable: false
+        enable: false,
+        // Custom message for trigger when someone pings your bot
+        // (optional)
+        customMessage: ""
     },
     nicknameOnJoin: {
-        enable: false
+        enable: false,
+        // Nickname to change on join
+        // Use {user} as variable to use user's name
+        // Only works in suffix
+        nickname: "catnow{user}"
     },
     autoPublish: {
         enable: false,
+        // Only publish bot's messages
+        botOnlyChannelID: [],
+        // Publish messages, regardess of bot or user
+        channelID: []
     },
+    /*
+        Autorole with Membership screen support
+    */
     autorole: {
-        enable: false
+        enable: false,
+        userRoleID: "roleID",
+        botRoleID: "roleID"
     },
+    /*
+       Post random post from Subreddit
+    */
     autopost: {
-        enable: false
+        enable: false,
+        posts: [
+            {
+                name: "XD",
+                channelID: "",
+                subredditToFollow: [],
+                intervalInMinutes: 30
+            }
+        ]
     },
+    /*
+        AutoCreateChannel
+        Creates new channel if someone mentions inexistent channel such as #staff-furry-role
+    */
     autoCreateChannel: {
-        enable: false
+        enable: false,
+        // Set undefined to create outside of categories
+        categoryID: "category ID"
     },
     ghostPing: false,
+    /*
+       AutoRenameChannel
+       Changes channel's name every X minutes
+    */
     autoRenameChannel: {
-        enable: false
+        enable: false,
+        // target channel to rename
+        // It can be voice or text
+        channelID: "channel ID",
+        // Variables to use for replacement
+        variables: [
+            "people",
+            "cats",
+            "dogs"
+        ],
+        // Use $ to replace with a choice of variables above
+        nameToBeReplaced: "cool $"
     },
     levelXP: {
-        enable: false
+        enable: false,
+        rolesRewards: [
+            {
+                ID: "role ID",
+                level: 4
+            }
+        ],
+        levelUP: {
+            // Use "0" to send on channel where user has sent and reached level up
+            channelID: "0",
+            customMessage: "Congrats {user}, you just reached level {level}!"
+        },
+        // Reward with 100 XP when someone bumps this server
+        // Only if bump reminder plugin is enabled 
+        rewardWhenBump: true,
+        // Ignores cooldown for specific role
+        // (optional as [])
+        ignoreCooldownRoles: [
+            "role ID"
+        ],
+        // Ignores gaining XP for specific channel
+        // (optional as [])
+        ignoreXPChannels: [
+            "channel ID"
+        ]
     },
     funfact: {
-        enable: false
+        enable: false,
+        // documentation: https://github.com/raluvy95/jolly/wiki/Source-for-Fun-fact
+        source: "URL",
+        intervalInMin: 120,
+        channelID: "channelID"
     },
     clockChannel: {
-        enable: false
+        enable: false,
+        channelID: "channel ID",
+        channelName: "$EMOJI $TIME",
+        timezone: "Europe/Bucharest",
+        intervalInMinutes: 5
     },
     rss: {
-        enable: false
+        enable: false,
+        // This RSS plugin supports the following format
+        // Atom, RSS1 and RSS2
+        feedsURL: [
+            "feed URL"
+        ],
+        channelID: "channel ID",
+        customMessage: "📰 | **$title**\n\n$url"
     },
+    // WIP
     logging: {
         enable: false
     },
+    // This also needs to have 
+    // --unstable enabled in deno.jsonc
+    // if you want to have music support
     music: {
         enable: false
     }
-}
+} as Plugins
 
 export const config: IJollyConfig = {
     token: "token",
