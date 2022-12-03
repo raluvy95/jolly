@@ -3,7 +3,7 @@ import { send } from "@utils/send.ts";
 
 export function ree(client: BotWithCache<Bot>, message: Message) {
     if (!config.plugins.ree) return;
-    if (message.content.startsWith("ree")) {
+    if (message.content.toLowerCase().startsWith("ree")) {
         send(client, message.channelId, "REEEEEEEEEEEEEEEEEEEE")
     }
 } 
