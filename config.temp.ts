@@ -179,9 +179,10 @@ const plugins = {
         channelID: "channel ID",
         customMessage: "📰 | **$title**\n\n$url"
     },
-    // WIP
     logging: {
-        enable: false
+        enable: false,
+        warnLogChannelID: "channel ID",
+        events: []
     },
     // This also needs to have 
     // --unstable enabled in deno.jsonc

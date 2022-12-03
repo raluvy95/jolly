@@ -124,8 +124,21 @@ interface RSS extends PluginBase {
     customMessage?: string
 }
 
+export type AllowedEvents = "threadCreate" | "threadDelete"
+    | "threadUpdate" | "guildMemberAdd" | "guildMemberRemove"
+    | "guildMemberUpdate" | "messageDelete" | "messageDeleteBulk"
+    | "channelCreate" | "channelDelete" | "roleCreate" | "roleDelete"
+    | "messageUpdate"
+
 interface Logging extends PluginBase {
-    warnLogChannelID?: string
+    warnLogChannelID?: string,
+    channelID?: string,
+    events?: Array<AllowedEvents>
+}
+
+interface LogType {
+    enable: boolean,
+    channelID?: string
 }
 
 // deno-lint-ignore no-empty-interface
