@@ -3,4 +3,5 @@ config.json
 database.sqlite*
 lastrsscache.json
 custom/*
+!custom/.gitkeep
 config.ts
