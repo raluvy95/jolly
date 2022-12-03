@@ -21,7 +21,8 @@ export interface Plugins {
     clockChannel: ClockChannel
     rss: RSS
     logging: Logging,
-    music: Music
+    music: Music,
+    starboard: Starboard
 }
 
 interface ReactionRolePlug extends PluginBase {
@@ -136,12 +137,14 @@ interface Logging extends PluginBase {
     events?: Array<AllowedEvents>
 }
 
-interface LogType {
-    enable: boolean,
-    channelID?: string
-}
-
 // deno-lint-ignore no-empty-interface
 interface Music extends PluginBase {
 
+}
+
+interface Starboard extends PluginBase {
+    channelID?: string
+    customEmoji?: string
+    requiredStarCount?: number,
+    ignoreReactionYourself?: boolean
 }

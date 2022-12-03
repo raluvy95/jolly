@@ -1,13 +1,7 @@
 import { Bot, BotWithCache, config } from "@deps";
 import { ReactionRmPayload } from "../interfaces/reactionpayload.ts";
+import { getEmojiName } from "@utils/getemojiname.ts";
 
-function getEmojiName(emoji: string) {
-    if (emoji.startsWith("<")) {
-        const [_, name, _id] = emoji.split(":")
-        emoji = name
-    }
-    return emoji
-}
 
 export async function reaction(client: BotWithCache<Bot>, payload: ReactionRmPayload, type: "add" | "rm") {
     if (payload.userId == client.id) return;

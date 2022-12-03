@@ -189,6 +189,13 @@ const plugins = {
     // if you want to have music support
     music: {
         enable: false
+    },
+    starboard: {
+        enable: false,
+        channelID: "channel ID",
+        requiredStarCount: 3,
+        // Ignore reacting yourself in your own message
+        ignoreReactionYourself: true
     }
 } as Plugins
 

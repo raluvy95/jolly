@@ -13,6 +13,7 @@ import { funfact } from "@plugins/funfact.ts";
 import { messageLink } from "@plugins/messageLink.ts";
 import { ReactionAddPayload, ReactionRmPayload } from "../interfaces/reactionpayload.ts";
 import { reaction, reactionInit } from "@plugins/reactionRole.ts";
+import { starboardWatcher } from "../plugins/starboard.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -162,10 +163,12 @@ export const JollyEvent = {
 
     reactionAdd(client: BotWithCache<Bot>, payload: ReactionAddPayload) {
         reaction(client, payload, "add")
+        starboardWatcher(client, payload, "+")
     },
 
     reactionRemove(client: BotWithCache<Bot>, payload: ReactionRmPayload) {
         reaction(client, payload, "rm")
+        starboardWatcher(client, payload, "-")
     },
 
 } as unknown as Partial<EventHandlers>
