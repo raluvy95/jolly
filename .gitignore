@@ -2,6 +2,6 @@
 config.json
 database.sqlite*
 lastrsscache.json
-custom/*
+custom/reactionrole.ts
 !custom/.gitkeep
 config.ts
