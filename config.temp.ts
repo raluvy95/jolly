@@ -1,5 +1,6 @@
 import { IJollyConfig } from "./src/interfaces/config.ts";
 import { Plugins } from "./src/interfaces/plugins.ts";
+import { custom } from "./custom/reactionroles.temp.ts";             //Imports the Constant from reaction roles; Rename the file link here and add the file name as reactionroles.ts
 
 /*
     TypeScript-based configuration
@@ -44,6 +45,7 @@ const plugins = {
                         emoji: "emoji"
                     }
                 ]
+                // (add this array to a reactionrole.ts file and then add ...<your const name> in place of the array here)
             }
         ]
     },
