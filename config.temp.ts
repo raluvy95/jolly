@@ -1,6 +1,7 @@
 import { IJollyConfig } from "./src/interfaces/config.ts";
 import { Plugins } from "./src/interfaces/plugins.ts";
-import { custom } from "./custom/reactionroles.temp.ts";             //Imports the Constant from reaction roles; Rename the file link here and add the file name as reactionroles.ts
+// deno-lint-ignore no-unused-vars
+import { custom } from "./custom/reactionroles.temp.ts";    // => Imports the Constant from reaction roles; Rename the file link here and add the file name as reactionroles.ts
 
 /*
     TypeScript-based configuration
