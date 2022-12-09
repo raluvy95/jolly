@@ -27,7 +27,13 @@ export async function findUser(client: BotWithCache<Bot>, name: string, message?
 }
 
 export async function findMember(client: BotWithCache<Bot>, name: string): Promise<Member | undefined> {
-    const member = await client.helpers.searchMembers(config.guildID, name)
-    if (member.size < 1) return undefined
-    return member.first()
+    const mentionedReg = /<@(!?)[0-9]{17,}>/g
+    const matched = name.match(mentionedReg)
+    if (!matched) {
+        const member = await client.helpers.searchMembers(config.guildID, name)
+        if (member.size < 1) return undefined
+        return member.first()
+    } else {
+        return await client.helpers.getMember(config.guildID, matched[0].replace(/<@(!?)/, '').replace(">", ''))
+    }
 }
