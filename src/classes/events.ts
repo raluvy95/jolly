@@ -1,4 +1,4 @@
-import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, User } from "@deps"
+import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, MessageComponentTypes, User } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
 import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel, clock, RSS } from "@plugins/mod.ts";
@@ -8,7 +8,7 @@ import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { send } from "@utils/send.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
-import { handleXP } from "@classes/level.ts";
+import { handleXP, level } from "@classes/level.ts";
 import { funfact } from "@plugins/funfact.ts";
 import { messageLink } from "@plugins/messageLink.ts";
 import { ReactionAddPayload, ReactionRmPayload } from "../interfaces/reactionpayload.ts";
@@ -138,8 +138,31 @@ export const JollyEvent = {
     },
 
     async interactionCreate(client: BotWithCache<Bot>, i: Interaction) {
-        if (i.type == InteractionTypes.MessageComponent && i.data?.customId == "delete") {
-            client.helpers.deleteMessage(i.channelId as bigint, i.message?.id as bigint)
+        if (i.type == InteractionTypes.MessageComponent && i.data?.componentType == MessageComponentTypes.Button) {
+            switch (i.data.customId) {
+                case "delete":
+                    client.helpers.deleteMessage(i.channelId as bigint, i.message?.id as bigint)
+                    break
+                case "accept":
+                    level.removeAll()
+                    await client.helpers.sendInteractionResponse(i.id, i.token, {
+                        type: InteractionResponseTypes.UpdateMessage,
+                        data: {
+                            content: "Purged everything!",
+                            components: []
+                        }
+                    })
+                    break
+                case "deny":
+                    await client.helpers.sendInteractionResponse(i.id, i.token, {
+                        type: InteractionResponseTypes.UpdateMessage,
+                        data: {
+                            content: "Cancelled!",
+                            components: []
+                        }
+                    })
+                    break
+            }
         }
         if (i.type == InteractionTypes.ApplicationCommand && i.data?.name == "jolly") {
             await client.helpers.sendInteractionResponse(i.id, i.token, {
