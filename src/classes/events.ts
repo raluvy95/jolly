@@ -74,6 +74,10 @@ function printPluginsStatus() {
 
 printPluginsStatus()
 
+function isOwner(user: BigString) {
+    return config.owners.includes(String(user));
+}
+
 export const JollyEvent = {
     ready(bot: BotWithCache<Bot>) {
         BotUptime = Date.now()
@@ -141,9 +145,11 @@ export const JollyEvent = {
         if (i.type == InteractionTypes.MessageComponent && i.data?.componentType == MessageComponentTypes.Button) {
             switch (i.data.customId) {
                 case "delete":
+                    if (!isOwner(i.user.id)) return
                     client.helpers.deleteMessage(i.channelId as bigint, i.message?.id as bigint)
                     break
                 case "accept":
+                    if (!isOwner(i.user.id)) return
                     level.removeAll()
                     await client.helpers.sendInteractionResponse(i.id, i.token, {
                         type: InteractionResponseTypes.UpdateMessage,
@@ -154,6 +160,7 @@ export const JollyEvent = {
                     })
                     break
                 case "deny":
+                    if (!isOwner(i.user.id)) return
                     await client.helpers.sendInteractionResponse(i.id, i.token, {
                         type: InteractionResponseTypes.UpdateMessage,
                         data: {
