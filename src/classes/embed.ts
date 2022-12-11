@@ -165,7 +165,7 @@ export class JollyEmbed implements DiscordEmbed {
         return this
             .setTitle(`Case ID: ${warnInfo.case} | User: ${warnInfo.username} (${warnInfo.userid})`)
             .setDesc(`**Date:** ${dateToString(new Date(warnInfo.data))}`)
-            .addField("Modernator", `**${warnInfo.moderator_name}** (${warnInfo.moderator})`, true)
+            .addField("Moderator", `**${warnInfo.moderator_name}** (${warnInfo.moderator})`, true)
             .addField("Reason", warnInfo.reason, true)
             .setColor(COLORS.RED)
             .build()
