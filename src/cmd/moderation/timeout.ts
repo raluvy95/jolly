@@ -20,11 +20,12 @@ class Timeout extends JollyCommand {
         if (typeof member.communicationDisabledUntil !== "undefined" && member.communicationDisabledUntil > Date.now()) return send(client, message.channelId, "That member is already muted.")
         const secondArg = args.slice(1).join(" ")
         const time = ms(secondArg.length > 1 ? args.slice(1).join(" ") : '2 hours') || ms('2 hours')
+        if (time! < ms('30s')!) return send(client, message.channelId, `Minimum 30 seconds for timeout!`)
         const date = new Date()
         await client.helpers.editMember(config.guildID, member.id, {
             communicationDisabledUntil: date.setMilliseconds(date.getMilliseconds() + Number(time))
         })
-        send(client, message.channelId, `<@${member.id}> has been muted for **${ms(String(time), { long: true })}!**`)
+        send(client, message.channelId, `<@${member.id}> has been muted for **${ms(Number(time), { long: true })}!**`)
     }
 }
 

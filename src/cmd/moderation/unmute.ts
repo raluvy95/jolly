@@ -16,7 +16,7 @@ class Timeout extends JollyCommand {
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
         const member = await findMember(client, args[0])
         if (!member) return send(client, message.channelId, "Cannot find that member")
-        if (typeof member.communicationDisabledUntil == "undefined") return send(client, message.channelId, "That member is already muted.")
+        if (typeof member.communicationDisabledUntil == "undefined" || member.communicationDisabledUntil < Date.now()) return send(client, message.channelId, "That member is already unmuted.")
         await client.helpers.editMember(config.guildID, member.id, {
             communicationDisabledUntil: Date.now()
         })
