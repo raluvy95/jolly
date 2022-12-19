@@ -1,4 +1,4 @@
-import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, MessageComponentTypes, User } from "@deps"
+import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, Channel, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, MessageComponentTypes, Role, User } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
 import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel, clock, RSS } from "@plugins/mod.ts";
@@ -14,6 +14,7 @@ import { messageLink } from "@plugins/messageLink.ts";
 import { ReactionAddPayload, ReactionRmPayload } from "../interfaces/reactionpayload.ts";
 import { reaction, reactionInit } from "@plugins/reactionRole.ts";
 import { starboardWatcher } from "@plugins/starboard.ts";
+import { loggingHandler } from "@plugins/logging.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -129,10 +130,12 @@ export const JollyEvent = {
 
     messageDelete(client: BotWithCache<Bot>, payload: Payload, message: Message) {
         ghostPingD(client, payload, message)
+        loggingHandler(client, "messageDelete", payload, message)
     },
 
     messageUpdate(client: BotWithCache<Bot>, message: Message, oldMessage?: Message) {
         ghostPingU(client, message, oldMessage)
+        loggingHandler(client, "messageUpdate", message, oldMessage)
     },
 
     debug(info: string): void {
@@ -189,6 +192,7 @@ export const JollyEvent = {
 
     guildMemberAdd(client: BotWithCache<Bot>, member: Member, user: User) {
         nicknameOnJoin(client, member, user)
+        loggingHandler(client, "guildMemberAdd", member, user)
     },
 
     reactionAdd(client: BotWithCache<Bot>, payload: ReactionAddPayload) {
@@ -201,4 +205,19 @@ export const JollyEvent = {
         starboardWatcher(client, payload, "-")
     },
 
-} as unknown as Partial<EventHandlers>
+    channelCreate(client: BotWithCache<Bot>, channel: Channel) {
+        loggingHandler(client, "channelCreate", channel)
+    },
+
+    channelDelete(client: BotWithCache<Bot>, channel: Channel) {
+        loggingHandler(client, "channelDelete", channel)
+    },
+
+    roleCreate(client: BotWithCache<Bot>, role: Role) {
+        loggingHandler(client, "roleCreate", role)
+    },
+
+    roleDelete(client: BotWithCache<Bot>, payload: { guildId: bigint; roleId: bigint; }) {
+        loggingHandler(client, "roleDelete", payload)
+    }
+} as unknown as EventHandlers
