@@ -20,6 +20,7 @@ export interface Plugins {
     funfact: FunFact
     clockChannel: ClockChannel
     rss: RSS
+    sniper: boolean
     logging: Logging,
     music: Music,
     starboard: Starboard

@@ -15,6 +15,7 @@ import { ReactionAddPayload, ReactionRmPayload } from "../interfaces/reactionpay
 import { reaction, reactionInit } from "@plugins/reactionRole.ts";
 import { starboardWatcher } from "@plugins/starboard.ts";
 import { loggingHandler } from "@plugins/logging.ts";
+import { sniperHandler } from "@classes/snipe.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -131,6 +132,7 @@ export const JollyEvent = {
     messageDelete(client: BotWithCache<Bot>, payload: Payload, message: Message) {
         ghostPingD(client, payload, message)
         loggingHandler(client, "messageDelete", payload, message)
+        sniperHandler(client, message)
     },
 
     messageUpdate(client: BotWithCache<Bot>, message: Message, oldMessage?: Message) {

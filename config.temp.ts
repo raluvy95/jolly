@@ -58,6 +58,8 @@ const plugins = {
     },
     ree: false,
     sudo: false,
+    // Enable sniper feature and use sniper command (leaks latest deleted message)
+    sniper: false,
     selfping: {
         enable: false,
         // Custom message for trigger when someone pings your bot

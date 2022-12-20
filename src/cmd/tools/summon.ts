@@ -5,7 +5,7 @@ import { avatarURL } from "../../utils/avatarURL.ts";
 
 class SummonWebHook extends JollyCommand {
     constructor() {
-        super("summon", "utils")
+        super("summon", "tools")
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
