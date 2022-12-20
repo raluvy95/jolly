@@ -12,7 +12,6 @@ export async function loggingHandler(client: BotWithCache<Bot>, event: keyof Eve
         if (obj.event == event) {
             const channelID = !obj.channelID ? log.globalChannelID! : obj.channelID
             const e = await logToEmbed(client, obj.event, ...args)
-            console.log(e)
             if (!e) return;
             await summonWebhook(client, channelID, e, "Logging")
             // switch (obj.event) {
