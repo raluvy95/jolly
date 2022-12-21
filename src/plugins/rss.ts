@@ -1,79 +1,80 @@
-import { Bot, BotWithCache, config, parseFeed } from "@deps";
+import { config, parseFeed } from "@deps";
 import { main } from "@utils/log.ts";
 import { summonWebhook } from "@utils/webhook.ts";
+import { JollyBot } from "@classes/client.ts";
 
 interface RSS {
-    url: string,
-    id: string
+  url: string,
+  id: string
 }
 
 async function getCache() {
-    // just to create if it doesn't exist.
-    const file = await Deno.open("./lastrsscache.json", {
-        create: true,
-        write: true
-    })
-    file.close()
-    try {
-        const text = await Deno.readTextFile("./lastrsscache.json")
-        return JSON.parse(text) as Array<RSS>
-    } catch {
-        return []
-    }
+  // just to create if it doesn't exist.
+  const file = await Deno.open("./lastrsscache.json", {
+    create: true,
+    write: true
+  })
+  file.close()
+  try {
+    const text = await Deno.readTextFile("./lastrsscache.json")
+    return JSON.parse(text) as Array<RSS>
+  } catch {
+    return []
+  }
 }
 
 async function itExist(url: string) {
-    const c = await getCache()
-    const exist = c.findIndex(r => r.url == url) != -1
-    return { bool: exist, value: exist ? c.find(r => r.url == url) : null }
+  const c = await getCache()
+  const exist = c.findIndex(r => r.url == url) != -1
+  return { bool: exist, value: exist ? c.find(r => r.url == url) : null }
 }
 
 async function updateId(url: string, id: string) {
-    const exist = await itExist(url)
-    const c = await getCache()
-    let result: string;
-    if (!exist.bool) {
-        c.push({
-            url: url,
-            id: id
-        })
-        result = JSON.stringify(c)
-    } else {
-        c[c.findIndex(r => r.url == url)].id = id
-        result = JSON.stringify(c)
-    }
-    await Deno.writeTextFile("./lastrsscache.json", result)
+  const exist = await itExist(url)
+  const c = await getCache()
+  let result: string;
+  if (!exist.bool) {
+    c.push({
+      url: url,
+      id: id
+    })
+    result = JSON.stringify(c)
+  } else {
+    c[c.findIndex(r => r.url == url)].id = id
+    result = JSON.stringify(c)
+  }
+  await Deno.writeTextFile("./lastrsscache.json", result)
 }
 
-export function RSS(client: BotWithCache<Bot>) {
-    const rss = config.plugins.rss
-    if (!rss?.enable) return;
+export function RSS(client: JollyBot) {
+  const rss = config.plugins.rss
+  if (!rss?.enable) return;
 
-    const customMsg = "📰 | **$title**\n\n$url" || rss.customMessage
-    for (const feed of rss.feedsURL!) {
-        setInterval(async () => {
-            const checkStatus = await fetch(feed)
-            if (checkStatus.status != 200) {
-                main.warn(`${feed} returns ${checkStatus.status}`)
-                return
-            }
-            const txt = await checkStatus.text()
-            const { entries } = await parseFeed(txt)
-            const lastPost = entries[0]
-            const exist = await itExist(feed)
-            if (exist.bool) {
-                const currentPost = exist.value
-                if (!currentPost) throw new Error("what.")
-                if (currentPost.id == lastPost.id) return;
-            }
-            const title = lastPost.title?.value || lastPost["dc:title"] || lastPost["media:title"]?.value || "unknown title"
-            const url = lastPost.links[0].href || "unknown URL"
-            const con = customMsg.replace("$title", title).replace("$url", url)
-            await summonWebhook(client, rss.channelID!, con, "RSS Feed")
-            await updateId(feed, lastPost.id)
+  const customMsg = "📰 | **$title**\n\n$url" || rss.customMessage
+  for (const feed of rss.feedsURL!) {
+    setInterval(async () => {
+      const checkStatus = await fetch(feed)
+      if (checkStatus.status != 200) {
+        main.warn(`${feed} returns ${checkStatus.status}`)
+        return
+      }
+      const txt = await checkStatus.text()
+      const { entries } = await parseFeed(txt)
+      const lastPost = entries[0]
+      const exist = await itExist(feed)
+      if (exist.bool) {
+        const currentPost = exist.value
+        if (!currentPost) throw new Error("what.")
+        if (currentPost.id == lastPost.id) return;
+      }
+      const title = lastPost.title?.value || lastPost["dc:title"] || lastPost["media:title"]?.value || "unknown title"
+      const url = lastPost.links[0].href || "unknown URL"
+      const con = customMsg.replace("$title", title).replace("$url", url)
+      await summonWebhook(client, rss.channelID!, con, "RSS Feed")
+      await updateId(feed, lastPost.id)
 
-        }, 1000 * 60 * 25)
-    }
+    }, 1000 * 60 * 25)
+  }
 }
 
 /*

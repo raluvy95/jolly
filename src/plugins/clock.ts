@@ -1,8 +1,9 @@
-import { Bot, BotWithCache, ChannelTypes, config, OverwriteTypes } from "@deps";
+import { ChannelTypes, config, OverwriteTypes } from "@deps";
 import { dateToString } from "@utils/dateToString.ts";
 import { editChannel } from "@utils/editChannel.ts";
+import { JollyBot } from "@classes/client.ts";
 
-export async function clock(client: BotWithCache<Bot>) {
+export async function clock(client: JollyBot) {
     const d = new Date()
     const conf = config.plugins.clockChannel
     function clockEmoji(date: Date) {

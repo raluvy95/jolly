@@ -1,8 +1,9 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand, prefix } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { findUser } from "@utils/find.ts";
 import { level } from "@classes/level.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Remove extends JollyCommand {
     constructor() {
@@ -13,7 +14,7 @@ class Remove extends JollyCommand {
         })
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, args: string[], client: JollyBot) {
         if (!args.length) return send(client, message.channelId, `Argument is required. Use \`${prefix}removeuser [--force] <user>\``)
         if (args[0] == "--force") {
             const anotherArg = args.slice(1).join(" ")

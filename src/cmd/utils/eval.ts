@@ -1,4 +1,4 @@
-import { ActionRow, Bot, BotWithCache, Message } from "@deps";
+import { ActionRow, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 
@@ -33,7 +33,7 @@ class Eval extends JollyCommand {
         return "```ts\n" + text + "\n```"
     }
 
-    override run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override run(message: Message, args: string[], client: JollyBot) {
         try {
             const code = args.join(" ");
             this.evaled = eval(code);

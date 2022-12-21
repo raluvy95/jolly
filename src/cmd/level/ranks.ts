@@ -1,15 +1,16 @@
-import { Bot, BotWithCache, config, Message } from "@deps";
+import { config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { iconURL } from "@utils/avatarURL.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Ranks extends JollyCommand {
     constructor() {
         super("ranks", "level")
     }
 
-    override async run(message: Message, _args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, _args: string[], client: JollyBot) {
         const ranks = config.plugins.levelXP.rolesRewards
         if (!ranks || ranks?.length < 1) return send(client, message.channelId, "Roles rewards is empty")
         const e = new JollyEmbed()

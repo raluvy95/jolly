@@ -1,9 +1,10 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { level } from "@classes/level.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { iconURL } from "@utils/avatarURL.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Leaderboard extends JollyCommand {
     constructor() {
@@ -13,7 +14,7 @@ class Leaderboard extends JollyCommand {
         })
     }
 
-    override async run(message: Message, _: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, _: string[], client: JollyBot) {
         const tops = level.getAll()
         if (tops.length < 1) {
             return send(client, message.channelId, "The leaderboard is empty")

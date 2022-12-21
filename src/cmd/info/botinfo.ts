@@ -1,10 +1,10 @@
-import { Bot, BotWithCache, config, Message } from "@deps";
+import { config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { uptime } from "@utils/uptime.ts";
-import { JollyVersion } from "@classes/client.ts";
+import { JollyBot, JollyVersion } from "@classes/client.ts";
 
 class BotInfo extends JollyCommand {
     constructor() {
@@ -20,10 +20,10 @@ class BotInfo extends JollyCommand {
         return mb.toFixed(0) + " MB"
     }
 
-    override async run(message: Message, _args: string[], client: BotWithCache<Bot>): Promise<void> {
+    override async run(message: Message, _args: string[], client: JollyBot): Promise<void> {
         const discordeno_version = client.constants.DISCORDENO_VERSION
         const deno_version = Deno.version
-        const user = client.users.get(client.id) ?? await client.helpers.getUser(client.id)
+        const user = await client.cache.users.get(client.id) ?? await client.helpers.getUser(client.id)
         if (!user) throw new Error("what.")
 
         const memory = Deno.memoryUsage()

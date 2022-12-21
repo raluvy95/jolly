@@ -1,6 +1,7 @@
-import { Bot, BotWithCache, config, Message } from "@deps";
+import { config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Ban extends JollyCommand {
     constructor() {
@@ -11,7 +12,7 @@ class Ban extends JollyCommand {
         })
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, args: string[], client: JollyBot) {
         const isUserID = !isNaN(Number(args[0]))
         if (isUserID) {
             try {

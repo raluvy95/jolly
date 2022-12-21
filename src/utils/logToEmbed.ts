@@ -1,17 +1,18 @@
-import { Bot, BotWithCache, Channel, CreateMessage, Message, Role, User } from "@deps";
+import { Channel, CreateMessage, Message, Role, User } from "@deps";
 import { JollyEmbed } from "@classes/embed.ts";
 import { COLORS } from "@const/colors.ts";
 import { AllowedEvents } from "../interfaces/plugins.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { relativeTimeFromDates } from "@utils/dateToString.ts";
 import { snowflake } from "@utils/snowflake.ts";
+import { JollyBot } from "@classes/client.ts";
 
 function content(str: string) {
     return str.length > 3500 ? str.slice(0, 3500) : str
 }
 
 // deno-lint-ignore no-explicit-any
-export async function logToEmbed(client: BotWithCache<Bot>, event: AllowedEvents, ...args: any) {
+export async function logToEmbed(client: JollyBot, event: AllowedEvents, ...args: any) {
     const e = new JollyEmbed()
     switch (event) {
         case "channelCreate":
@@ -39,7 +40,7 @@ export async function logToEmbed(client: BotWithCache<Bot>, event: AllowedEvents
             }
             const msg = args[1] as Message | undefined
             if (!msg) return;
-            const user = client.users.get(msg.authorId) || await client.helpers.getUser(msg.authorId)
+            const user = await client.cache.users.get(msg.authorId) || await client.helpers.getUser(msg.authorId)
             const result: CreateMessage = {}
             if (msg.attachments.length > 0) {
                 result.file = []
@@ -75,7 +76,7 @@ export async function logToEmbed(client: BotWithCache<Bot>, event: AllowedEvents
             const message = args[0] as Message
             const oldMessage = args[1] as Message | undefined
             if (!oldMessage) return;
-            const user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
+            const user = await client.cache.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
             e.setColor(COLORS.YELLOW)
                 .setAuthor(`${user.username}#${user.discriminator}`, await avatarURL(client, user))
                 .setDesc(`**Message Edited in <#${message.channelId}>**`)

@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { createdAt } from "@utils/snowflake.ts";
@@ -13,7 +13,7 @@ class Snowflake extends JollyCommand {
         })
     }
 
-    override run(message: Message, args: string[], client: BotWithCache<Bot>): void {
+    override run(message: Message, args: string[], client: JollyBot): void {
         if (!args[0]) { send(client, message.channelId, "Give me random ID lol"); return; }
         const snow = args[0]
         try {

@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { starboardDB } from "@classes/starboardDB.ts";
@@ -10,7 +10,7 @@ class PurgeStarBoard extends JollyCommand {
         })
     }
 
-    override async run(message: Message, _args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, _args: string[], client: JollyBot) {
         starboardDB.removeAll()
         return await send(client, message.channelId, "Cleared starboard caches!")
     }

@@ -1,4 +1,4 @@
-import { config, createBot, CreateBotOptions, enableAudioPlugin, enableCachePlugin, enableCacheSweepers, enablePermissionsPlugin, EventHandlers, GatewayIntents, Intents } from "@deps";
+import { Bot, BotWithCache, Channel, config, createBot, CreateBotOptions, enableAudioPlugin, enableCachePlugin, EventHandlers, GatewayIntents, Guild, Intents, Member, Message, Role, User } from "@deps";
 import { JollyEvent } from "@classes/events.ts";
 import { main } from "@utils/log.ts";
 
@@ -17,7 +17,7 @@ export class Jolly implements CreateBotOptions {
         this.intents = Intents.GuildMembers | Intents.MessageContent
             | Intents.GuildMessages | Intents.DirectMessages
             | Intents.GuildVoiceStates | Intents.GuildMessageReactions
-            | Intents.Guilds | Intents.GuildBans | Intents.GuildEmojis;
+            | Intents.Guilds | Intents.GuildBans | Intents.GuildEmojis | Intents.GuildVoiceStates;
         this.events = JollyEvent;
     }
 
@@ -25,7 +25,22 @@ export class Jolly implements CreateBotOptions {
 
 main.info("Starting Bot, this might take a while...");
 
-export const bot = enableAudioPlugin(enableCachePlugin(createBot(new Jolly())));
+const basebot = createBot(new Jolly())
 
-enablePermissionsPlugin(bot);
-enableCacheSweepers(bot);
+const cache = enableCachePlugin(basebot, {
+    cacheInMemory: {
+        default: true
+    }
+})
+
+export const bot = enableAudioPlugin(cache);
+
+
+export type JollyBot = BotWithCache<{
+    guild: Guild,
+    user: User,
+    channel: Channel,
+    member: Member,
+    message: Message,
+    role: Role
+}, Bot>

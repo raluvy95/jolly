@@ -1,7 +1,8 @@
-import { AudioBot, Bot, BotWithCache, config, Message } from "@deps";
+import { AudioBot, config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { JollyEmbed } from "@classes/embed.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Queues extends JollyCommand {
     constructor() {
@@ -11,7 +12,7 @@ class Queues extends JollyCommand {
         })
     }
 
-    override run(message: Message, _args: string[], client: AudioBot<BotWithCache<Bot>>) {
+    override run(message: Message, _args: string[], client: AudioBot<JollyBot>) {
         const player = client.helpers.getPlayer(BigInt(config.guildID))
         const currentSong = player.current()
         const upcomingSongs = player.upcoming().slice(0, 25)

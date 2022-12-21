@@ -1,9 +1,10 @@
-import { Bot, BotWithCache, config, Message, MessageTypes, User } from "@deps";
+import { config, Message, MessageTypes, User } from "@deps";
 import { JollyEmbed } from "@classes/embed.ts";
 import { COLORS } from "@const/colors.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { send } from "@utils/send.ts";
 import { Base64 } from "https://deno.land/x/bb64@1.1.0/mod.ts";
+import { JollyBot } from "@classes/client.ts";
 
 export interface Payload {
     id: bigint;
@@ -11,7 +12,7 @@ export interface Payload {
     guildId?: bigint;
 }
 
-export async function ghostPingU(client: BotWithCache<Bot>, message: Message, oldMessage?: Message) {
+export async function ghostPingU(client: JollyBot, message: Message, oldMessage?: Message) {
     if (!config.plugins.ghostPing) return;
     if (!oldMessage) return;
     const oldFiltered = oldMessage.mentionedUserIds.filter(m => m != message.authorId)
@@ -24,7 +25,7 @@ export async function ghostPingU(client: BotWithCache<Bot>, message: Message, ol
             }
         })
         if (foundUserID.length < 1) return;
-        const user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
+        const user = await client.cache.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
         if (!user) return;
         send(client, message.channelId, await embed(foundUserID.map(m => `<@${m}>`).join(", "), client, user))
     }
@@ -36,7 +37,7 @@ async function buff(data: string) {
     return await (await fetch(url)).blob()
 }
 
-async function embed(mentions: string, client: BotWithCache<Bot>, user: User) {
+async function embed(mentions: string, client: JollyBot, user: User) {
     const b = await buff("./assets/pinged.png")
     const e = new JollyEmbed()
         .setTitle("Ghost ping found!")
@@ -53,7 +54,7 @@ async function embed(mentions: string, client: BotWithCache<Bot>, user: User) {
     }
 }
 
-export async function ghostPingD(client: BotWithCache<Bot>, payload: Payload, message?: Message) {
+export async function ghostPingD(client: JollyBot, payload: Payload, message?: Message) {
     if (!config.plugins.ghostPing || !message) return;
     // for some reasons, reply with pinged triggers this
     let filtered = message.mentionedUserIds.filter(m => m != message.authorId)
@@ -65,7 +66,7 @@ export async function ghostPingD(client: BotWithCache<Bot>, payload: Payload, me
         }
     }
     if (filtered.length < 1) return;
-    const user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
+    const user = await client.cache.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
     if (!user) return;
     send(client, payload.channelId, await embed(filtered.map(m => `<@${m}>`).join(", "), client, user))
 }

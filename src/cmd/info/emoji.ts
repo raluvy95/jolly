@@ -1,6 +1,7 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Emoji extends JollyCommand {
     constructor() {
@@ -10,7 +11,7 @@ class Emoji extends JollyCommand {
         })
     }
 
-    override run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override run(message: Message, args: string[], client: JollyBot) {
         const arg = args[0];
         if (!arg) return send(client, message.channelId, "Please use `;emoji <Discord Emoji>`")
         if (!arg.startsWith("<")) return send(client, message.channelId, "Only Discord Emojis can input")

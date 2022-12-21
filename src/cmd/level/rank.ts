@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, config, Message } from "@deps";
+import { config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { level } from "@classes/level.ts";
@@ -6,6 +6,7 @@ import { findUser } from "@utils/find.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { progressBar, XPrequiredToLvlUP } from "@utils/levelutils.ts";
+import { JollyBot } from "@classes/client.ts";
 
 
 class Rank extends JollyCommand {
@@ -17,7 +18,7 @@ class Rank extends JollyCommand {
         })
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, args: string[], client: JollyBot) {
         let userID: bigint = message.authorId
         if (args.length > 0) {
             const user = await findUser(client, args.join(" "), message)

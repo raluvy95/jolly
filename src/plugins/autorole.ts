@@ -1,6 +1,7 @@
-import { Bot, BotWithCache, config, Member, User } from "@deps";
+import { config, Member, User } from "@deps";
+import { JollyBot } from "@classes/client.ts";
 
-export function autorole(client: BotWithCache<Bot>, member: Member, user: User) {
+export function autorole(client: JollyBot, member: Member, user: User) {
     const autorole = config.plugins.autorole
     if (!autorole.enable) return;
     try {

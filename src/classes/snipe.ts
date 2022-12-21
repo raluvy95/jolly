@@ -1,5 +1,6 @@
-import { Bot, BotWithCache, config, Message } from "@deps";
+import { config, Message } from "@deps";
 import { lastMessage } from "../interfaces/snipe.ts"
+import { JollyBot } from "./client.ts";
 
 class Sniper {
     private lastMessage: lastMessage | null
@@ -20,9 +21,9 @@ class Sniper {
 
 export const sniper = new Sniper()
 
-export async function sniperHandler(client: BotWithCache<Bot>, message: Message) {
+export async function sniperHandler(client: JollyBot, message: Message) {
     if (!config.plugins.sniper) return
-    const author = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
+    const author = await client.cache.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
     const result = {
         author: {
             name: author.username + "#" + author.discriminator,

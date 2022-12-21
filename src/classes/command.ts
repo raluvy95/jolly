@@ -1,5 +1,7 @@
-import { Bot, BotWithCache, Collection, config, hasGuildPermissions, Member, Message, PermissionStrings } from "@deps";
+import { Collection, config, Member, Message, PermissionStrings } from "@deps";
 import { send } from "@utils/send.ts";
+import { hasGuildPermissions } from "../../lib/permission.ts";
+import { JollyBot } from "./client.ts";
 
 export let prefix: string;
 
@@ -17,7 +19,7 @@ interface IJollyCommand {
     description?: string;
     requiredArgs?: boolean;
     usage?: string;
-    run?: (message: Message, args: string[], client: BotWithCache<Bot>) => void;
+    run?: (message: Message, args: string[], client: JollyBot) => void;
 }
 
 export async function refreshCommand(): Promise<void> {
@@ -55,7 +57,7 @@ export class JollyCommand implements IJollyCommand {
     }
 
     // deno-lint-ignore no-unused-vars
-    run(message: Message, args: string[], client: BotWithCache<Bot>): void {
+    run(message: Message, args: string[], client: JollyBot): void {
 
     }
 }
@@ -75,7 +77,7 @@ export function addCommand(cmd: JollyCommand): void {
     globalCommand.set(cmd.name, cmd);
 }
 
-function commandRunner(command: JollyCommand, message: Message, args: string[], client: BotWithCache<Bot>): void {
+function commandRunner(command: JollyCommand, message: Message, args: string[], client: JollyBot): void {
     try {
         command.run(message, args, client)
     } catch (error) {
@@ -87,7 +89,7 @@ function commandRunner(command: JollyCommand, message: Message, args: string[], 
     }
 }
 
-function cooldownHandler(client: BotWithCache<Bot>, message: Message, command: JollyCommand): boolean {
+function cooldownHandler(client: JollyBot, message: Message, command: JollyCommand): boolean {
     if (!cooldowns.has(command.name)) {
         cooldowns.set(command.name, new Collection())
     }
@@ -110,23 +112,22 @@ function cooldownHandler(client: BotWithCache<Bot>, message: Message, command: J
     return true;
 }
 
-function permissionChecker(command: JollyCommand, client: BotWithCache<Bot>, userid: bigint, member?: Member): boolean {
+async function permissionChecker(command: JollyCommand, client: JollyBot, userid: bigint, member?: Member) {
     const owners = config.owners
     if (command.owner) {
         return owners.includes(userid.toString());
     }
     else if (!member) return true
     else if (!command.permission) return true;
-
-    return hasGuildPermissions(client, BigInt(config.guildID), member, command.permission)
-
+    const guild = await client.helpers.getGuild(config.guildID)
+    return hasGuildPermissions(client, guild, member, (command.permission))
 }
 
 export function findCommand(cmdName: string): JollyCommand | undefined {
     return globalCommand.get(cmdName) || globalCommand.find(m => m.aliases && m.aliases.includes(cmdName))
 }
 
-export function commandHandler(client: BotWithCache<Bot>, message: Message): boolean {
+export function commandHandler(client: JollyBot, message: Message): boolean {
     if (!config.prefixes.some((m: string) => message.content.toLowerCase().startsWith(m), message.content.toLowerCase())) return false;
     prefix = (config.prefixes.find(m => message.content.toLowerCase().startsWith(m), message.content.toLowerCase()) as string)
     const args = message.content.slice(prefix.length).trim().split(/ +/)

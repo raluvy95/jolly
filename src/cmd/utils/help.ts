@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, findCommand, globalCommand, JollyCommand } from "@classes/command.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { send } from "@utils/send.ts";
@@ -16,7 +16,7 @@ class Help extends JollyCommand {
         this.BLACKLIST_COMMAND = ["help", "eval", "unwarnall", "setlevel", "setxp"]
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
+    override async run(message: Message, args: string[], client: JollyBot): Promise<void> {
         if (args[0]?.length > 0) {
             const cmd = findCommand(args[0])
             if (!cmd) return send(client, message.channelId, "Cannot find that command") as unknown as void;

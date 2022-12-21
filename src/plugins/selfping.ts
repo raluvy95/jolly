@@ -1,8 +1,9 @@
-import { Bot, BotWithCache, config, Message, MessageTypes } from "@deps";
+import { config, Message, MessageTypes } from "@deps";
 import { prefix } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
+import { JollyBot } from "@classes/client.ts";
 
-export function selfping(client: BotWithCache<Bot>, message: Message) {
+export function selfping(client: JollyBot, message: Message) {
     const selfping = config.plugins.selfping
     if (!selfping.enable) return;
     if (message.mentionedUserIds.includes(client.id) && message.type == MessageTypes.Default) {

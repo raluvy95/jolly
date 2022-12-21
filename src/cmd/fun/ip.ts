@@ -1,8 +1,9 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { isIP } from "https://deno.land/x/isIP@1.0.0/mod.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class IP extends JollyCommand {
     constructor() {
@@ -13,7 +14,7 @@ class IP extends JollyCommand {
         })
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, args: string[], client: JollyBot) {
         if (!args[0]) return send(client, message.channelId, "Give me the IP.")
         if (isIP(args[0]) == 0) return send(client, message.channelId, "That's not an IP")
         const jj = await fetch(`https://ipinfo.io/${args[0]}/geo`)

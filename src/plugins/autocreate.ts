@@ -1,6 +1,7 @@
-import { Bot, BotWithCache, ChannelTypes, config, Message } from "@deps";
+import { ChannelTypes, config, Message } from "@deps";
+import { JollyBot } from "../classes/client.ts";
 
-export function autoCreateChannel(client: BotWithCache<Bot>, message: Message) {
+export function autoCreateChannel(client: JollyBot, message: Message) {
     const autocreate = config.plugins.autoCreateChannel
     if (!autocreate.enable) return;
     const content = message.content

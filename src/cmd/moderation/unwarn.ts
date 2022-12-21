@@ -1,7 +1,8 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { warning } from "@classes/warning.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Unwarn extends JollyCommand {
     constructor() {
@@ -13,7 +14,7 @@ class Unwarn extends JollyCommand {
         })
     }
 
-    override run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override run(message: Message, args: string[], client: JollyBot) {
         if (!args[0]) return send(client, message.channelId, "Missing Case ID")
         const success = warning.remove(args[0])
         if (!success) return send(client, message.channelId, "Cannot find that case ID")

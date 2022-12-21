@@ -1,7 +1,8 @@
-import { Bot, BotWithCache, config } from "@deps";
+import { config } from "@deps";
 import { editChannel } from "@utils/editChannel.ts";
+import { JollyBot } from "@classes/client.ts";
 
-export function autoRenameChannel(client: BotWithCache<Bot>) {
+export function autoRenameChannel(client: JollyBot) {
     const autoRenameChannel = config.plugins.autoRenameChannel
     if (!autoRenameChannel?.enable) return;
     if (!autoRenameChannel?.variables && !autoRenameChannel.variables

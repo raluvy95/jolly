@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { Reddit } from "@classes/reddit.ts";
@@ -16,7 +16,7 @@ class RedditCmd extends JollyCommand {
     }
 
     // filter explict results
-    private async checkSafety(message: Message, client: BotWithCache<Bot>): Promise<boolean> {
+    private async checkSafety(message: Message, client: JollyBot): Promise<boolean> {
         if (!this.reddit) throw new Error("what.")
 
         const data = await this.reddit.toData()
@@ -24,7 +24,7 @@ class RedditCmd extends JollyCommand {
         return !(!channel?.nsfw && data.over_18)
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>): Promise<void> {
+    override async run(message: Message, args: string[], client: JollyBot): Promise<void> {
         if (!args[0]) return send(client, message.channelId, "Please type which subreddit do you want to look for") as unknown as void
         this.reddit = new Reddit(args[0])
         let safe;

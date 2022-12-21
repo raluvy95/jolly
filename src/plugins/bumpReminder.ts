@@ -1,8 +1,9 @@
-import { Bot, BotWithCache, config, Message } from "@deps";
+import { config, Message } from "@deps";
 import { send } from "@utils/send.ts";
 import { level, XP_METHOD } from "@classes/level.ts";
+import { JollyBot } from "@classes/client.ts";
 
-export const bumpReminder = (client: BotWithCache<Bot>, message: Message) => {
+export const bumpReminder = (client: JollyBot, message: Message) => {
     if (config.plugins.bump.enable && message.interaction?.name == "bump"
         && message.authorId === 302050872383242240n) {
         let msg = "I will remind you to bump again in two hours!"

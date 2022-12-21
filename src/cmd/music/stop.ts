@@ -1,6 +1,7 @@
-import { AudioBot, Bot, BotWithCache, config, Message } from "@deps";
+import { AudioBot, config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Stop extends JollyCommand {
     constructor() {
@@ -10,7 +11,7 @@ class Stop extends JollyCommand {
         })
     }
 
-    override async run(message: Message, _args: string[], client: AudioBot<BotWithCache<Bot>>) {
+    override async run(message: Message, _args: string[], client: AudioBot<JollyBot>) {
         const player = client.helpers.getPlayer(BigInt(config.guildID))
         player.stop()
         player.clear()

@@ -1,9 +1,10 @@
-import { Bot, BotWithCache, config, CreateMessage, Message } from "@deps";
+import { config, CreateMessage, Message } from "@deps";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { send } from "@utils/send.ts";
+import { JollyBot } from "@classes/client.ts";
 
-export async function messageLink(client: BotWithCache<Bot>, message: Message) {
+export async function messageLink(client: JollyBot, message: Message) {
     if (!config.plugins.showContentOnMessageLink) return;
     const matched = message.content.match(/http(s)?:\/\/discord.com\/channels\/[0-9]{17,}\/[0-9]{17,}\/[0-9]{17,}/g)
     if (!matched) return;
@@ -11,7 +12,7 @@ export async function messageLink(client: BotWithCache<Bot>, message: Message) {
     try {
         let result: CreateMessage = {}
         const msg = await client.helpers.getMessage(channelid, messageid)
-        const author = client.users.get(msg.authorId) || await client.helpers.getUser(msg.authorId)
+        const author = await client.cache.users.get(msg.authorId) || await client.helpers.getUser(msg.authorId)
         const e = new JollyEmbed()
             .setFooter(author.username, await avatarURL(client, msg.authorId))
             .setTitle("Message Reference (click to jump)")

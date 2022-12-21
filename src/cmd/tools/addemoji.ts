@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, config, Message } from "@deps";
+import { config, Message } from "@deps";
 import { addCommand, JollyCommand, prefix } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 
@@ -11,7 +11,7 @@ class AddEmoji extends JollyCommand {
         })
     }
 
-    override run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override run(message: Message, args: string[], client: JollyBot) {
         function isEmote(a: string[]) {
             return a[0].startsWith("<a:") || a[0].startsWith("<:");
         }

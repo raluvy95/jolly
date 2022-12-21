@@ -1,10 +1,11 @@
-import { Bot, BotWithCache, config, CreateMessage, Message } from "@deps";
+import { config, CreateMessage, Message } from "@deps";
 import { ReactionRmPayload } from "../interfaces/reactionpayload.ts";
 import { getEmojiName } from "@utils/getemojiname.ts";
 import { send } from "@utils/send.ts";
 import { starboardDB } from "@classes/starboardDB.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
+import { JollyBot } from "@classes/client.ts";
 
 type IsItNegativeOrPositive = "-" | "+"
 
@@ -12,10 +13,10 @@ function parseMessageURL(msg: Message) {
     return `[Jump to message](https://discord.com/channels/${config.guildID}/${msg.channelId}/${msg.id})`
 }
 
-async function resolveMessage(msg: Message, client: BotWithCache<Bot>, content: string) {
+async function resolveMessage(msg: Message, client: JollyBot, content: string) {
     try {
         let result: CreateMessage = {}
-        const author = client.users.get(msg.authorId) || await client.helpers.getUser(msg.authorId)
+        const author = await client.cache.users.get(msg.authorId) || await client.helpers.getUser(msg.authorId)
         const e = new JollyEmbed()
             .setAuthor(author.username, await avatarURL(client, msg.authorId))
             .setTime(msg.timestamp)
@@ -48,13 +49,13 @@ async function resolveMessage(msg: Message, client: BotWithCache<Bot>, content: 
     } catch { return; }
 }
 
-export async function starboardWatcher(client: BotWithCache<Bot>, reaction: ReactionRmPayload, type: IsItNegativeOrPositive) {
+export async function starboardWatcher(client: JollyBot, reaction: ReactionRmPayload, type: IsItNegativeOrPositive) {
     const starConf = config.plugins.starboard
     if (!starConf.enable) return;
     if (reaction.userId == client.id) return;
     const emoji = !starConf.customEmoji ? "⭐" : starConf.customEmoji
     if (reaction.emoji.name == getEmojiName(emoji)) {
-        const msg = client.messages.get(reaction.messageId) || await client.helpers.getMessage(reaction.channelId, reaction.messageId)
+        const msg = await client.cache.messages.get(reaction.messageId) || await client.helpers.getMessage(reaction.channelId, reaction.messageId)
         if (starConf.ignoreReactionYourself && reaction.userId == msg.authorId) return;
         if (!msg.reactions) return;
         const react = msg.reactions.find(m => m.emoji.name == getEmojiName(emoji))

@@ -1,8 +1,9 @@
-import { Bot, BotWithCache, config, Message } from "@deps";
+import { config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { ms } from "https://deno.land/x/ms@v0.1.0/ms.ts";
 import { findMember } from "@utils/find.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Timeout extends JollyCommand {
     constructor() {
@@ -14,7 +15,7 @@ class Timeout extends JollyCommand {
         })
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, args: string[], client: JollyBot) {
         const member = await findMember(client, args[0])
         if (!member) return send(client, message.channelId, "Cannot find that member")
         if (typeof member.communicationDisabledUntil !== "undefined" && member.communicationDisabledUntil > Date.now()) return send(client, message.channelId, "That member is already muted.")

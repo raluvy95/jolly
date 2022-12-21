@@ -1,7 +1,8 @@
 import { JollyDB } from "@classes/database.ts";
-import { BigString, Bot, BotWithCache, ChannelTypes, Collection, config, Message, QueryParameterSet } from "@deps";
+import { BigString, ChannelTypes, Collection, config, Message, QueryParameterSet } from "@deps";
 import { XPrequiredToLvlUP } from "@utils/levelutils.ts";
 import { levelEvent } from "@classes/events.ts";
+import { JollyBot } from "./client.ts";
 
 class LevelDB extends JollyDB {
     constructor() {
@@ -45,7 +46,7 @@ class LevelDB extends JollyDB {
         return this.getter("SELECT * FROM level WHERE userid = ?", [user])[0]
     }
 
-    setXP(channel: BigString, client: BotWithCache<Bot>, user: BigString, value: number, type: XP_METHOD) {
+    setXP(channel: BigString, client: JollyBot, user: BigString, value: number, type: XP_METHOD) {
         const exists = this.get(user)
         if (typeof user == "bigint") {
             user = String(user)
@@ -105,12 +106,12 @@ export enum XP_METHOD {
     RESET
 }
 
-export async function handleXP(client: BotWithCache<Bot>, message: Message) {
+export async function handleXP(client: JollyBot, message: Message) {
     const xpconf = config.plugins.levelXP
     if (!xpconf.enable) return;
-    if (message.isFromBot && client.channels.get(message.channelId)?.type == ChannelTypes.DM) return;
+    if (message.isFromBot && (await client.cache.channels.get(message.channelId))?.type == ChannelTypes.DM) return;
     if (xpconf.ignoreXPChannels!.includes(String(message.channelId))) return;
-    const member = client.members.get(message.authorId) || await client.helpers.getMember(config.guildID, message.authorId)
+    const member = await client.cache.members.get(message.authorId, BigInt(config.guildID)) || await client.helpers.getMember(config.guildID, message.authorId)
     if (!member?.roles?.some(id => xpconf.ignoreCooldownRoles!.includes(String(id)))) {
         if (!levelCooldown.has(message.authorId)) {
             levelCooldown.set(message.authorId, 0)

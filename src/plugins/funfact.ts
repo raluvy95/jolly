@@ -1,10 +1,11 @@
-import { Bot, BotWithCache, config } from "@deps";
+import { config } from "@deps";
 import { main } from "@utils/log.ts";
 import { send } from "@utils/send.ts";
+import { JollyBot } from "@classes/client.ts";
 
 type FunfactContent = string[];
 
-export function funfact(client: BotWithCache<Bot>) {
+export function funfact(client: JollyBot) {
     const funfact = config.plugins.funfact
     if (!funfact.enable) return;
     setInterval(async () => {

@@ -1,6 +1,7 @@
-import { BigString, Bot, BotWithCache, DiscordChannel, ModifyChannel } from "@deps";
+import { BigString, DiscordChannel, ModifyChannel } from "@deps";
+import { JollyBot } from "@classes/client.ts";
 
-export async function editChannel(client: BotWithCache<Bot>, channelId: BigString, options: ModifyChannel) {
+export async function editChannel(client: JollyBot, channelId: BigString, options: ModifyChannel) {
 
     const result = await client.rest.runMethod<DiscordChannel>(
         client.rest,

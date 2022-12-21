@@ -1,9 +1,10 @@
-import { Bot, BotWithCache, config } from "@deps";
+import { config } from "@deps";
 import { ReactionRmPayload } from "../interfaces/reactionpayload.ts";
 import { getEmojiName } from "@utils/getemojiname.ts";
+import { JollyBot } from "@classes/client.ts";
 
 
-export async function reaction(client: BotWithCache<Bot>, payload: ReactionRmPayload, type: "add" | "rm") {
+export async function reaction(client: JollyBot, payload: ReactionRmPayload, type: "add" | "rm") {
     if (payload.userId == client.id) return;
     const reactionRoleConf = config.plugins.reactionRole
     if (!reactionRoleConf.enable) return;
@@ -12,7 +13,7 @@ export async function reaction(client: BotWithCache<Bot>, payload: ReactionRmPay
     if (!currentReaction) return;
     const currentRole = currentReaction.roleEmojis.find(m => getEmojiName(m.emoji) == payload.emoji.name)
     if (!currentRole) return;
-    const member = client.members.get(payload.userId) || await client.helpers.getMember(config.guildID, payload.userId)
+    const member = await client.cache.members.get(payload.userId, BigInt(config.guildID)) || await client.helpers.getMember(config.guildID, payload.userId)
     if (!member) return;
     switch (type) {
         case "add": {
@@ -41,7 +42,7 @@ export async function reaction(client: BotWithCache<Bot>, payload: ReactionRmPay
 /*
 Initialize reaction (such as automatic adding reaction if there's no reaction)
 */
-export async function reactionInit(client: BotWithCache<Bot>) {
+export async function reactionInit(client: JollyBot) {
     const reactionRoleConf = config.plugins.reactionRole
     if (!reactionRoleConf.enable) return;
     if (reactionRoleConf.reactions!.length < 1) return;

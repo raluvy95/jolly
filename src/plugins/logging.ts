@@ -1,9 +1,10 @@
-import { Bot, BotWithCache, config, EventHandlers } from "@deps";
+import { config, EventHandlers } from "@deps";
 import { logToEmbed } from "@utils/logToEmbed.ts";
 import { summonWebhook } from "@utils/webhook.ts";
+import { JollyBot } from "@classes/client.ts";
 
 // deno-lint-ignore no-explicit-any
-export async function loggingHandler(client: BotWithCache<Bot>, event: keyof EventHandlers, ...args: any) {
+export async function loggingHandler(client: JollyBot, event: keyof EventHandlers, ...args: any) {
     const log = config.plugins.logging
     if (!log.enable) return
     for (const obj of log.events!) {

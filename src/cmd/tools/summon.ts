@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { summonWebhook } from "@utils/webhook.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
@@ -8,7 +8,7 @@ class SummonWebHook extends JollyCommand {
         super("summon", "tools")
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, args: string[], client: JollyBot) {
         const author = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
         return await summonWebhook(client, message.channelId, args.join(" ") || "Hello!", author.username, await avatarURL(client, author))
     }

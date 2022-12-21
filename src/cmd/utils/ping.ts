@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 
@@ -11,7 +11,7 @@ class Ping extends JollyCommand {
         })
     }
 
-    override run(message: Message, _args: string[], client: BotWithCache<Bot>): void {
+    override run(message: Message, _args: string[], client: JollyBot): void {
         send(client, message.channelId, `Pong! ${Date.now() - message.timestamp}ms`)
     }
 

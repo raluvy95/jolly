@@ -1,7 +1,8 @@
-import { Bot, BotWithCache, config, Member, User } from "@deps";
+import { config, Member, User } from "@deps";
+import { JollyBot } from "@classes/client.ts";
 
 
-export const nicknameOnJoin = (client: BotWithCache<Bot>, member: Member, user: User) => {
+export const nicknameOnJoin = (client: JollyBot, member: Member, user: User) => {
     if (!config.plugins.nicknameOnJoin.enable) return;
 
     const nick = config.plugins.nicknameOnJoin.nickname

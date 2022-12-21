@@ -1,8 +1,9 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { level, XP_METHOD } from "@classes/level.ts"
 import { findUser } from "@utils/find.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class setXP extends JollyCommand {
     constructor() {
@@ -13,7 +14,7 @@ class setXP extends JollyCommand {
         })
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, args: string[], client: JollyBot) {
         if (args.length < 1) return;
         const user = await findUser(client, args[0], message)
         if (!user) return send(client, message.channelId, "That user is not found")

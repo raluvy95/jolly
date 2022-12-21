@@ -1,8 +1,9 @@
-import { BigString, Bot, BotWithCache, CreateMessage, Embed, Webhook } from "@deps";
+import { BigString, CreateMessage, Embed, Webhook } from "@deps";
 import { contentToObj } from "@utils/send.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
+import { JollyBot } from "@classes/client.ts";
 
-export async function summonWebhook(client: BotWithCache<Bot>, channelId: BigString, content: string | CreateMessage | Embed[], name?: string, avatar?: string) {
+export async function summonWebhook(client: JollyBot, channelId: BigString, content: string | CreateMessage | Embed[], name?: string, avatar?: string) {
     const webhook = await client.helpers.getChannelWebhooks(channelId)
     let webhookClient: Webhook | undefined;
     if (webhook.size > 0) {

@@ -1,7 +1,7 @@
-import { AudioBot, Bot, BotWithCache, config, Message } from "@deps";
+import { AudioBot, config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
-//import { JollyEmbed } from "@classes/embed.ts";
+import { JollyBot } from "../../classes/client.ts";
 
 class Play extends JollyCommand {
     constructor() {
@@ -12,9 +12,9 @@ class Play extends JollyCommand {
         })
     }
 
-    override async run(message: Message, args: string[], client: AudioBot<BotWithCache<Bot>>) {
-        const vc = client.guilds.get(BigInt(config.guildID))?.voiceStates.find((vc) => vc.userId === message.authorId)?.channelId;
-        const botVc = client.guilds.get(BigInt(config.guildID))?.voiceStates.find((vc) => vc.userId === client.id)?.channelId;
+    override async run(message: Message, args: string[], client: AudioBot<JollyBot>) {
+        const vc = (await client.cache.guilds.get(BigInt(config.guildID)))?.voiceStates.find((vc) => vc.userId === message.authorId)?.channelId;
+        const botVc = (await client.cache.guilds.get(BigInt(config.guildID)))?.voiceStates.find((vc) => vc.userId === client.id)?.channelId;
 
         if (!vc) {
             return send(client, message.channelId, "Please join in vc")

@@ -1,10 +1,11 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand, prefix } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { TIO } from "../../../lib/min-tio.js";
 import { IDS } from "../../../lib/id.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { escape } from "@utils/escapeTxt.ts"
+import { JollyBot } from "@classes/client.ts";
 
 interface Unknown {
     [key: string]: string;
@@ -15,7 +16,7 @@ class Run extends JollyCommand {
         super("run", "tools")
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, args: string[], client: JollyBot) {
         const err = "Please input your code (requires to have formatted codeblock). This is how codeblock should look like: \n\`\`\`c-clang\n#include <stdio.h>\n\nint main() {\n    printf(\"hello world\")\n    return 0;\n}\n\`\`\`"
         if (!args.length) return send(client, message.channelId, escape(err))
         if (args[0].toLowerCase().startsWith("lang")) {

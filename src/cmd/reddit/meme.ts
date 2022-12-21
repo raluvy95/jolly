@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { Reddit } from "@classes/reddit.ts";
@@ -14,7 +14,7 @@ class Meme extends JollyCommand {
         this.subredditMeme = ["dankmemes", "meme", "memes"]
     }
 
-    override async run(message: Message, _: string[], client: BotWithCache<Bot>): Promise<void> {
+    override async run(message: Message, _: string[], client: JollyBot): Promise<void> {
         try {
             const subPick = this.subredditMeme[Math.floor(Math.random() * this.subredditMeme.length)]
             const reddit = new Reddit(subPick, "hot")

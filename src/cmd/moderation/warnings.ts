@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { warning } from "@classes/warning.ts";
@@ -6,6 +6,7 @@ import { findUser } from "@utils/find.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Warnings extends JollyCommand {
     constructor() {
@@ -16,7 +17,7 @@ class Warnings extends JollyCommand {
         })
     }
 
-    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+    override async run(message: Message, args: string[], client: JollyBot) {
         if (!args[0]) return send(client, message.channelId, "Missing arguments")
         const user = await findUser(client, args.join(" "), message)
         if (!user) return send(client, message.channelId, "That user is not found")

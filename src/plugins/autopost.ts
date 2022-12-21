@@ -1,8 +1,10 @@
-import { Bot, BotWithCache, config } from "@deps";
+import { config } from "@deps";
 import { Reddit } from "@classes/reddit.ts";
 //import { send } from "@utils/send.ts";
 import { summonWebhook } from "@utils/webhook.ts";
-export function autopost(client: BotWithCache<Bot>) {
+import { JollyBot } from "@classes/client.ts";
+
+export function autopost(client: JollyBot) {
     const autopost = config.plugins.autopost
     if (!autopost.enable) return;
     if (!autopost.posts) return
@@ -12,7 +14,7 @@ export function autopost(client: BotWithCache<Bot>) {
             const subredditPick = Math.floor(Math.random() * p.subredditToFollow.length)
             const sub = p.subredditToFollow[subredditPick]
             const r = new Reddit(sub)
-            const channel = client.channels.get(BigInt(p.channelID)) || await client.helpers.getChannel(p.channelID)
+            const channel = await client.cache.channels.get(BigInt(p.channelID)) || await client.helpers.getChannel(p.channelID)
             if (!channel) return;
             const em = await r.toEmbed(true, true)
 

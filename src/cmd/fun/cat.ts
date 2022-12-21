@@ -1,6 +1,7 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Cat extends JollyCommand {
     constructor() {
@@ -10,7 +11,7 @@ class Cat extends JollyCommand {
         })
     }
 
-    override run(message: Message, _args: string[], client: BotWithCache<Bot>) {
+    override run(message: Message, _args: string[], client: JollyBot) {
         const err = "There's something went wrong with cat. No cat for you :("
         try {
             fetch("https://aws.random.cat/meow").then(async r => {

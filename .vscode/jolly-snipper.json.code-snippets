@@ -4,7 +4,7 @@
 		"prefix": "command",
 		"description": "Create new Jolly command from template",
 		"body": [
-			"import { Bot, BotWithCache, Message } from \"@deps\";",
+			"import { Message } from \"@deps\";",
 			"import { addCommand, JollyCommand } from \"@classes/command.ts\";",
 			"import { send } from \"@utils/send.ts\";",
 			"",
@@ -13,13 +13,12 @@
 			"        super(\"$2\", \"$3\")",
 			"    }",
 			"",
-			"    override async run(message: Message, args: string[], client: BotWithCache<Bot>) {",
+			"    override async run(message: Message, args: string[], client: JollyBot) {",
 			"        return await send(client, message.channelId, \"Hello world!\");",
 			"    }",
 			"}",
 			"",
 			"addCommand(new $1())"
-
 		]
 	},
 	"Plugin Template": {
@@ -27,9 +26,9 @@
 		"prefix": "plugin",
 		"description": "Create an empty plugin",
 		"body": [
-			"import { Bot, BotWithCache, config, Message } from \"@deps\";",
+			"import { config, Message } from \"@deps\";",
 			"",
-			"export async function $1(client: BotWithCache<Bot>, $2) {",
+			"export async function $1(client: JollyBot, $2) {",
 			"    $3",
 			"}"
 		]

@@ -1,7 +1,8 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { uptime } from "@utils/uptime.ts";
+import { JollyBot } from "@classes/client.ts";
 
 class Uptime extends JollyCommand {
     constructor() {
@@ -10,7 +11,7 @@ class Uptime extends JollyCommand {
         })
     }
 
-    override run(message: Message, _: string[], client: BotWithCache<Bot>) {
+    override run(message: Message, _: string[], client: JollyBot) {
         const up = uptime()
         return send(client, message.channelId, up)
     }
