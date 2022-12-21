@@ -187,7 +187,26 @@ const plugins = {
     logging: {
         enable: false,
         warnLogChannelID: "channel ID",
-        events: []
+        // Set global channel ID for all logs to send
+        globalChannelID: "channel ID",
+        /* To enable logging, make sure to add
+           the following format:
+           {
+                event: AllowedEvents (such as "messageUpdate", "messageDelete" etc.)
+                channelID: boolean (optional if globalChannelID is set)
+           }
+        */
+        events: [
+            {
+                // Message Edit
+                event: "messageUpdate",
+                // optional
+                channelID: "channelID"
+            },
+            {
+                event: "messageDelete"
+            }
+        ]
     },
     // This also needs to have 
     // --unstable enabled in deno.jsonc
