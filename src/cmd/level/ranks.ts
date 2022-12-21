@@ -11,7 +11,7 @@ class Ranks extends JollyCommand {
 
     override async run(message: Message, _args: string[], client: BotWithCache<Bot>) {
         const ranks = config.plugins.levelXP.rolesRewards
-        if (ranks.length < 1) return send(client, message.channelId, "Roles rewards is empty")
+        if (!ranks || ranks?.length < 1) return send(client, message.channelId, "Roles rewards is empty")
         const e = new JollyEmbed()
             .setTitle(`Roles rewards [${ranks.length}]`)
             .setThumb(await iconURL(client))

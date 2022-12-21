@@ -1,8 +1,6 @@
-// deno-lint-ignore-file no-unused-vars
-import { Bot, BotWithCache, Channel, config, EventHandlers, Member, Message, Role, User } from "@deps";
-import { logToEmbed } from "../utils/logToEmbed.ts";
-import { send } from "../utils/send.ts";
-import { summonWebhook } from "../utils/webhook.ts";
+import { Bot, BotWithCache, config, EventHandlers } from "@deps";
+import { logToEmbed } from "@utils/logToEmbed.ts";
+import { summonWebhook } from "@utils/webhook.ts";
 
 // deno-lint-ignore no-explicit-any
 export async function loggingHandler(client: BotWithCache<Bot>, event: keyof EventHandlers, ...args: any) {

@@ -1,6 +1,4 @@
-import { config } from "../../config.ts";
-import { Bot, Message } from "../../deps.ts";
-import { BotWithCache } from "../../deps.ts";
+import { Bot, BotWithCache, config, Message } from "@deps";
 import { lastMessage } from "../interfaces/snipe.ts"
 
 class Sniper {

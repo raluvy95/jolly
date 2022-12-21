@@ -1,7 +1,7 @@
 import { Bot, BotWithCache, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
-import { starboardDB } from "../../classes/starboardDB.ts";
+import { starboardDB } from "@classes/starboardDB.ts";
 
 class PurgeStarBoard extends JollyCommand {
     constructor() {

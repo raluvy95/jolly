@@ -1,7 +1,7 @@
 import { AudioBot, Bot, BotWithCache, config, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
-import { JollyEmbed } from "../../classes/embed.ts";
+import { JollyEmbed } from "@classes/embed.ts";
 
 class Queues extends JollyCommand {
     constructor() {
