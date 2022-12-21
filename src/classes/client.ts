@@ -29,6 +29,12 @@ const basebot = createBot(new Jolly())
 
 const cache = enableCachePlugin(basebot, {
     cacheInMemory: {
+        guilds: true,
+        channels: true,
+        messages: true,
+        roles: true,
+        members: true,
+        users: true,
         default: true
     }
 })
