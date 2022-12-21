@@ -46,7 +46,11 @@ class Run extends JollyCommand {
             .setTitle(`Code results - ${lang}`)
             .setDesc(codeblock + error)
             .setFooter(time)
-        send(client, message.channelId, e.build())
+        try {
+            send(client, message.channelId, e.build())
+        } catch (e) {
+            return send(client, message.channelId, `**There's something went wrong:** ${e}`)
+        }
     }
 }
 
