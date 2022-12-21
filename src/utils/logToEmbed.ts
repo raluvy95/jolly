@@ -6,6 +6,10 @@ import { avatarURL } from "@utils/avatarURL.ts";
 import { relativeTimeFromDates } from "@utils/dateToString.ts";
 import { snowflake } from "@utils/snowflake.ts";
 
+function content(str: string) {
+    return str.length > 3500 ? str.slice(0, 3500) : str
+}
+
 // deno-lint-ignore no-explicit-any
 export async function logToEmbed(client: BotWithCache<Bot>, event: AllowedEvents, ...args: any) {
     const e = new JollyEmbed()
@@ -52,9 +56,8 @@ export async function logToEmbed(client: BotWithCache<Bot>, event: AllowedEvents
                 }
             }
             e.setColor(COLORS.RED)
-                .setTitle(`Message Deleted in <#${payload.channelId}>`)
                 .setAuthor(`${user.username}#${user.discriminator}`, await avatarURL(client, user))
-                .setDesc(msg.content)
+                .setDesc(`**Message Deleted in <#${payload.channelId}>**\n\n ${content(msg.content)}`)
                 .setFooter(`ID: ${payload.id}`)
             return { embeds: e.build(), ...result }
         }
@@ -65,8 +68,7 @@ export async function logToEmbed(client: BotWithCache<Bot>, event: AllowedEvents
                 guildId?: bigint | undefined;
             }
             e.setColor(COLORS.RED)
-                .setTitle(`Message Bulk Deleted in <#${payload.channelId}>`)
-                .setDesc(`**${payload.ids.length} message${payload.ids.length == 1 ? '' : 's'}** were purged`)
+                .setDesc(`**Message Bulk Deleted in <#${payload.channelId}>**\n\n**${payload.ids.length} message${payload.ids.length == 1 ? '' : 's'}** were purged`)
             break
         }
         case "messageUpdate": {
@@ -76,7 +78,7 @@ export async function logToEmbed(client: BotWithCache<Bot>, event: AllowedEvents
             const user = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
             e.setColor(COLORS.YELLOW)
                 .setAuthor(`${user.username}#${user.discriminator}`, await avatarURL(client, user))
-                .setTitle(`Message Edited in <#${message.channelId}>`)
+                .setDesc(`**Message Edited in <#${message.channelId}>**`)
                 .addField("Before", oldMessage.content.slice(0, 1990))
                 .addField("After", message.content.slice(0, 1990))
                 .setFooter(`ID: ${message.id}`)
