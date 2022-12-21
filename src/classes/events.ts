@@ -136,6 +136,13 @@ export const JollyEvent = {
     },
 
     messageUpdate(client: BotWithCache<Bot>, message: Message, oldMessage?: Message) {
+        const allowBotChannel = config.allowBotResponsingCommandChannelID
+        // allow bots aka webhooks to use command
+        if (allowBotChannel.includes(String(message.channelId)) && String(message.authorId) != config.botID) {
+            commandHandler(client, message);
+        } else if (!message.isFromBot) {
+            commandHandler(client, message);
+        }
         ghostPingU(client, message, oldMessage)
         loggingHandler(client, "messageUpdate", message, oldMessage)
     },
