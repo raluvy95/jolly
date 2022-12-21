@@ -203,6 +203,10 @@ export const JollyEvent = {
         nicknameOnJoin(client, member, user)
         loggingHandler(client, "guildMemberAdd", member, user)
     },
+    
+    guildMemberRemove(client: BotWithCache<Bot>, member: Member, user: User) {
+        loggingHandler(client, "guildMemberRemove", member, user)
+    },
 
     reactionAdd(client: BotWithCache<Bot>, payload: ReactionAddPayload) {
         reaction(client, payload, "add")
