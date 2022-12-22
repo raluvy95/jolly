@@ -86,7 +86,7 @@ function isOwner(user: BigString) {
 }
 
 export const JollyEvent = {
-    ready(bot: BotWithCache<Bot>) {
+    async ready(bot: BotWithCache<Bot>) {
         BotUptime = Date.now()
         main.info("I'm ready!");
         bot.helpers.editBotStatus({
@@ -106,6 +106,14 @@ export const JollyEvent = {
         clock(bot)
         RSS(bot)
         reactionInit(bot)
+        if (!Deno.env.get("NO_CACHE")) {
+            const members = await bot.helpers.getMembers(config.guildID, { limit: 1000 })
+            for (const m of members) {
+                bot.members.set(m[0], m[1])
+            }
+        } else {
+            main.info("Using NO_CACHE env, ignoring caching all members")
+        }
     },
 
     messageCreate(bot: BotWithCache<Bot>, message: Message): void {
