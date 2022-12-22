@@ -4,7 +4,7 @@ import { main } from "@utils/log.ts";
 import { loggingHandler } from "@plugins/logging.ts";
 
 
-export const JollyVersion = "0.6.3"
+export const JollyVersion = "0.6.4"
 
 export class Jolly implements CreateBotOptions {
 
