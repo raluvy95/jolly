@@ -20,7 +20,6 @@ export interface Plugins {
     funfact: FunFact
     clockChannel: ClockChannel
     rss: RSS
-    sniper: boolean
     logging: Logging,
     music: Music,
     starboard: Starboard
@@ -126,19 +125,16 @@ interface RSS extends PluginBase {
     customMessage?: string
 }
 
-export type AllowedEvents = "guildMemberAdd" | "guildMemberRemove" | "messageDelete" | "messageDeleteBulk"
-    | "channelCreate" | "channelDelete" | "roleCreate" | "roleDelete" | "guildMemberUpdateCache"
-    | "messageUpdate" | "voiceStateUpdateCache"
-
-export interface ObjAllowedEvents {
-    channelID?: string,
-    event: AllowedEvents
-}
+export type AllowedEvents = "threadCreate" | "threadDelete"
+    | "threadUpdate" | "guildMemberAdd" | "guildMemberRemove"
+    | "guildMemberUpdate" | "messageDelete" | "messageDeleteBulk"
+    | "channelCreate" | "channelDelete" | "roleCreate" | "roleDelete"
+    | "messageUpdate"
 
 interface Logging extends PluginBase {
     warnLogChannelID?: string,
-    globalChannelID?: string,
-    events?: Array<ObjAllowedEvents>
+    channelID?: string,
+    events?: Array<AllowedEvents>
 }
 
 // deno-lint-ignore no-empty-interface

@@ -4,7 +4,7 @@ import { send } from "@utils/send.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { uptime } from "@utils/uptime.ts";
-import { JollyVersion } from "@classes/client.ts";
+import { JollyVersion } from "../../classes/client.ts";
 
 class BotInfo extends JollyCommand {
     constructor() {

@@ -27,7 +27,7 @@ class Rank extends JollyCommand {
         const rank = level.get(userID)
         if (!rank) return send(client, message.channelId, "That user hasn't started this coversation yet.")
         const reqXP = XPrequiredToLvlUP(rank.level)
-        const nextUp = config.plugins.levelXP.rolesRewards?.find(m => rank.level < m.level)
+        const nextUp = config.plugins.levelXP.rolesRewards.find(m => rank.level < m.level)
         let nextUpStr: string;
         if (!nextUp) {
             nextUpStr = `There are no ranks upcoming :(`

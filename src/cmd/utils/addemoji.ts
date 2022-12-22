@@ -4,7 +4,7 @@ import { send } from "@utils/send.ts";
 
 class AddEmoji extends JollyCommand {
     constructor() {
-        super("addemoji", "tools", {
+        super("addemoji", "utils", {
             aliases: ["aemoji"],
             permission: ["MANAGE_EMOJIS_AND_STICKERS"],
             usage: "<Emoji or URL> <name if URL is input>"
