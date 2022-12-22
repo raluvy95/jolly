@@ -1,4 +1,4 @@
-import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, Channel, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, MessageComponentTypes, Role, User } from "@deps"
+import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, Channel, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, MessageComponentTypes, Role, User, VoiceState } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
 import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel, clock, RSS } from "@plugins/mod.ts";
@@ -26,6 +26,11 @@ export const levelEvent = new EventEmitter<{
 }>()
 
 export let BotUptime: number;
+
+export type JollyEvents = EventHandlers & {
+    guildMemberUpdateCache(client: Bot, member: Member, oldMember: Member, user: User): void,
+    voiceStateUpdateCache(client: Bot, oldVS: VoiceState, VS: VoiceState): void
+}
 
 warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, user?: User) => {
     const e = new JollyEmbed()
@@ -203,7 +208,7 @@ export const JollyEvent = {
         nicknameOnJoin(client, member, user)
         loggingHandler(client, "guildMemberAdd", member, user)
     },
-    
+
     guildMemberRemove(client: BotWithCache<Bot>, member: Member, user: User) {
         loggingHandler(client, "guildMemberRemove", member, user)
     },
@@ -232,5 +237,5 @@ export const JollyEvent = {
 
     roleDelete(client: BotWithCache<Bot>, payload: { guildId: bigint; roleId: bigint; }) {
         loggingHandler(client, "roleDelete", payload)
-    }
-} as unknown as EventHandlers
+    },
+} as unknown as JollyEvents

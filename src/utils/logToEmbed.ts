@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Channel, CreateMessage, Message, Role, User } from "@deps";
+import { Bot, BotWithCache, Channel, CreateMessage, Member, Message, Role, User, VoiceState } from "@deps";
 import { JollyEmbed } from "@classes/embed.ts";
 import { COLORS } from "@const/colors.ts";
 import { AllowedEvents } from "../interfaces/plugins.ts";
@@ -8,6 +8,12 @@ import { snowflake } from "@utils/snowflake.ts";
 
 function content(str: string) {
     return str.length > 3500 ? str.slice(0, 3500) : str
+}
+
+function undefine(str?: string) {
+    if (!str) {
+        return "None"
+    } else return str
 }
 
 // deno-lint-ignore no-explicit-any
@@ -84,12 +90,83 @@ export async function logToEmbed(client: BotWithCache<Bot>, event: AllowedEvents
                 .setFooter(`ID: ${message.id}`)
             break
         }
+        case "guildMemberUpdateCache": {
+            const member = args[0] as Member
+            const oldMember = args[1] as Member
+            const user = args[2] as User
+            e.setAuthor(user.username + "#" + user.discriminator, await avatarURL(client, user))
+            if (member.nick != oldMember.nick) {
+                e.setTitle("Nickname change")
+                    .setColor(COLORS.YELLOW)
+                    .addField("Before", undefine(oldMember.nick))
+                    .addField("After", undefine(member.nick))
+            } else if (member.roles.length != oldMember.roles.length) {
+                const differentBeforeRole = [];
+                const differentAfterRole = []
+                for (const r of oldMember.roles) {
+                    if (member.roles.indexOf(r) == -1) {
+                        differentBeforeRole.push(r)
+                    }
+                }
+                for (const r of member.roles) {
+                    if (oldMember.roles.indexOf(r) == -1) {
+                        differentAfterRole.push(r)
+                    }
+                }
+                if (differentAfterRole.length > 0) {
+                    e.setTitle("Role Added")
+                        .setDesc(`Added role${differentAfterRole.length == 1 ? '' : 's'}: ` + differentAfterRole.map(m => `<@&${m}>`).join(", "))
+                        .setFooter(`ID: ${member.id}`)
+                        .setColor(COLORS.GREEN)
+                } else if (differentBeforeRole.length > 0) {
+                    e.setTitle("Role Removed")
+                        .setDesc(`Removed role${differentBeforeRole.length == 1 ? '' : 's'}: ` + differentBeforeRole.map(m => `<@&${m}>`).join(", "))
+                        .setFooter(`ID: ${member.id}`)
+                        .setColor(COLORS.RED)
+                }
+            }
+            break
+        }
         case "roleDelete":
         case "roleCreate": {
             const role = args[0] as Role
             e.setColor(event == "roleCreate" ? COLORS.GREEN : COLORS.RED)
                 .setTitle(event == "roleCreate" ? "Role Created" : "Role Deleted")
                 .setDesc(`**ID:** ${role.id}\n**Name:** ${role.name}`)
+            break
+        }
+        case "voiceStateUpdateCache": {
+            const vs = args[0] as VoiceState
+            const oldvs = args[1] as VoiceState
+            const user = client.users.get(vs.userId) || await client.helpers.getUser(vs.userId)
+            e.setAuthor(user.username + "#" + user.discriminator, await avatarURL(client, user))
+            if (!vs.channelId) {
+                const channel = client.channels.get(oldvs.channelId!) || await client.helpers.getChannel(oldvs.channelId!)
+                e.setTitle("VC Left")
+                    .setDesc(`**Name:** ${channel.name}`)
+                    .setColor(COLORS.RED)
+                    .setFooter(`ID: ${vs.userId}`)
+                break
+            }
+            const channel = client.channels.get(vs.channelId) || await client.helpers.getChannel(vs.channelId)
+            if (oldvs.toggles.deaf != vs.toggles.deaf) {
+                e.setTitle(!oldvs.toggles.deaf ? "Member Deafed" : "Member Undeafed")
+            } else if (oldvs.toggles.mute != vs.toggles.mute) {
+                e.setTitle(!oldvs.toggles.mute ? "Member Muted" : "Member Unmuted")
+            } else if (oldvs.toggles.selfDeaf != vs.toggles.selfDeaf) {
+                e.setTitle(!oldvs.toggles.selfDeaf ? "Member Deafed" : "Member Undeafed")
+            } else if (oldvs.toggles.selfMute != vs.toggles.selfMute) {
+                e.setTitle(!oldvs.toggles.selfMute ? "Member Muted" : "Member Unmuted")
+            } else if (oldvs.toggles.selfStream != vs.toggles.selfStream) {
+                e.setTitle(!oldvs.toggles.selfStream ? "Member started streaming" : "Member stopped streaming")
+            } else if (oldvs.toggles.selfVideo != vs.toggles.selfVideo) {
+                e.setTitle(!oldvs.toggles.selfVideo ? "Member showed their webcam" : "Member stopped showing their webcam")
+            } else if (!oldvs.channelId) {
+                e.setTitle("VC Joined")
+            }
+            e.setDesc(`**Channel Name:** ${channel.name}`)
+                .setColor(COLORS.YELLOW)
+                .setFooter(`ID: ${vs.userId}`)
             break
         }
     }

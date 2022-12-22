@@ -1,0 +1,13 @@
+{
+    "tasks": {
+        "run": "DEV=0 deno run --unstabe -A src/index.ts",
+        "prod": "deno run --unstable -A src/index.ts",
+        "watch": "deno run --unstable --watch -A src/index.ts",
+        "check": "deno cache --unstable --check src/index.ts",
+        "register": "deno run --unstable -A registerSlashCommand.js"
+    },
+    "compilerOptions": {
+        "noImplicitAny": true
+    },
+    "importMap": "importMap.json"
+}

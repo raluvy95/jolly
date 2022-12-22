@@ -127,8 +127,8 @@ interface RSS extends PluginBase {
 }
 
 export type AllowedEvents = "guildMemberAdd" | "guildMemberRemove" | "messageDelete" | "messageDeleteBulk"
-    | "channelCreate" | "channelDelete" | "roleCreate" | "roleDelete"
-    | "messageUpdate"
+    | "channelCreate" | "channelDelete" | "roleCreate" | "roleDelete" | "guildMemberUpdateCache"
+    | "messageUpdate" | "voiceStateUpdateCache"
 
 export interface ObjAllowedEvents {
     channelID?: string,
