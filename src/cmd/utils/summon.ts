@@ -1,11 +1,11 @@
 import { Bot, BotWithCache, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { summonWebhook } from "@utils/webhook.ts";
-import { avatarURL } from "@utils/avatarURL.ts";
+import { avatarURL } from "../../utils/avatarURL.ts";
 
 class SummonWebHook extends JollyCommand {
     constructor() {
-        super("summon", "tools")
+        super("summon", "utils")
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {

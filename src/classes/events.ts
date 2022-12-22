@@ -1,4 +1,4 @@
-import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, Channel, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, MessageComponentTypes, Role, User, VoiceState } from "@deps"
+import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, MessageComponentTypes, User } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
 import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel, clock, RSS } from "@plugins/mod.ts";
@@ -14,8 +14,6 @@ import { messageLink } from "@plugins/messageLink.ts";
 import { ReactionAddPayload, ReactionRmPayload } from "../interfaces/reactionpayload.ts";
 import { reaction, reactionInit } from "@plugins/reactionRole.ts";
 import { starboardWatcher } from "@plugins/starboard.ts";
-import { loggingHandler } from "@plugins/logging.ts";
-import { sniperHandler } from "@classes/snipe.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -26,11 +24,6 @@ export const levelEvent = new EventEmitter<{
 }>()
 
 export let BotUptime: number;
-
-export type JollyEvents = EventHandlers & {
-    guildMemberUpdateCache(client: Bot, member: Member, oldMember: Member, user: User): void,
-    voiceStateUpdateCache(client: Bot, oldVS: VoiceState, VS: VoiceState): void
-}
 
 warnEvent.on("warnTrigger", async (client: BotWithCache<Bot>, data: IResultDB, user?: User) => {
     const e = new JollyEmbed()
@@ -86,7 +79,7 @@ function isOwner(user: BigString) {
 }
 
 export const JollyEvent = {
-    async ready(bot: BotWithCache<Bot>) {
+    ready(bot: BotWithCache<Bot>) {
         BotUptime = Date.now()
         main.info("I'm ready!");
         bot.helpers.editBotStatus({
@@ -106,14 +99,6 @@ export const JollyEvent = {
         clock(bot)
         RSS(bot)
         reactionInit(bot)
-        if (!Deno.env.get("NO_CACHE")) {
-            const members = await bot.helpers.getMembers(config.guildID, { limit: 1000 })
-            for (const m of members) {
-                bot.members.set(m[0], m[1])
-            }
-        } else {
-            main.info("Using NO_CACHE env, ignoring caching all members")
-        }
     },
 
     messageCreate(bot: BotWithCache<Bot>, message: Message): void {
@@ -144,20 +129,10 @@ export const JollyEvent = {
 
     messageDelete(client: BotWithCache<Bot>, payload: Payload, message: Message) {
         ghostPingD(client, payload, message)
-        loggingHandler(client, "messageDelete", payload, message)
-        sniperHandler(client, message)
     },
 
     messageUpdate(client: BotWithCache<Bot>, message: Message, oldMessage?: Message) {
-        const allowBotChannel = config.allowBotResponsingCommandChannelID
-        // allow bots aka webhooks to use command
-        if (allowBotChannel.includes(String(message.channelId)) && String(message.authorId) != config.botID) {
-            commandHandler(client, message);
-        } else if (!message.isFromBot) {
-            commandHandler(client, message);
-        }
         ghostPingU(client, message, oldMessage)
-        loggingHandler(client, "messageUpdate", message, oldMessage)
     },
 
     debug(info: string): void {
@@ -214,11 +189,6 @@ export const JollyEvent = {
 
     guildMemberAdd(client: BotWithCache<Bot>, member: Member, user: User) {
         nicknameOnJoin(client, member, user)
-        loggingHandler(client, "guildMemberAdd", member, user)
-    },
-
-    guildMemberRemove(client: BotWithCache<Bot>, member: Member, user: User) {
-        loggingHandler(client, "guildMemberRemove", member, user)
     },
 
     reactionAdd(client: BotWithCache<Bot>, payload: ReactionAddPayload) {
@@ -231,19 +201,4 @@ export const JollyEvent = {
         starboardWatcher(client, payload, "-")
     },
 
-    channelCreate(client: BotWithCache<Bot>, channel: Channel) {
-        loggingHandler(client, "channelCreate", channel)
-    },
-
-    channelDelete(client: BotWithCache<Bot>, channel: Channel) {
-        loggingHandler(client, "channelDelete", channel)
-    },
-
-    roleCreate(client: BotWithCache<Bot>, role: Role) {
-        loggingHandler(client, "roleCreate", role)
-    },
-
-    roleDelete(client: BotWithCache<Bot>, payload: { guildId: bigint; roleId: bigint; }) {
-        loggingHandler(client, "roleDelete", payload)
-    },
-} as unknown as JollyEvents
+} as unknown as Partial<EventHandlers>

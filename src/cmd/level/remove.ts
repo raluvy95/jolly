@@ -1,8 +1,8 @@
 import { Bot, BotWithCache, Message } from "@deps";
 import { addCommand, JollyCommand, prefix } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
-import { findUser } from "@utils/find.ts";
-import { level } from "@classes/level.ts";
+import { findUser } from "../../utils/find.ts";
+import { level } from "../../classes/level.ts";
 
 class Remove extends JollyCommand {
     constructor() {

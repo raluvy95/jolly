@@ -68,9 +68,6 @@ export function addCommand(cmd: JollyCommand): void {
         case "level":
             if (!config.plugins.levelXP.enable) return;
             break;
-        case "tools":
-            if (cmd.name == "sniper" && !config.plugins.sniper) return
-            break
     }
     globalCommand.set(cmd.name, cmd);
 }
