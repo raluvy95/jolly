@@ -15,8 +15,7 @@ class BotInfo extends JollyCommand {
     }
 
     private bytesToMB(bytes: number): string {
-        const kb = bytes / 1024
-        const mb = kb / 1024
+        const mb = bytes / 1024**2
         return mb.toFixed(0) + " MB"
     }
 
