@@ -1,3 +1,6 @@
+import { CreateMessage, Embed } from "@deps";
+import { JollyEmbed } from "@classes/embed.ts"
+
 export interface PluginBase {
     enable: boolean
 }
@@ -15,6 +18,7 @@ export interface Plugins {
     autopost: Autopost
     autoCreateChannel: AutoCreateChannel
     ghostPing: boolean
+    greeting: Greeting
     autoRenameChannel: AutoRenameChannel
     levelXP: LevelXP
     funfact: FunFact
@@ -147,4 +151,33 @@ interface Starboard extends PluginBase {
     customEmoji?: string
     requiredStarCount?: number,
     ignoreReactionYourself?: boolean
+}
+
+export interface ContextMessage {
+    embed: JollyEmbed
+    author: string,
+    authorAvatarURL: string,
+    mention: string,
+    memberCount: number,
+    serverName: string
+}
+
+export type FuncContextMessage = (ctx: ContextMessage) => string | CreateMessage | Embed[]
+
+interface Greeting extends PluginBase {
+    join?: {
+        enable: boolean,
+        channelID: string
+        customMessage: FuncContextMessage | string
+    },
+    leave?: {
+        enable: boolean,
+        channelID: string
+        customMessage: FuncContextMessage | string
+    },
+    ban?: {
+        enable: boolean,
+        channelID: string
+        customMessage: FuncContextMessage | string
+    }
 }

@@ -1,7 +1,7 @@
 import { IJollyConfig } from "./src/interfaces/config.ts";
-import { Plugins } from "./src/interfaces/plugins.ts";
+import { ContextMessage, Plugins } from "./src/interfaces/plugins.ts";
 // deno-lint-ignore no-unused-vars
-import { custom } from "./custom/reactionroles.temp.ts";    // => Imports the Constant from reaction roles; Rename the file link here and add the file name as reactionroles.ts
+import { custom } from "./custom/reactionroles.temp.ts";// => Imports the Constant from reaction roles; Rename the file link here and add the file name as reactionroles.ts
 
 /*
     TypeScript-based configuration
@@ -197,15 +197,7 @@ const plugins = {
            }
         */
         events: [
-            {
-                // Message Edit
-                event: "messageUpdate",
-                // optional
-                channelID: "channelID"
-            },
-            {
-                event: "messageDelete"
-            }
+            "roleDelete"
         ]
     },
     // This also needs to have 
@@ -220,6 +212,42 @@ const plugins = {
         requiredStarCount: 3,
         // Ignore reacting yourself in your own message
         ignoreReactionYourself: true
+    },
+    greeting: {
+        enable: false,
+        join: {
+            enable: true,
+            channelID: "channelID",
+            /*
+               {mention} - user's mention
+               {author} - author's name and tag
+               {memberCount} - server's member count
+               {server} - server's name
+            */
+            customMessage: "Hey {mention}! Welcome to the server! Now we got {memberCount} members!"
+        },
+        leave: {
+            enable: true,
+            channelID: "channelID",
+            // Can be function for embed builder and other stuff.
+            // Please refer to ContextMessage for parameters avaliable
+            // (Hold ctrl on ContextMessage to jump to implementation)
+            customMessage: (ctx: ContextMessage) => {
+                return ctx.embed.setTitle("Member left")
+                    .setThumb(ctx.authorAvatarURL)
+                    .setDesc("Goodbye little buddy :(")
+                    .addField("Name", ctx.author)
+                    .build()
+            }
+        },
+        ban: {
+            // This always triggers alongisde leave.
+            enable: false,
+            channelID: "channelID",
+            customMessage: (ctx: ContextMessage) => {
+                return `${ctx.author} got banned`
+            }
+        }
     }
 } as Plugins
 

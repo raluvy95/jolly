@@ -2,7 +2,7 @@ import { config, createBot, CreateBotOptions, enableAudioPlugin, enableCachePlug
 import { JollyEvent } from "@classes/events.ts";
 import { main } from "@utils/log.ts";
 
-export const JollyVersion = "0.6.0"
+export const JollyVersion = "0.6.1"
 
 export class Jolly implements CreateBotOptions {
 
@@ -16,7 +16,7 @@ export class Jolly implements CreateBotOptions {
         this.botID = BigInt(config.botID);
         this.intents = Intents.GuildMembers | Intents.MessageContent
             | Intents.GuildMessages | Intents.DirectMessages
-            | Intents.GuildVoiceStates | Intents.GuildMessageReactions;
+            | Intents.GuildVoiceStates | Intents.GuildMessageReactions | Intents.GuildBans;
         this.events = JollyEvent;
     }
 

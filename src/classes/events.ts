@@ -14,6 +14,7 @@ import { messageLink } from "@plugins/messageLink.ts";
 import { ReactionAddPayload, ReactionRmPayload } from "../interfaces/reactionpayload.ts";
 import { reaction, reactionInit } from "@plugins/reactionRole.ts";
 import { starboardWatcher } from "@plugins/starboard.ts";
+import { greeting } from "../plugins/greeting.ts";
 
 export const warnEvent = new EventEmitter<{
     warnTrigger(bot: BotWithCache<Bot>, data: IResultDB, user?: User): void
@@ -189,6 +190,15 @@ export const JollyEvent = {
 
     guildMemberAdd(client: BotWithCache<Bot>, member: Member, user: User) {
         nicknameOnJoin(client, member, user)
+        greeting(client, user, member.guildId, "join")
+    },
+
+    guildMemberRemove(client: BotWithCache<Bot>, user: User, guildId: bigint) {
+        greeting(client, user, guildId, "leave")
+    },
+
+    guildBanAdd(client: BotWithCache<Bot>, user: User, guildId: bigint) {
+        greeting(client, user, guildId, "ban")
     },
 
     reactionAdd(client: BotWithCache<Bot>, payload: ReactionAddPayload) {
