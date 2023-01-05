@@ -5,3 +5,4 @@ lastrsscache.json
 custom/*
 !custom/.gitkeep
 config.ts
+deno.lock
