@@ -11,18 +11,17 @@ class Bubble extends JollyCommand {
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
-        if (!args[0]) return send(client, message.channelId, "Missing arguments????");
-
         let url: string | null = null
-        if (message.attachments.length > 0) {
+        if (message.attachments.length) {
             url = message.attachments[0].url
-        }
-        if (!url) {
+        } else if (args.length) {
             const matched = args[0].match(/(http(s)?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/gi)
             if (!matched?.length) {
                 return await send(client, message.channelId, "You need to put the link to image or upload your image to convert")
             }
             url = matched[0]
+        } else {
+            return send(client, message.channelId, "Missing arguments???")
         }
         let img: Image
         try {
@@ -34,8 +33,8 @@ class Bubble extends JollyCommand {
         const ne = createCanvas(img.width(), img.height())
         const ctx = ne.getContext("2d")
         ctx.drawImage(img, 0, 0)
-        ctx.drawImage(imgMask, 0, 0, img.width(), img.height() / 5, 0, 0, img.width(), img.height(),
-        )
+        // no support for animated gif for now
+        ctx.drawImage(imgMask, 0, 0, img.width(), img.height() / 5)
 
         const blob = await (await fetch(ne.toDataURL('image/gif'))).blob()
 
