@@ -11,6 +11,8 @@ class Bubble extends JollyCommand {
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
+        if (!args[0]) return send(client, message.channelId, "Missing arguments????");
+
         let url: string | null = null
         if (message.attachments.length > 0) {
             url = message.attachments[0].url
