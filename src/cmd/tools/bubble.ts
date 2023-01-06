@@ -32,6 +32,9 @@ class Bubble extends JollyCommand {
         const imgMask = await loadImage("./assets/bubble.png")
         const ne = createCanvas(img.width(), img.height())
         const ctx = ne.getContext("2d")
+
+        ctx.fillStyle = "white"
+        ctx.fillRect(0, 0, ne.width, ne.height)
         ctx.drawImage(img, 0, 0)
         // no support for animated gif for now
         ctx.drawImage(imgMask, 0, 0, img.width(), img.height() / 5)
@@ -39,6 +42,7 @@ class Bubble extends JollyCommand {
         const blob = await (await fetch(ne.toDataURL('image/gif'))).blob()
 
         await send(client, message.channelId, {
+            content: "Press ⭐ in top right gif to save the result!",
             file: {
                 name: "bubble.gif",
                 blob: blob
