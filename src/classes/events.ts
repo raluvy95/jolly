@@ -12,7 +12,7 @@ import { handleXP, level } from "@classes/level.ts";
 import { funfact } from "@plugins/funfact.ts";
 import { messageLink } from "@plugins/messageLink.ts";
 import { ReactionAddPayload, ReactionRmPayload } from "../interfaces/reactionpayload.ts";
-import { reaction, reactionInit } from "@plugins/reactionRole.ts";
+import { reaction } from "@plugins/reactionRole.ts";
 import { starboardWatcher } from "@plugins/starboard.ts";
 import { greeting } from "../plugins/greeting.ts";
 
@@ -99,7 +99,6 @@ export const JollyEvent = {
         funfact(bot)
         clock(bot)
         RSS(bot)
-        reactionInit(bot)
     },
 
     messageCreate(bot: BotWithCache<Bot>, message: Message): void {

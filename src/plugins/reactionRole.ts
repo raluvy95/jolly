@@ -46,7 +46,7 @@ export async function reactionInit(client: BotWithCache<Bot>) {
     if (!reactionRoleConf.enable) return;
     if (reactionRoleConf.reactions!.length < 1) return;
     for (const instances of reactionRoleConf.reactions!) {
-        const emojis = []
+        const emojis: string[] = []
         for (const { emoji } of instances.roleEmojis) {
             emojis.push(emoji)
         }
