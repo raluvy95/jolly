@@ -22,6 +22,11 @@ import { custom } from "./custom/reactionroles.temp.ts";// => Imports the Consta
     Otherwise it will break.
 */
 const plugins = {
+    /*
+      Initialization/Update reaction role is not longer occur
+      when the bot starts up.
+      To update or initialize it, please use "sudo reactioninit" in a channel
+    */
     reactionRole: {
         enable: false,
         reactions: [
