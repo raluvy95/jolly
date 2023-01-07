@@ -1,8 +1,10 @@
-import { DB } from "@deps";
+import { config, DB } from "@deps";
 
 export class JollyDB extends DB {
     constructor(initSQL: string) {
         super("database.sqlite")
-        this.execute(initSQL)
+        if (config.initializeSQL) {
+            this.execute(initSQL)
+        }
     }
 }

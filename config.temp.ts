@@ -293,5 +293,12 @@ export const config: IJollyConfig = {
     // Useful if you want to let bridgers run command from Discord!
     allowBotResponsingCommandChannelID: [],
     // Plugins
-    plugins: plugins
+    plugins: plugins,
+    /*
+        Initialize SQL table
+        which will create new table or database.sqlite file if not exists
+
+        please use "false" if you don't want (this could get fixed deno halts up)
+    */
+    initializeSQL: true
 }

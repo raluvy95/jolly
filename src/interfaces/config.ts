@@ -10,7 +10,8 @@ export interface IJollyConfig {
     playingStatus: string,
     autosentence: AutoSentence[],
     allowBotResponsingCommandChannelID: string[],
-    plugins: Plugins
+    plugins: Plugins,
+    initializeSQL?: boolean
 }
 
 interface AutoSentence {
