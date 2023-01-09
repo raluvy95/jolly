@@ -6,7 +6,7 @@ import { JollyEmbed } from "../../classes/embed.ts";
 class Queues extends JollyCommand {
     constructor() {
         super("queues", "music", {
-            aliases: ["nowplaying", "np", "q"],
+            aliases: ["nowplaying", "np", "q", "playlist"],
             description: "Show list of queues"
         })
     }

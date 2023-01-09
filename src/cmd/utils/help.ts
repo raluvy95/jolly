@@ -11,6 +11,7 @@ class Help extends JollyCommand {
     constructor() {
         super("help", "utils", {
             description: "Show list of avaliable commands",
+			aliases: ["man"],
             usage: "[command]"
         })
         this.BLACKLIST_COMMAND = ["help", "eval", "unwarnall", "setlevel", "setxp"]
