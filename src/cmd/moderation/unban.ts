@@ -6,6 +6,7 @@ class Ban extends JollyCommand {
     constructor() {
         super("unban", "moderation", {
             permission: ["BAN_MEMBERS"],
+			aliases: ["sorry", "delban", "remban", "removeban", "deleteban"],
             description: "Unban someone. This requires user's ID",
             usage: "<user ID> [reason]"
         })

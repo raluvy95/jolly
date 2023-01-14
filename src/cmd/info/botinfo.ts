@@ -9,7 +9,7 @@ import { JollyVersion } from "../../classes/client.ts";
 class BotInfo extends JollyCommand {
     constructor() {
         super("botinfo", "info", {
-            aliases: ["clientinfo", "bot"],
+            aliases: ["clientinfo", "bot", "about", "neofetch"],
             description: "Information about this bot with some stats"
         })
     }
