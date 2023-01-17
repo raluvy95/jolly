@@ -99,6 +99,7 @@ interface LevelXP extends PluginBase {
     rolesRewards?: RolesRewards[],
     levelUP?: {
         channelID: string,
+        voiceChannelID?: string,
         customMessage: string
     }
     rewardWhenBump?: boolean,
@@ -106,7 +107,8 @@ interface LevelXP extends PluginBase {
     ignoreXPChannels?: string[],
     multiplyXP?: number,
     minXP?: number,
-    maxXP?: number
+    maxXP?: number,
+    gainXPonVC?: boolean
 }
 
 interface FunFact extends PluginBase {

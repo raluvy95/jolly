@@ -1,7 +1,9 @@
 import { JollyDB } from "@classes/database.ts";
-import { BigString, Bot, BotWithCache, ChannelTypes, Collection, config, Message, QueryParameterSet } from "@deps";
+import { BigString, Bot, BotWithCache, ChannelTypes, Collection, config, Message, QueryParameterSet, VoiceState } from "@deps";
 import { XPrequiredToLvlUP } from "@utils/levelutils.ts";
 import { levelEvent } from "@classes/events.ts";
+
+const xpconf = config.plugins.levelXP
 
 class LevelDB extends JollyDB {
     constructor() {
@@ -106,7 +108,6 @@ export enum XP_METHOD {
 }
 
 export async function handleXP(client: BotWithCache<Bot>, message: Message) {
-    const xpconf = config.plugins.levelXP
     if (!xpconf.enable) return;
     if (message.isFromBot && client.channels.get(message.channelId)?.type == ChannelTypes.DM) return;
     if (xpconf.ignoreXPChannels!.includes(String(message.channelId))) return;
@@ -129,6 +130,32 @@ export async function handleXP(client: BotWithCache<Bot>, message: Message) {
     level.setXP(message.channelId, client, message.authorId, addXP * xpconf.multiplyXP!, XP_METHOD.ADD)
 }
 
+
+const connectedVC: VoiceState[] = []
+
+export async function handleXPVoice(client: BotWithCache<Bot>, vs: VoiceState) {
+    if (!xpconf.enable) return;
+    if (!xpconf.gainXPonVC) return;
+
+    const user = client.users.get(vs.userId) || await client.helpers.getUser(vs.userId)
+    if (user.toggles.bot) return
+
+    if (!vs.channelId) {
+        const finduser = connectedVC.map(e => e.userId).indexOf(vs.userId)
+        if (finduser > -1) {
+            connectedVC.splice(finduser, 1)
+        }
+    } else if (connectedVC.findIndex(m => m.userId == vs.userId) == -1) {
+        connectedVC.push(vs)
+    } else {
+        const finduser = connectedVC.map(e => e.userId).indexOf(vs.userId)
+        if (finduser > -1) {
+            connectedVC.splice(finduser, 1)
+            connectedVC.push(vs)
+        }
+    }
+}
+
 export const level = new LevelDB()
 
 export interface ILevelResultDB {
@@ -138,4 +165,33 @@ export interface ILevelResultDB {
     totalxp: number
 }
 
-export const levelCooldown = new Collection<bigint, number>()
+const levelCooldown = new Collection<bigint, number>()
+const levelCooldownVoice = new Collection<bigint, number>()
+
+export function handleXPVoiceLoop(client: BotWithCache<Bot>) {
+    if (xpconf.gainXPonVC) {
+        setInterval(() => {
+            const atLeastOneShouldTalk = connectedVC.some(m => !m.toggles.selfMute)
+            const atLeastTwoPeople = connectedVC.length >= 2
+            if (!atLeastOneShouldTalk || !atLeastTwoPeople) return;
+            for (const con of connectedVC) {
+                if (!levelCooldownVoice.has(con.userId)) {
+                    levelCooldownVoice.set(con.userId, 0)
+                }
+                const now = Date.now();
+                const ca = 60 * 1000;
+                const user = con.userId;
+                const et = levelCooldownVoice.get(user) as number + ca;
+                if (now < et) {
+                    continue
+                }
+                levelCooldownVoice.set(user, now);
+                setTimeout(() => {
+                    levelCooldownVoice.delete(user);
+                }, ca);
+                const addXP = Math.floor(Math.random() * (xpconf.maxXP! - xpconf.minXP! + 1)) + xpconf.minXP!;
+                level.setXP(con.channelId!, client, con.userId, addXP, XP_METHOD.ADD)
+            }
+        }, 3 * 1000)
+    }
+}

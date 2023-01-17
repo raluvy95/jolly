@@ -1,4 +1,4 @@
-import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, MessageComponentTypes, User } from "@deps"
+import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, MessageComponentTypes, User, VoiceState } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
 import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel, clock, RSS } from "@plugins/mod.ts";
@@ -8,7 +8,7 @@ import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { send } from "@utils/send.ts";
 import { recentWarnings } from "@utils/recentWarnings.ts";
-import { handleXP, level } from "@classes/level.ts";
+import { handleXP, handleXPVoice, handleXPVoiceLoop, level } from "@classes/level.ts";
 import { funfact } from "@plugins/funfact.ts";
 import { messageLink } from "@plugins/messageLink.ts";
 import { ReactionAddPayload, ReactionRmPayload } from "../interfaces/reactionpayload.ts";
@@ -99,6 +99,7 @@ export const JollyEvent = {
         funfact(bot)
         clock(bot)
         RSS(bot)
+        handleXPVoiceLoop(bot)
     },
 
     messageCreate(bot: BotWithCache<Bot>, message: Message): void {
@@ -209,5 +210,14 @@ export const JollyEvent = {
         reaction(client, payload, "rm")
         starboardWatcher(client, payload, "-")
     },
+
+    // auditLogEntryCreate(client: BotWithCache<Bot>, log: AuditLogEntry, guildId: bigint) {
+    //     console.log(log)
+    // }
+
+    voiceStateUpdate(client: BotWithCache<Bot>, vs: VoiceState) {
+        handleXPVoice(client, vs)
+    }
+
 
 } as unknown as Partial<EventHandlers>
