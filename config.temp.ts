@@ -163,7 +163,9 @@ const plugins = {
         ],
         multiplyXP: 1,
         minXP: 15,
-        maxXP: 25
+        maxXP: 25,
+        // Also gain XP on voice channel.
+        gainXPonVC: true
     },
     funfact: {
         enable: false,
