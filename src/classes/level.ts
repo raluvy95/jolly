@@ -171,10 +171,13 @@ const levelCooldownVoice = new Collection<bigint, number>()
 export function handleXPVoiceLoop(client: BotWithCache<Bot>) {
     if (xpconf.gainXPonVC) {
         setInterval(() => {
-            const atLeastOneShouldTalk = connectedVC.some(m => !m.toggles.selfMute)
+            const filteredConnectedVC = connectedVC.filter(m => !m.toggles.selfMute && !m.toggles.mute)
             const atLeastTwoPeople = connectedVC.length >= 2
-            if (!atLeastOneShouldTalk || !atLeastTwoPeople) return;
-            for (const con of connectedVC) {
+            console.log(filteredConnectedVC)
+            if (filteredConnectedVC.length < 1) return
+            if (!atLeastTwoPeople) return;
+            for (const con of filteredConnectedVC) {
+                console.log("this works")
                 if (!levelCooldownVoice.has(con.userId)) {
                     levelCooldownVoice.set(con.userId, 0)
                 }

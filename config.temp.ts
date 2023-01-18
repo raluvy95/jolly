@@ -165,6 +165,8 @@ const plugins = {
         minXP: 15,
         maxXP: 25,
         // Also gain XP on voice channel.
+        // Only applies for who are speaking in a vc with other ones
+        // Doesn't work if you're alone in a vc who keeps speaking
         gainXPonVC: true
     },
     funfact: {
