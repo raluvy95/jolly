@@ -1,7 +1,7 @@
 import { ActivityTypes, BigString, Bot, BotWithCache, brightGreen, brightRed, config, cyan, EventHandlers, Interaction, InteractionResponseTypes, InteractionTypes, Member, Message, MessageComponentTypes, User, VoiceState } from "@deps"
 import { commandHandler, refreshCommand } from "@classes/command.ts"
 import { debug, main } from "@utils/log.ts";
-import { ghostPingD, ghostPingU, Payload, autoCreateChannel, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel, clock, RSS } from "@plugins/mod.ts";
+import { ghostPingD, ghostPingU, Payload, bumpReminder, nicknameOnJoin, autorole, autoPublish, ree, selfping, autopost, sentence, sudo, autoRenameChannel, RSS } from "@plugins/mod.ts";
 import { EventEmitter } from "https://deno.land/x/eventemitter@1.2.4/mod.ts";
 import { IResultDB, warning } from "@classes/warning.ts";
 import { JollyEmbed } from "@classes/embed.ts";
@@ -13,7 +13,6 @@ import { funfact } from "@plugins/funfact.ts";
 import { messageLink } from "@plugins/messageLink.ts";
 import { ReactionAddPayload, ReactionRmPayload } from "../interfaces/reactionpayload.ts";
 import { reaction } from "@plugins/reactionRole.ts";
-import { starboardWatcher } from "@plugins/starboard.ts";
 import { greeting } from "@plugins/greeting.ts";
 
 export const warnEvent = new EventEmitter<{
@@ -97,7 +96,6 @@ export const JollyEvent = {
         autopost(bot)
         autoRenameChannel(bot)
         funfact(bot)
-        clock(bot)
         RSS(bot)
         handleXPVoiceLoop(bot)
     },
@@ -122,7 +120,6 @@ export const JollyEvent = {
             sudo(bot, message)
             ree(bot, message)
             selfping(bot, message)
-            autoCreateChannel(bot, message)
             handleXP(bot, message)
             messageLink(bot, message)
         }
@@ -203,12 +200,10 @@ export const JollyEvent = {
 
     reactionAdd(client: BotWithCache<Bot>, payload: ReactionAddPayload) {
         reaction(client, payload, "add")
-        starboardWatcher(client, payload, "+")
     },
 
     reactionRemove(client: BotWithCache<Bot>, payload: ReactionRmPayload) {
         reaction(client, payload, "rm")
-        starboardWatcher(client, payload, "-")
     },
 
     // auditLogEntryCreate(client: BotWithCache<Bot>, log: AuditLogEntry, guildId: bigint) {
