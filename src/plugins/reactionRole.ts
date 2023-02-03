@@ -1,6 +1,7 @@
 import { Bot, BotWithCache, config } from "@deps";
 import { ReactionRmPayload } from "../interfaces/reactionpayload.ts";
 import { getEmojiName } from "@utils/getemojiname.ts";
+import { getMember } from "@utils/getCache.ts";
 
 
 export async function reaction(client: BotWithCache<Bot>, payload: ReactionRmPayload, type: "add" | "rm") {
@@ -12,7 +13,7 @@ export async function reaction(client: BotWithCache<Bot>, payload: ReactionRmPay
     if (!currentReaction) return;
     const currentRole = currentReaction.roleEmojis.find(m => getEmojiName(m.emoji) == payload.emoji.name)
     if (!currentRole) return;
-    const member = client.members.get(payload.userId) || await client.helpers.getMember(config.guildID, payload.userId)
+    const member = await getMember(client, payload.userId)
     if (!member) return;
     switch (type) {
         case "add": {

@@ -4,7 +4,8 @@ import { send } from "@utils/send.ts";
 import { JollyEmbed } from "@classes/embed.ts";
 import { avatarURL } from "@utils/avatarURL.ts";
 import { uptime } from "@utils/uptime.ts";
-import { JollyVersion } from "../../classes/client.ts";
+import { JollyVersion } from "@classes/client.ts";
+import { getUser } from "@utils/getCache.ts";
 
 class BotInfo extends JollyCommand {
     constructor() {
@@ -15,14 +16,14 @@ class BotInfo extends JollyCommand {
     }
 
     private bytesToMB(bytes: number): string {
-        const mb = bytes / 1024**2
+        const mb = bytes / 1024 ** 2
         return mb.toFixed(0) + " MB"
     }
 
     override async run(message: Message, _args: string[], client: BotWithCache<Bot>): Promise<void> {
         const discordeno_version = client.constants.DISCORDENO_VERSION
         const deno_version = Deno.version
-        const user = client.users.get(client.id) ?? await client.helpers.getUser(client.id)
+        const user = await getUser(client, client.id)
         if (!user) throw new Error("what.")
 
         const memory = Deno.memoryUsage()

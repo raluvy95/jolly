@@ -1,7 +1,8 @@
 import { Bot, BotWithCache, config, iconBigintToHash, User } from "@deps";
+import { getUser } from "@utils/getCache.ts";
 
 export async function avatarURL(bot: BotWithCache<Bot>, user: bigint | User): Promise<string> {
-    const u = typeof user == "bigint" ? bot.users.get(user) || await bot.helpers.getUser(user) : user;
+    const u = typeof user == "bigint" ? await getUser(bot, user) : user;
     if (!u) throw new Error("Cannot find that user")
     return bot.helpers.getAvatarURL(u.id, u.discriminator, { avatar: u.avatar, format: "png" })
 }

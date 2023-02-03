@@ -1,4 +1,5 @@
 import { Bot, BotWithCache, config, Member, Message, User } from "@deps";
+import { getMember, getUser } from "@utils/getCache.ts";
 
 function tag(user: string, tag: string) {
     return user + "#" + tag
@@ -12,7 +13,7 @@ export async function findUser(client: BotWithCache<Bot>, name: string, message?
     try {
         const nameBigInt = BigInt(name)
         if (!isNaN(Number(nameBigInt))) {
-            user = client.users.get(nameBigInt) || await client.helpers.getUser(nameBigInt)
+            user = await getUser(client, nameBigInt)
         }
     } catch {
         user = client.users.find(m => tag(m.username, m.discriminator) == name || tag(m.username, m.discriminator).startsWith(name))
@@ -20,7 +21,7 @@ export async function findUser(client: BotWithCache<Bot>, name: string, message?
             const member = await client.helpers.searchMembers(config.guildID, name)
             if (member.size < 1) return undefined
             const memberId = member.first()!.id
-            user = client.users.get(memberId) || await client.helpers.getUser(memberId)
+            user = await getUser(client, memberId)
         }
     }
     return user
@@ -34,6 +35,6 @@ export async function findMember(client: BotWithCache<Bot>, name: string): Promi
         if (member.size < 1) return undefined
         return member.first()
     } else {
-        return await client.helpers.getMember(config.guildID, matched[0].replace(/<@(!?)/, '').replace(">", ''))
+        return await getMember(client, matched[0].replace(/<@(!?)/, '').replace(">", ''))
     }
 }

@@ -17,4 +17,4 @@ globalThis.addEventListener("error", e => {
     e.preventDefault();
 });
 
-await startBot(bot as Bot);
+await startBot(bot as unknown as Bot);

@@ -82,6 +82,7 @@ export const JollyEvent = {
     ready(bot: BotWithCache<Bot>) {
         BotUptime = Date.now()
         main.info("I'm ready!");
+
         bot.helpers.editBotStatus({
             activities: [
                 {
@@ -180,6 +181,7 @@ export const JollyEvent = {
     },
 
     guildMemberUpdate(client: BotWithCache<Bot>, member: Member, user: User) {
+
         nicknameOnJoin(client, member, user)
         // for who has passed the membership screening 
         autorole(client, member, user)

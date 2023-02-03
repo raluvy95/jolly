@@ -1,6 +1,6 @@
 import { BigString, Bot, BotWithCache, CreateMessage, Embed, Webhook } from "@deps";
 import { contentToObj } from "@utils/send.ts";
-import { avatarURL } from "./avatarURL.ts";
+import { avatarURL } from "@utils/avatarURL.ts";
 
 export async function summonWebhook(client: BotWithCache<Bot>, channelId: BigString, content: string | CreateMessage | Embed[], name?: string, avatar?: string) {
     const webhook = await client.helpers.getChannelWebhooks(channelId)

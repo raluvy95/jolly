@@ -2,6 +2,7 @@ import { JollyDB } from "@classes/database.ts";
 import { BigString, Bot, BotWithCache, ChannelTypes, Collection, config, Message, QueryParameterSet, VoiceState } from "@deps";
 import { XPrequiredToLvlUP } from "@utils/levelutils.ts";
 import { levelEvent } from "@classes/events.ts";
+import { getMember } from "@utils/getMember.ts";
 
 const xpconf = config.plugins.levelXP
 
@@ -111,7 +112,8 @@ export async function handleXP(client: BotWithCache<Bot>, message: Message) {
     if (!xpconf.enable) return;
     if (message.isFromBot && client.channels.get(message.channelId)?.type == ChannelTypes.DM) return;
     if (xpconf.ignoreXPChannels!.includes(String(message.channelId))) return;
-    const member = client.members.get(message.authorId) || await client.helpers.getMember(config.guildID, message.authorId)
+
+    const member = await getMember(client, message.authorId)
     if (!member?.roles?.some(id => xpconf.ignoreCooldownRoles!.includes(String(id)))) {
         if (!levelCooldown.has(message.authorId)) {
             levelCooldown.set(message.authorId, 0)
