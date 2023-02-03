@@ -1,6 +1,5 @@
-<img src="./pets.png"><br>
+<img src="./assets/jollybanner.png"><br>
 
-<figcaption align="center"><q>Good bot</q> - CatNowBlue</figcaption>
 <h1 align="center"> CatNowBot - codename "Jolly" </h1>
 
 <p align="center">
