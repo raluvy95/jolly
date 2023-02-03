@@ -2,7 +2,7 @@ import { JollyDB } from "@classes/database.ts";
 import { BigString, Bot, BotWithCache, ChannelTypes, Collection, config, Message, QueryParameterSet, VoiceState } from "@deps";
 import { XPrequiredToLvlUP } from "@utils/levelutils.ts";
 import { levelEvent } from "@classes/events.ts";
-import { getMember } from "@utils/getMember.ts";
+import { getMember } from "@utils/getCache.ts";
 
 const xpconf = config.plugins.levelXP
 
