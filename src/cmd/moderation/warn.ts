@@ -1,4 +1,4 @@
-import { Bot, BotWithCache, Message } from "@deps";
+import { Bot, BotWithCache, getUser, Message } from "@deps";
 import { addCommand, JollyCommand } from "@classes/command.ts";
 import { send } from "@utils/send.ts";
 import { findUser } from "@utils/find.ts";
@@ -15,7 +15,7 @@ class Warn extends JollyCommand {
     }
 
     override async run(message: Message, args: string[], client: BotWithCache<Bot>) {
-        const author = client.users.get(message.authorId) || await client.helpers.getUser(message.authorId)
+        const author = await getUser(client, message.authorId)
         if (!author) throw new Error("what.")
         if (!args[0]) return send(client, message.channelId, "Missing arguments")
         const user = await findUser(client, args[0], message)
