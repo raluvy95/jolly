@@ -1,6 +1,6 @@
-export * from "https://deno.land/x/discordeno@18.0.0/mod.ts";
-export * from "https://deno.land/x/discordeno@18.0.0/plugins/cache/mod.ts";
-export { hasGuildPermissions, enablePermissionsPlugin } from "https://deno.land/x/discordeno@18.0.0/plugins/permissions/mod.ts";
+export * from "https://deno.land/x/discordeno@17.1.0/mod.ts";
+export * from "https://deno.land/x/discordeno@17.1.0/plugins/cache/mod.ts";
+export { hasGuildPermissions, enablePermissionsPlugin } from "https://deno.land/x/discordeno@17.1.0/plugins/permissions/mod.ts";
 export * from "https://deno.land/std@0.152.0/fmt/colors.ts";
 export { config } from "./config.ts";
 export * from "https://deno.land/x/sqlite@v3.4.0/mod.ts";
