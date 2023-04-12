@@ -1,3 +1,6 @@
+# ARCHIVED
+I don't maintain this anymore. Please fork this project to continue maintaining
+
 <img src="./assets/jollybanner.png"><br>
 
 <h1 align="center"> CatNowBot - codename "Jolly" </h1>
